@@ -1,0 +1,17 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+  <suite name="Bandhan_World_Suite" parallel="false" preserve-order="true">
+  <listeners>
+	<listener class-name="utils.ExcelLogger" />
+	<!-- <listener class-name="utils.AutomationReportListener" /> -->
+</listeners>
+    <test name="BandhanTests">
+        <classes>
+            
+              <class name="tests.RunAllModulesTest"/>
+              
+        </classes>
+    </test>  
+
+</suite>
+
+ 

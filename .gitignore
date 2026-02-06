@@ -1,0 +1,21 @@
+# Maven build output
+target/
+
+# TestNG test reports
+test-output/
+
+# VS Code project settings
+.vscode/
+
+.env
+
+#Result files
+reports/
+
+src/main/java/executors/mycustomer/Distributor.java
+src/main/java/executors/mycustomer/RetailerExecutor.java
+src/main/java/executors/mycustomer/influencer/BusinessCardExecutor.java
+src/main/java/executors/mycustomer/influencer/InfluencerListExecutor.java
+src/main/java/executors/mycustomer/influencer/KYCExecutor.java
+src/main/java/pages/claimpoints/CardDetails.java
+src/main/java/pages/mycustomer/influencer/InfluencerBussinessCardPage.java

@@ -1,0 +1,312 @@
+package utils;
+
+import java.awt.Desktop;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.ITestContext;
+import org.testng.ITestListener;
+import org.testng.ITestResult;
+
+public class ExcelLogger implements ITestListener {
+
+    private final List<Object[]> allResults = new ArrayList<>();
+
+    /* ================= TESTNG EVENTS ================= */
+
+    @Override
+    public void onTestSuccess(ITestResult result) {
+        recordResult(result, "PASS");
+    }
+
+    @Override
+    public void onTestFailure(ITestResult result) {
+        recordResult(result, "FAIL");
+    }
+
+    @Override
+    public void onTestSkipped(ITestResult result) {
+        recordResult(result, "SKIP");
+    }
+
+    /* ================= CORE RECORDING ================= */
+
+    private void recordResult(ITestResult result, String status) {
+
+        String moduleName   = getAttribute(result, "ModuleName", "ModuleName");
+        String testcaseId   = getAttribute(result, "TestID", "TestID");
+        String testcaseDesc = getAttribute(result, "TestDesc", "TestDesc");
+        String influencerAccount  = getAttribute(result, "InfluencerAcccount", "InfluencerAcccount");
+        String expected     = getAttribute(result, "Expected", "Expected");
+        String actual       = getAttribute(result, "Actual", "Actual");
+
+        String assertionMessage = getAssertionMessage(result);
+
+        Object[] row = new Object[]{
+                moduleName,
+                testcaseId,
+                testcaseDesc,
+                influencerAccount,
+                status,
+                assertionMessage,
+                expected,
+                actual
+        };
+
+        allResults.add(row);
+    }
+
+    private String getAttribute(ITestResult result, String primaryKey, String fallbackKey) {
+        // First try to get from test result attributes
+        Object value = result.getAttribute(primaryKey);
+        if (value != null) {
+            return value.toString();
+        }
+        
+        // Then try from TestContext
+        String ctxValue = TestContext.get(fallbackKey);
+        if (ctxValue != null && !ctxValue.trim().isEmpty()) {
+            return ctxValue;
+        }
+        
+        return "N/A";
+    }
+
+    private String getAssertionMessage(ITestResult result) {
+        if (result.getThrowable() != null) {
+            Throwable throwable = result.getThrowable();
+            String message = throwable.getMessage();
+            if (message == null || message.trim().isEmpty()) {
+                return throwable.getClass().getSimpleName();
+            }
+            // Truncate very long messages
+            return message.length() > 500 ? message.substring(0, 500) + "..." : message;
+        }
+        return "Assertion passed";
+    }
+
+    /* ================= REPORT GENERATION ================= */
+
+    @Override
+    public void onFinish(ITestContext context) {
+        try {
+            String dateFolder = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+            Path baseDir = Path.of("reports", dateFolder);
+            Files.createDirectories(baseDir);
+
+            generateSingleReport(baseDir);
+
+        } catch (Exception e) {
+            System.err.println("Error generating Excel report: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void generateSingleReport(Path baseDir) throws IOException {
+        if (allResults.isEmpty()) {
+            System.out.println("No test results to report");
+            return;
+        }
+
+        // Sort results by module name and testcase ID
+        allResults.sort((r1, r2) -> {
+            int moduleCompare = r1[0].toString().compareTo(r2[0].toString());
+            if (moduleCompare != 0) return moduleCompare;
+            return r1[1].toString().compareTo(r2[1].toString());
+        });
+
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Execution Report");
+
+        CellStyle headerStyle = createHeaderStyle(workbook);
+        CellStyle normalStyle = createNormalStyle(workbook);
+        CellStyle passStyle   = createStatusStyle(workbook, "PASS");
+        CellStyle failStyle   = createStatusStyle(workbook, "FAIL");
+        CellStyle skipStyle   = createStatusStyle(workbook, "SKIP");
+
+        String[] headers = {
+                "MODULE_NAME", "TESTCASE_ID", "TEST_DESC",
+                "INFLUENCER_ACCOUNT", "STATUS", "ASSERTION_MESSAGE",
+                "EXPECTED_RESULT", "ACTUAL_RESULT"
+        };
+
+        // Create header row
+        Row header = sheet.createRow(0);
+        for (int i = 0; i < headers.length; i++) {
+            Cell cell = header.createCell(i);
+            cell.setCellValue(headers[i]);
+            cell.setCellStyle(headerStyle);
+        }
+
+        // Create data rows
+        int rowNum = 1;
+        for (Object[] data : allResults) {
+            Row row = sheet.createRow(rowNum++);
+            
+            for (int col = 0; col < data.length; col++) {
+                Cell cell = row.createCell(col);
+                String value = data[col] == null ? "" : data[col].toString();
+                cell.setCellValue(value);
+                
+                // Apply style based on column
+                if (col == 4) { // STATUS column
+                    switch (value) {
+                        case "PASS": cell.setCellStyle(passStyle); break;
+                        case "FAIL": cell.setCellStyle(failStyle); break;
+                        case "SKIP": cell.setCellStyle(skipStyle); break;
+                        default: cell.setCellStyle(normalStyle);
+                    }
+                } else if (col == 6 || col == 7) { // EXPECTED and ACTUAL columns
+                    // Wrap text for these columns
+                    CellStyle wrapStyle = workbook.createCellStyle();
+                    wrapStyle.cloneStyleFrom(normalStyle);
+                    wrapStyle.setWrapText(true);
+                    cell.setCellStyle(wrapStyle);
+                } else {
+                    cell.setCellStyle(normalStyle);
+                }
+            }
+        }
+
+        // Auto-size columns
+        for (int i = 0; i < headers.length; i++) {
+            sheet.autoSizeColumn(i);
+            // Set minimum width
+            if (sheet.getColumnWidth(i) < 3000) {
+                sheet.setColumnWidth(i, 3000);
+            }
+        }
+
+        // Set specific widths for certain columns
+        sheet.setColumnWidth(5, 8000); // ASSERTION_MESSAGE
+        sheet.setColumnWidth(6, 12000); // EXPECTED_RESULT
+        sheet.setColumnWidth(7, 12000); // ACTUAL_RESULT
+
+        // Create filename with timestamp
+        String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
+        String fileName = "Test_Execution_Report_" + timestamp + ".xlsx";
+        Path filePath = baseDir.resolve(fileName);
+
+        // Write to file
+        try (FileOutputStream fos = new FileOutputStream(filePath.toFile())) {
+            workbook.write(fos);
+        }
+
+        workbook.close();
+
+        // Store path in GlobalStore
+        GlobalStore.addReportPath(filePath.toString());
+
+        System.out.println("Report generated: " + filePath.toAbsolutePath());
+
+        // Open the file automatically if Desktop is supported
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().open(filePath.toFile());
+            } catch (Exception e) {
+                System.out.println("Could not open report automatically: " + e.getMessage());
+            }
+        }
+    }
+
+    /* ================= STYLE CREATION ================= */
+
+    private CellStyle createHeaderStyle(Workbook wb) {
+        CellStyle style = wb.createCellStyle();
+        Font font = wb.createFont();
+        font.setBold(true);
+        font.setColor(IndexedColors.WHITE.getIndex());
+        font.setFontHeightInPoints((short) 11);
+        style.setFont(font);
+        style.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBorderTop(BorderStyle.THIN);
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setBorderRight(BorderStyle.THIN);
+        return style;
+    }
+
+    private CellStyle createNormalStyle(Workbook wb) {
+        CellStyle style = wb.createCellStyle();
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBorderTop(BorderStyle.THIN);
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setBorderRight(BorderStyle.THIN);
+        style.setVerticalAlignment(VerticalAlignment.TOP);
+        return style;
+    }
+
+    private CellStyle createStatusStyle(Workbook wb, String status) {
+        CellStyle style = wb.createCellStyle();
+        style.cloneStyleFrom(createNormalStyle(wb));
+        style.setAlignment(HorizontalAlignment.CENTER);
+        
+        switch (status) {
+            case "PASS":
+                style.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
+                break;
+            case "FAIL":
+                style.setFillForegroundColor(IndexedColors.CORAL.getIndex());
+                Font font = wb.createFont();
+                font.setBold(true);
+                style.setFont(font);
+                break;
+            case "SKIP":
+                style.setFillForegroundColor(IndexedColors.LIGHT_YELLOW.getIndex());
+                break;
+        }
+        
+        style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        return style;
+    }
+
+    /* ================= STATISTICS ================= */
+
+    private void printStatistics() {
+        long passCount = allResults.stream().filter(r -> "PASS".equals(r[4])).count();
+        long failCount = allResults.stream().filter(r -> "FAIL".equals(r[4])).count();
+        long skipCount = allResults.stream().filter(r -> "SKIP".equals(r[4])).count();
+        
+        System.out.println("\n=== TEST EXECUTION STATISTICS ===");
+        System.out.println("Total Tests: " + allResults.size());
+        System.out.println("Passed: " + passCount + " (" + (allResults.size() > 0 ? 
+            (passCount * 100 / allResults.size()) : 0) + "%)");
+        System.out.println("Failed: " + failCount + " (" + (allResults.size() > 0 ? 
+            (failCount * 100 / allResults.size()) : 0) + "%)");
+        System.out.println("Skipped: " + skipCount + " (" + (allResults.size() > 0 ? 
+            (skipCount * 100 / allResults.size()) : 0) + "%)");
+        System.out.println("===============================\n");
+    }
+
+    @Override
+    public void onStart(ITestContext context) {
+        System.out.println("Starting test execution: " + context.getName());
+        allResults.clear();
+    }
+
+    @Override
+    public void onTestStart(ITestResult result) {
+        // Optional: Can be used for tracking start time
+    }
+}
