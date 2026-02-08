@@ -1,10 +1,13 @@
 package pages.base;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import org.openqa.selenium.By;
@@ -398,26 +401,22 @@ public void tapDropdownItemByPosition(int itemIndex) {
 
 
 
-public void scrollDownSafe() {
+public boolean scrollDownSafe() {
+    try {
+        AndroidDriver driver = (AndroidDriver) this.driver;
 
-    Dimension size = driver.manage().window().getSize();
-
-    int startX = size.width / 2;
-    int startY = (int) (size.height * 0.75);
-    int endY   = (int) (size.height * 0.30);
-
-    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
-    Sequence swipe = new Sequence(finger, 1);
-
-    swipe.addAction(finger.createPointerMove(Duration.ZERO,
-            PointerInput.Origin.viewport(), startX, startY));
-    swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
-    swipe.addAction(finger.createPointerMove(Duration.ofMillis(700),
-            PointerInput.Origin.viewport(), startX, endY));
-    swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
-
-    driver.perform(List.of(swipe));
+        driver.findElement(AppiumBy.androidUIAutomator(
+            "new UiScrollable(new UiSelector().scrollable(true))" +
+            ".scrollForward()"
+        ));
+        return true;
+    } catch (Exception e) {
+        // Reached end of list OR no scrollable container
+        return false;
+    }
 }
+
+
 
 
 public void waitForListToLoad() {
@@ -492,6 +491,25 @@ public boolean clickIfPresent(WebElement element, int timeout) {
     } catch (TimeoutException e) {
         return false;
     }
+}
+
+public LocalDate parseExcelDate(String dateText) {
+
+    dateText = dateText.trim();
+
+    List<DateTimeFormatter> formatters = List.of(
+        DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH),
+        DateTimeFormatter.ofPattern("dd-MMM-yyyy", Locale.ENGLISH),
+        DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH)
+    );
+
+    for (DateTimeFormatter formatter : formatters) {
+        try {
+            return LocalDate.parse(dateText, formatter);
+        } catch (Exception ignored) {}
+    }
+
+    throw new RuntimeException("Unsupported date format: " + dateText);
 }
 
 

@@ -10,6 +10,7 @@ import org.testng.asserts.SoftAssert;
 
 import base.BaseClassTest;
 import core.FlowExecutor;
+import core.GlobalStore;
 import core.ModuleDispatcher;
 import core.VerifyResult;
 import utils.TestContext;
@@ -78,6 +79,37 @@ public class RunAllModulesTest extends BaseClassTest {
 
                     // Update TestContext with actual verification result
                     TestContext.put("Actual", actualText);
+
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("MyClaimsPageTest_10")) {
+                        TestContext.put("Expected", GlobalStore.get("MYCLIAMS_CLAIMID"));
+                        expectedText =GlobalStore.get("MYCLIAMS_CLAIMID").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("MyClaimsPageTest_11")) {
+                        TestContext.put("Expected", GlobalStore.get("MYCLIAMS_DEALERNAME"));
+                        expectedText =GlobalStore.get("MYCLIAMS_DEALERNAME").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("MyClaimsPageTest_12")) {
+                        TestContext.put("Expected", GlobalStore.get("MYCLIAMS_PRODUCTDESC"));
+                        expectedText =GlobalStore.get("MYCLIAMS_PRODUCTDESC").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("MyClaimsPageTest_13")) {
+                        TestContext.put("Expected", GlobalStore.get("MYCLIAMS_INVNO"));
+                        expectedText =GlobalStore.get("MYCLIAMS_INVNO").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("MyClaimsPageTest_14")) {
+                        TestContext.put("Expected", GlobalStore.get("MYCLIAMS_CLAIMQTY"));
+                        expectedText =GlobalStore.get("MYCLIAMS_CLAIMQTY").trim();
+                    }
+
+                     if(testcaseId.toLowerCase().equalsIgnoreCase("MyClaimsPageTest_15")) {
+                        TestContext.put("Expected", GlobalStore.get("MYCLIAMS_CLAIMPOINTS"));
+                        expectedText =GlobalStore.get("MYCLIAMS_CLAIMPOINTS").trim();
+                    }
 
                    
 

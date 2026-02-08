@@ -21,6 +21,10 @@ public class InfluencerLoginPage extends BasePage {
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvSubmit")
     public WebElement otp_SubmitBtn_Element;
 
+    @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/buttonAccept")
+    public WebElement eulaPage_IAgreeBtn_Element;
+
+    
     
    
     // Constructor
@@ -54,6 +58,19 @@ public class InfluencerLoginPage extends BasePage {
         clickElement(otp_SubmitBtn_Element);
     }
 
+     public void clickOn_Eula_IAgree_Btn()
+    {
+      try {
+        clickIfPresent(eulaPage_IAgreeBtn_Element, 2);
+           
+        } catch (Exception e) {
+            
+            System.out.println("Eula page not available");
+        }
+        
+    }
 
+
+    
 }
 

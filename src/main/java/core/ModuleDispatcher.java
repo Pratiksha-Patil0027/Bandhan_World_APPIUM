@@ -1,5 +1,6 @@
 package core;
 
+import executors.claimpoints.ClaimPointsExecutor;
 import executors.login.CompanyLoginExecutor;
 
 
@@ -15,6 +16,9 @@ public class ModuleDispatcher {
 
             case "COMPANYLOGIN":
                 return new CompanyLoginExecutor();
+
+                case "CLAIMPOINTS":
+                return new ClaimPointsExecutor();
 
             
 
