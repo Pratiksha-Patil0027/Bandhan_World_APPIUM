@@ -16,7 +16,7 @@ public class DashboardPage extends BasePage {
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tv_skip_btn")
 	public WebElement family_Insurance_WindowSkipBtn_Element;
 
-	@AndroidFindBy(uiAutomator = "new UiSelector().text(\"Claim Points\")")
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id/blinkItem\").instance(0)")
 	public WebElement claimPoints_Menu_Element;
 
 	// @AndroidFindBy(id = "")
@@ -39,6 +39,10 @@ public class DashboardPage extends BasePage {
 
 	public void clickOn_ClaimPoints_Menu() {
 		claimPoints_Menu_Element.click();
+	}
+
+	public boolean claimPointsMenuIsDisplay() {
+		return isElementVisible(claimPoints_Menu_Element);
 	}
 
 

@@ -111,6 +111,12 @@ public class RunAllModulesTest extends BaseClassTest {
                         expectedText =GlobalStore.get("MYCLIAMS_CLAIMPOINTS").trim();
                     }
 
+                     if(testcaseId.toLowerCase().equalsIgnoreCase("DealerPageTest_04")) {
+                        TestContext.put("Expected", GlobalStore.get("DEALERLIST_DEALERNAME"));
+                        expectedText =GlobalStore.get("DEALERLIST_DEALERNAME").trim();
+                    }
+
+                    
                    
 
                     switch (assertType) {

@@ -34,13 +34,13 @@ public  InfluencerLoginPage influencerLoginPage =new InfluencerLoginPage(driver)
     }
     
     public void select_English_language()
-    {
-               clickElement(english_Language_Element);
+    { 
+               clickIfPresent(english_Language_Element,1);
        }
 
         public void clickOn_SelectLanguage_SubmitBtn()
     {
-        clickElement(selectLanguage_SubmitBtn_Element);
+        clickIfPresent(selectLanguage_SubmitBtn_Element,0);
        }
 
 

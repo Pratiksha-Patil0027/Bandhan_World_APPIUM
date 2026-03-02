@@ -6,7 +6,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import pages.base.BasePage;
 
-public class ClaimDetails  extends BasePage {
+public class ClaimDetailsPage  extends BasePage {
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/dealerNameText")
 	public WebElement added_DealerName_Text_Element;
@@ -53,7 +53,7 @@ public class ClaimDetails  extends BasePage {
 
 
 	
-	public ClaimDetails(AndroidDriver driver) {
+	public ClaimDetailsPage(AndroidDriver driver) {
 		super(driver);
 	}
 

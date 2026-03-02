@@ -14,10 +14,10 @@ public class ModuleDispatcher {
 
         switch (module.toUpperCase()) {
 
-            case "COMPANYLOGIN":
+            case "01_COMPANYLOGIN":
                 return new CompanyLoginExecutor();
 
-                case "CLAIMPOINTS":
+                case "02_CLAIMPOINTS":
                 return new ClaimPointsExecutor();
 
             

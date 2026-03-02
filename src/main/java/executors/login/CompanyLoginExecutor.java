@@ -88,6 +88,10 @@ public Object execute(
             chooseLanguagePage.clickOn_DeclarationNextBtn_UntilExpectedVisible();
             return null ;
 
+             case "verifyentermobilenofielddisplay":  
+           return influencerLoginPage.verifyEnterMobileNoFieldDisplay();
+          
+
              case "entermobilenumber":  
             influencerLoginPage.enterMobileNumber(data.get("MOBILE_NUMBER"));
             return null ;
@@ -96,6 +100,14 @@ public Object execute(
             influencerLoginPage.clickOn_GetOtp_Btn();
             return null ;
 
+             case "verifywarningtext":  
+           return influencerLoginPage.get_warningTextMsg();
+
+
+            case "verifyenterotpfieldisdisplay":  
+           return influencerLoginPage.verifyEnterOtpFieldDisplay();
+           
+            
              case "enterotp":  
             influencerLoginPage.enterOTP(data.get("OTP"));
             return null ;
@@ -103,6 +115,16 @@ public Object execute(
             case "clickonotpsubmitbtn":  
             influencerLoginPage.clickOn_OtpSubmit_Btn();
             return null ;
+
+            case "clickonresesotpbtn":  
+            influencerLoginPage.clickOn_ResendOtp_Btn();
+            return null ;
+
+            case "verifyclaimpointsmenuisdisplay":  
+           return dashboardPage.claimPointsMenuIsDisplay();
+             
+
+            
 
              case "clickonskipbtnofinsueancewindow":  
             dashboardPage.clickOn_SkipBtnOf_FamilyInsuranceWindow();

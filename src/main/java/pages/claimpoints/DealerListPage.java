@@ -70,7 +70,12 @@ public String get_HeaderTitle()
 
 	 public void clickOn_CrossIcon ()
 {
-	clickElement(crossIcon_Element);
+	try {
+		clickElement(crossIcon_Element);
+	} catch (Exception e) {
+		System.out.println("Cross icon not available");
+	}
+	
 }
 
 
@@ -85,10 +90,55 @@ public void enter_TextInSerachField(String name)
 	clickElement(mapNewDealerBtn_Element);
 }
 
+
+public boolean verifyMapNewDealerBtnisdisplay()
+{
+	return isElementVisible(mapNewDealerBtn_Element);
+}
+
 public List<String> get_DealerNameList()
 {
 	return getTextsFromElements(dealerName_Elements);
 }
+
+
+public boolean isAddedDealerDisplayed(String expectedDealerName) {
+
+    List<String> dealerList = get_DealerNameList();
+
+    if (dealerList == null || dealerList.isEmpty()) {
+        return false;
+    }
+
+    for (String dealer : dealerList) {
+        if (dealer.equalsIgnoreCase(expectedDealerName)) {
+            return true; //  dealer found
+        }
+    }
+    return false; //  not found
+}
+
+
+public String get_DealerNameFromList(int i)
+{
+	WebElement element = dealerName_Elements.get(i);
+	return getText(element);
+}
+
+public boolean verify_DealerListisDisplay() {
+    if (dealerName_Elements == null || dealerName_Elements.isEmpty()) {
+        return false;
+    }
+    return isElementVisible(dealerName_Elements.get(0));
+}
+
+public boolean verify_RadioBtnisDisplay() {
+    if (radioBtn_Elements == null || radioBtn_Elements.isEmpty()) {
+        return false;
+    }
+    return isElementVisible(radioBtn_Elements.get(0));
+}
+
 	
 
 public void clickOn_RadioBtn(int i)
@@ -131,5 +181,38 @@ public void clickOn_NewDealerWindow_AddBtn()
 	clickElement(newDealer_AddBtn_Element);
 }
 	
+public String selectFirstVisibleRadioAndGetDealer() {
+
+    int maxScrolls = 5;   // safety to avoid infinite loop
+
+    for (int scrollCount = 0; scrollCount < maxScrolls; scrollCount++) {
+
+        int size = Math.min(radioBtn_Elements.size(), dealerName_Elements.size());
+
+        for (int i = 0; i < size; i++) {
+
+            try {
+                WebElement radio = radioBtn_Elements.get(i);
+
+                if (isElementVisible(radio)) {
+                    radio.click(); //  click radio
+
+                    // get dealer name from same row
+                  return getText(dealerName_Elements.get(i));
+                }
+
+            } catch (Exception e) {
+                // ignore & continue
+            }
+        }
+
+        // none visible → scroll and retry
+        scrollDownSafe();
+    }
+
+    return null; // nothing found
+}
+
+
 
 }

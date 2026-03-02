@@ -8,7 +8,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import pages.base.BasePage;
 
-public class CardDetails  extends BasePage {
+public class CardDetailsPage  extends BasePage {
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/totalClaimText")
 	public WebElement totalClaim_Points_Element;
@@ -73,7 +73,7 @@ public class CardDetails  extends BasePage {
 
 
 	
-	public CardDetails(AndroidDriver driver) {
+	public CardDetailsPage(AndroidDriver driver) {
 		super(driver);
 	}
 

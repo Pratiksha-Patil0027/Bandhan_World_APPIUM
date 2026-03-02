@@ -66,8 +66,13 @@ public class DealerPage extends BasePage {
 
 	public void clickOn_ChnageBtn()
 	{
-		 clickElement(change_Btn_Element);
+		 clickIfPresent(change_Btn_Element,0);
 	}
+
+	public boolean get_ChangeBtnDisplay()
+{
+	return isElementVisible(change_Btn_Element,1);
+}
 
   public String get_PurchaseDate()
 	{
@@ -105,6 +110,22 @@ public String get_AttachDocLable()
 	{
 		return getText(browseFile_Option_Element);
 	}
+
+
+	 public boolean verify_BrowseFile_Option_isDisplay() {
+
+         clickIfPresent(inv_PhotoIcon_Element, 2);
+        return isElementVisible(browseFile_Option_Element, 2);
+       
+    }
+
+    public boolean verify_CaptureCamera_Option_isDisplay() {
+
+        clickIfPresent(inv_PhotoIcon_Element, 2);
+        return isElementVisible(camera_Option_Element, 2);
+        
+    }
+
 
 	public void clickOn_BrowseFileOption(int i)
 	{

@@ -15,6 +15,9 @@ public class InfluencerLoginPage extends BasePage {
      @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvGetOTP")
     public WebElement getOtp_Element;
 
+    @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/snackbar_text")
+    public WebElement warningText_Element;
+
      @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/otp_no")
     public WebElement enterOtp_Element;
 
@@ -24,8 +27,11 @@ public class InfluencerLoginPage extends BasePage {
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/buttonAccept")
     public WebElement eulaPage_IAgreeBtn_Element;
 
+    @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/resendOtp")
+    public WebElement resendOtpBtn_Element;
+
     
-    
+   
    
     // Constructor
     public InfluencerLoginPage(AndroidDriver driver) {
@@ -48,6 +54,12 @@ public class InfluencerLoginPage extends BasePage {
     {clickElement(getOtp_Element);
     }
 
+    public boolean verifyEnterOtpFieldDisplay()
+    {
+      return enterOtp_Element.isDisplayed();
+    } 
+   
+
      public void enterOTP(String otp)
     {
         sendText(enterOtp_Element,otp);
@@ -58,6 +70,12 @@ public class InfluencerLoginPage extends BasePage {
         clickElement(otp_SubmitBtn_Element);
     }
 
+    public void clickOn_ResendOtp_Btn()
+    {
+        clickElement(resendOtpBtn_Element);
+    }
+
+    
      public void clickOn_Eula_IAgree_Btn()
     {
       try {
@@ -70,6 +88,11 @@ public class InfluencerLoginPage extends BasePage {
         
     }
 
+
+    public String get_warningTextMsg()
+    {
+       return getText(warningText_Element);
+    }
 
     
 }
