@@ -29,6 +29,11 @@ public class RunAllModulesTest extends BaseClassTest {
         String testcaseId = data.get("TESTCASE_ID");
         String testDesc = data.get("TEST_DESC");
         String influencerAccount = data.getOrDefault("INFLUENCER_ACCOUNT", "");
+         String allSteps = data.get("ACTIONS");
+
+         if (allSteps != null) {
+    allSteps = allSteps.replace("\r\n", "\n"); // normalize newlines
+}
 
         System.out.println("======================================");
         System.out.println("MODULE       : " + module);
@@ -41,6 +46,7 @@ public class RunAllModulesTest extends BaseClassTest {
         TestContext.put("ModuleName", module);
         TestContext.put("TestID", testcaseId);
         TestContext.put("TestDesc", testDesc);
+        TestContext.put("Steps", allSteps);
         TestContext.put("InfluencerAcccount", influencerAccount);
         TestContext.put("Expected", data.getOrDefault("EXPECTED_RESULT", "NA"));
         TestContext.put("Actual", "NA"); // default
@@ -116,7 +122,43 @@ public class RunAllModulesTest extends BaseClassTest {
                         expectedText =GlobalStore.get("DEALERLIST_DEALERNAME").trim();
                     }
 
+                     if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_10")) {
+                        TestContext.put("Expected", GlobalStore.get("PRODUCT_EXPECTED_TOTAL_POINTS"));
+                        expectedText =GlobalStore.get("PRODUCT_EXPECTED_TOTAL_POINTS").trim();
+                    }
+
+                     if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_14")) {
+                        TestContext.put("Expected", GlobalStore.get("CATEGORY_PRODUCTCODE"));
+                        expectedText =GlobalStore.get("CATEGORY_PRODUCTCODE").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_15")) {
+                        TestContext.put("Expected", GlobalStore.get("CATEGORY_PRODUCTDESC"));
+                        expectedText =GlobalStore.get("CATEGORY_PRODUCTDESC").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_16")) {
+                        TestContext.put("Expected", GlobalStore.get("CATEGORY_PRODUCTUOM"));
+                        expectedText =GlobalStore.get("CATEGORY_PRODUCTUOM").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_17")) {
+                        TestContext.put("Expected", GlobalStore.get("PRODUCT_TOTAL_POINTS"));
+                        expectedText =GlobalStore.get("PRODUCT_TOTAL_POINTS").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_18")) {
+                        TestContext.put("Expected", GlobalStore.get("PRODUCT_QTY"));
+                        expectedText =GlobalStore.get("PRODUCT_QTY").trim();
+                    }
+
+                     if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_19")) {
+                        TestContext.put("Expected", GlobalStore.get("CARDDETAILS_ADDITIONTOTALPOINTS"));
+                        expectedText =GlobalStore.get("CARDDETAILS_ADDITIONTOTALPOINTS").trim();
+                    }
+
                     
+
                    
 
                     switch (assertType) {

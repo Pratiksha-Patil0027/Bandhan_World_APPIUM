@@ -7,6 +7,7 @@ import core.GlobalStore;
 import core.KeywordExecutor;
 import core.VerifyResult;
 import io.appium.java_client.android.AndroidDriver;
+import pages.claimpoints.CardDetailsPage;
 import pages.claimpoints.CategoryPage;
 import pages.claimpoints.DealerListPage;
 import pages.claimpoints.DealerPage;
@@ -14,19 +15,15 @@ import pages.claimpoints.MyClaimsPage;
 import pages.dashboard.DashboardPage;
 import pages.login.CompanyLoginPage;
 
-
-
 public class ClaimPointsExecutor implements KeywordExecutor {
 
     private DashboardPage dashboardPage;
     private MyClaimsPage myClaimsPage;
     private DealerListPage dealerListPage;
     private DealerPage dealerPage;
-  private CompanyLoginPage companyLoginPage;
-  private CategoryPage categoryPage;
-     
-    
-    
+    private CompanyLoginPage companyLoginPage;
+    private CategoryPage categoryPage;
+    private CardDetailsPage cardDetailsPage;
     
 
     @Override
@@ -48,6 +45,7 @@ public class ClaimPointsExecutor implements KeywordExecutor {
              dealerPage = new DealerPage(driver);
               companyLoginPage = new CompanyLoginPage(driver);
                categoryPage = new CategoryPage(driver);
+               cardDetailsPage = new CardDetailsPage(driver);
               
              
             
@@ -312,12 +310,197 @@ public class ClaimPointsExecutor implements KeywordExecutor {
                  case "category_selectcategory":
                  categoryPage.selectCategoryByHorizontalScroll(data.get("CATEGORY_NAME"));
                  return null;
-                 
-             
+
+                  case "category_selectbrand":
+                 categoryPage.selectBrandByHorizontalScroll(data.get("BRAND_NAME"));
+                 return null;
+
+                  case "category_enterproductname_insearchfield":
+                 categoryPage.enter_searchData_InSearchField(data.get("PRODUCT_NAME"));
+                 return null;
+
+                 case "verify_category_get_qtywarningtoastmsg":
+                 return categoryPage.verify_Qty_WarningToastMsg("Quantity should be greater than 0");
+
+                 case "category_enterqty":    
+                GlobalStore.put("PRODUCT_QTY", data.get("QTY"));
+                 categoryPage.enter_QtyInputField(0,data.get("QTY"));
+                 return null;
+
+                 case "category_enter_secondqty":
+                    int qty = Integer.parseInt(data.get("QTY"));
+                   qty = qty + 4;
+                  categoryPage.enter_QtyInputField(0, String.valueOf(qty));
+                 return null;
+
+                  case "category_selectuom":
+                 categoryPage.select_UOM(0,data.get("UOM"));
+                 return null;
+
+                 case "category_get_points_fieldvalue":
+                 return categoryPage.getPointsFieldValue(0);
+
+                  case "category_get_totalpoints_fieldvalue":
+                  String product_totalPoints=categoryPage.get_TotalPointsField_value(0).trim();
+                GlobalStore.put("PRODUCT_TOTAL_POINTS", product_totalPoints);
+                return product_totalPoints;
+                  
 
                  
+                  case "verify_category_totalpoints_fieldvalue":
+                  String product_expected_totalpoints = categoryPage.verify_TotalPointsField_value(0,data.get("QTY"));
+                  GlobalStore.put("PRODUCT_EXPECTED_TOTAL_POINTS", product_expected_totalpoints);
+                return product_expected_totalpoints;
+                  
+
+                 case "category_clickon_addtocart_btn":
+                 categoryPage.clickOn_AddToCartBtn(0);
+                 return null;
+
+                 case "category_clickon_carticon":
+                 categoryPage.clickOn_CartIcon();
+                 return null;
+
+                   case "category_clickon_refreshbtn":
+                 categoryPage.clickOn_RefreshBtn();
+                 return null;
+
+                  case "verify_category_cartandrefrshicon_isdisplay":
+                return  categoryPage.verify_CartIconAndRefreshIcon_isDisplayed();
+                 
+                 case "verify_category_brandscontainer_isdisplayed":
+                 return categoryPage.isBrandListPresent();
+
+                 case "verify_category_get_warningtoastmsg":
+                return  categoryPage.get_WarningToastMsg();
+
+                case "verify_category_productsinlist_isdisplayed":
+                 return categoryPage.verify_ProductsInList_isDisplayed();
+
+                  case "verify_category_productcode_inlist":
+                 return categoryPage.get_ProductCode_InList(0);
+
+                 case "category_productcode_inlist":
+                    String product_code = categoryPage.get_ProductCode_InList(0);
+                  GlobalStore.put("CATEGORY_PRODUCTCODE", product_code);
+                 return product_code;
+
+                 case "category_productdesc_inlist":
+                    String product_desc= categoryPage.get_ProductDescription_InList(0);
+                  GlobalStore.put("CATEGORY_PRODUCTDESC", product_desc);
+                 return product_desc;
                 
+                  case "category_productuom_inlist":
+                    String productUom_Text= categoryPage.get_ProductUom_Text(0);
+                  GlobalStore.put("CATEGORY_PRODUCTUOM", productUom_Text);
+                 return productUom_Text;
 
+                  case "category_productpoints_inlist":
+                    String pointsFieldValue_FullText= categoryPage.getPointsFieldValue_FullText(0);
+                  GlobalStore.put("CATEGORY_PRODUCT_POINTS", pointsFieldValue_FullText);
+                 return pointsFieldValue_FullText;
+
+                 
+                   case "category_clear_searchfield":
+                 categoryPage.clear_InputSearchField();
+                 return null;
+
+                 case "category_enter_productremark":
+                 categoryPage.enter_ProductRemark(0,data.get("PRODUCT_REMARK")+System.currentTimeMillis());
+                 return null;
+
+                 case "verify_category_tonne_uom":
+                 return categoryPage.get_TonneUom_Text();
+
+                 case "category_addproductsincart":
+                  categoryPage.addProductsToCart(data.get("PRODUCT_NAME"));
+                  return null;
+                 
+                  case "verify_cartdetails_totalclaimpoints":
+                 return cardDetailsPage.get_TotalClaimPoints_value();
+
+                  case "verify_cartdetails_added_categoryname":
+                 return cardDetailsPage.get_AddedCategoryName(0);
+
+                 case "verify_cartdetails_productcount":
+                 return cardDetailsPage.get_ProductCount(0);
+
+                 case "cartdetails_clickon_updownarrow":
+                  cardDetailsPage.clickOn_UpDownArrowIcon(0);
+                  return null;
+                 
+                  case "verify_cartdetails_productcode":
+                 return cardDetailsPage.get_ProductCode();
+
+                 
+                  case "verify_cartdetails_productdescription":
+                 return cardDetailsPage.get_ProductDescription();
+
+                 case "cartdetails_clickon_deleteicon":
+                  cardDetailsPage.clickOn_DeleteIcon();
+                  return null;
+
+                  case "cartdetails_clickon_plusicon":
+                  cardDetailsPage.clickOn_PlusIcon();
+                  return null;
+
+                  case "cartdetails_clickon_minusicon":
+                  cardDetailsPage.clickOn_MinusIcon();
+                  return null;
+                 
+                  case "verify_cartdetails_qty":
+                 return cardDetailsPage.get_QtyText();
+
+                  case "verify_cartdetails_addqty":
+                 return cardDetailsPage.verify_AdditionQty_Increased_By_One();
+
+                 case "verify_cartdetails_minusqty":
+                 return cardDetailsPage.verify_AdditionQty_decreased_By_One();
+
+                 case "verify_cartdetails_uom":
+                 return cardDetailsPage.get_UOMText();
+
+                 case "cartdetails_get_points":
+                 return cardDetailsPage.get_PointsText();
+
+                 case "verify_cartdetails_totalpoints":
+                 return cardDetailsPage.get_TotalPointsText();
+                
+                 case "cartdetails_get_additionoftotalpoints":
+                    String text= cardDetailsPage.get_AdditionOfTotalPoints();
+                  GlobalStore.put("CARDDETAILS_ADDITIONTOTALPOINTS", text);
+                 return text;
+
+                  case "cartdetails_clickon_cancelbtn":
+                  cardDetailsPage.clickOn_CancelBtn();
+                  return null;
+
+                   case "cartdetails_clickon_submitbtn":
+                  cardDetailsPage.clickOn_SubmitBtn();
+                  return null;
+
+                  case "cartdetails_clickon_alertbox_nobtn":
+                  cardDetailsPage.clickOn_Alert_DialogBox_NoBtn();
+                  return null;
+
+                  case "cartdetails_clickon_alertbox_yesbtn":
+                  cardDetailsPage.clickOn_Alert_DialogBox_YesBtn();
+                  return null;
+
+                  case "verify_cartdetails_alertbox_title":
+                 return cardDetailsPage.get_AlertDialogBoxTitle_Text();
+
+                 case "cartdetails_get_alertbox_text":
+                 return cardDetailsPage.get_AlertDialogBox_Text();
+
+                  case "verify_cartdetails_nodatafoundtext":
+                 return cardDetailsPage.get_NoDataFound_Text();
+
+                 case "verify_cartdetails_submitbtn_isenabled":
+                 return cardDetailsPage.verify_submitbtn_isEnable();
+                  
+                 
+ 
    
             default:
                 throw new RuntimeException("Invalid ACTION: " + step);

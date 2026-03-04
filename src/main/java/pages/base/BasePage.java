@@ -13,6 +13,7 @@ import java.util.Set;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -23,6 +24,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
@@ -305,6 +307,80 @@ public void selectDropValues(int x, int y) throws InterruptedException {
     }
 
 
+    protected void clickProductByIndex(String resourceId, int productIndex) {
+
+    int maxScroll = 8;
+    int scrollCount = 0;
+
+    while (scrollCount < maxScroll) {
+
+        List<WebElement> products =
+                driver.findElements(By.id(resourceId));
+
+        if (products.size() > productIndex) {
+            try {
+                products.get(productIndex).click();
+                return;
+            } catch (Exception e) {
+                // retry after small scroll
+            }
+        }
+
+        scrollDownSmall();  // small swipe
+        scrollCount++;
+    }
+
+    throw new RuntimeException(
+            "Unable to click product index: " + productIndex);
+}
+
+public void enterTextByResourceId(String resourceId, int index, String text) {
+
+    int maxScroll = 6;
+    int scrollCount = 0;
+
+    while (scrollCount < maxScroll) {
+
+        List<WebElement> elements = driver.findElements(By.id(resourceId));
+
+        if (elements.size() > index) {
+
+            WebElement element = elements.get(index);
+
+            try {
+                element.click();
+                element.clear();
+                element.sendKeys(text);
+                return;
+            } catch (Exception e) {
+                // retry after scroll
+            }
+        }
+
+        scrollDownSmall();
+        scrollCount++;
+    }
+
+    throw new RuntimeException("Unable to enter text in index: " + index);
+}
+
+
+public void scrollDownSmall() {
+
+    Dimension size = driver.manage().window().getSize();
+
+    int startX = size.width / 2;
+    int startY = (int) (size.height * 0.7);
+    int endY = (int) (size.height * 0.4);
+
+    new TouchAction((PerformsTouchActions) driver)
+            .press(PointOption.point(startX, startY))
+            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+            .moveTo(PointOption.point(startX, endY))
+            .release()
+            .perform();
+}
+
 
 
 
@@ -517,21 +593,55 @@ public LocalDate parseExcelDate(String dateText) {
 
 public void swipeLeft() {
 
+  
+
     Dimension size = driver.manage().window().getSize();
 
     int startX = (int) (size.width * 0.8);
     int endX   = (int) (size.width * 0.2);
     int y      = (int) (size.height * 0.3);
 
-    new TouchAction<>(driver)
-        .press(PointOption.point(startX, y))
-        .waitAction(WaitOptions.waitOptions(Duration.ofMillis(400)))
-        .moveTo(PointOption.point(endX, y))
-        .release()
-        .perform();
+    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+    Sequence swipe = new Sequence(finger, 1);
+
+    swipe.addAction(finger.createPointerMove(
+            Duration.ZERO,
+            PointerInput.Origin.viewport(),
+            startX, y));
+
+    swipe.addAction(finger.createPointerDown(
+            PointerInput.MouseButton.LEFT.asArg()));
+
+    swipe.addAction(finger.createPointerMove(
+            Duration.ofMillis(400),
+            PointerInput.Origin.viewport(),
+            endX, y));
+
+    swipe.addAction(finger.createPointerUp(
+            PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(Collections.singletonList(swipe));
 }
 
+public void swipeLeftOnElement(By element) {
 
+    WebElement container = driver.findElement(element);
+    Rectangle rect = container.getRect();
+
+    int startX = rect.getX() + (int) (rect.getWidth() * 0.85);
+    int endX   = rect.getX() + (int) (rect.getWidth() * 0.15);
+    int y      = rect.getY() + rect.getHeight() / 2;
+
+    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+    Sequence swipe = new Sequence(finger, 1);
+
+    swipe.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, y));
+    swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+    swipe.addAction(finger.createPointerMove(Duration.ofMillis(700), PointerInput.Origin.viewport(), endX, y));
+    swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(Collections.singletonList(swipe));
+}
 
 }
 

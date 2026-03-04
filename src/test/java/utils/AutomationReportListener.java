@@ -8,9 +8,12 @@ import java.io.File;
 public class AutomationReportListener implements ISuiteListener {
 
     private static boolean mailSent = false;
+     protected ConfigReader configReader;
+
 
     @Override
     public synchronized void onFinish(ISuite suite) {
+        configReader= new ConfigReader();
 
         if (mailSent) return;
         mailSent = true;
@@ -33,6 +36,7 @@ public class AutomationReportListener implements ISuiteListener {
             "<html><body>" +
             "Hello Team,<br/><br/>" +
             "Please find the attached automation report.<br/><br/>" +
+            "Build Version -> " + configReader.getProperty("BUILDVERSION") + "<br/><br/>" +
 
             "<b>Execution Summary</b><br/>" +
             "<table border='1' cellspacing='0' cellpadding='6' " +
