@@ -77,6 +77,11 @@ public class BasePage {
         return element.getText();
     }
 
+    public String getText(By locatoBy) {
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locatoBy));
+        return element.getText();
+    }
+
     //  Wait for visibility
     public void waitForVisibility(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
@@ -496,6 +501,17 @@ public boolean clickIfPresent(WebElement element, int timeout) {
     }
 }
 
+public boolean clickIfPresent(AppiumBy element, int timeout) {
+    try {
+        new WebDriverWait(driver, Duration.ofSeconds(timeout))
+                .until(ExpectedConditions.elementToBeClickable(element))
+                .click();
+        return true;
+    } catch (TimeoutException e) {
+        return false;
+    }
+}
+
 public LocalDate parseExcelDate(String dateText) {
 
     dateText = dateText.trim();
@@ -529,6 +545,23 @@ public void swipeLeft() {
         .moveTo(PointOption.point(endX, y))
         .release()
         .perform();
+}
+
+public String get_text_after_scroll(String resourceId) {
+    try {
+        // 1. Scroll using the ID string
+        scrollToId(resourceId);
+        
+        // 2. Locate the element immediately after scrolling
+        WebElement el = driver.findElement(By.id(resourceId));
+        
+        return el.getText().trim();
+    } catch (Exception e) {
+        // 3. Fallback: Reset to top and try one more time
+        scrollToTop();
+        scrollToId(resourceId);
+        return driver.findElement(By.id(resourceId)).getText().trim();
+    }
 }
 
 

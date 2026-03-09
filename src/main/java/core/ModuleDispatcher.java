@@ -2,6 +2,7 @@ package core;
 
 import executors.claimpoints.ClaimPointsExecutor;
 import executors.login.CompanyLoginExecutor;
+import executors.profile.ProfileExecutor;
 
 
 public class ModuleDispatcher {
@@ -17,8 +18,11 @@ public class ModuleDispatcher {
             case "01_COMPANYLOGIN":
                 return new CompanyLoginExecutor();
 
-                case "02_CLAIMPOINTS":
+            case "02_CLAIMPOINTS":
                 return new ClaimPointsExecutor();
+
+            case "03_PROFILE":
+                return new ProfileExecutor();
 
             
 

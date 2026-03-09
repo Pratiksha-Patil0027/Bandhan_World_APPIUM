@@ -19,6 +19,9 @@ public class DashboardPage extends BasePage {
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id/blinkItem\").instance(0)")
 	public WebElement claimPoints_Menu_Element;
 
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id\").instance(11)")
+	public WebElement digital_business_card_Menu_Element;
+
 	// @AndroidFindBy(id = "")
 	// public WebElement _Element;
 
