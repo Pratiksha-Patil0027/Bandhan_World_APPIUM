@@ -72,7 +72,14 @@ public class CategoryPage  extends BasePage {
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/autocom_uom")
 	public List<WebElement> productUom_Elements_InList;
+
+    @AndroidFindBy(uiAutomator  = "new UiSelector().text(\"* Diameter\")")
+	public WebElement product_Diameter_Element;
+
+    @AndroidFindBy(uiAutomator  = "new UiSelector().text(\"* Size\")")
+	public WebElement product_Size_Element;
 	
+    
 	
 	
 
@@ -270,8 +277,9 @@ public String verify_TotalPointsField_value(int i, String qty) {
 }
 	
 	
-	public void clickOn_AddToCartBtn(int i)
-	{
+	public void clickOn_AddToCartBtn(int i) 
+	{ 
+        
 		 clickProductByIndex("com.prowess.apps.bandhan.world:id/tvAdd",i);
 	}
 
@@ -405,6 +413,31 @@ public String get_ProductUom_Text(int index)
     }
 }
 
+public void clickOn_Product_Diameter_field() {
+		clickIfPresent(product_Diameter_Element,1);
+	}
+
+	public void select_Product_DiameterDropValue() throws InterruptedException {
+		clickOn_Product_Diameter_field();
+		selectDropValueByAndroidKey(1);
+       
+	}
+
+    public void smallWait() throws InterruptedException
+    {
+        Thread.sleep(3000);
+    }
+
+    public void clickOn_Product_Size_field() {
+		clickIfPresent(product_Size_Element,1);
+	}
+
+    public void select_Product_SizeDropValue() throws InterruptedException {
+		clickOn_Product_Size_field();
+		selectDropValueByAndroidKey(1);
+        
+	}
+    
 }
 	
 	

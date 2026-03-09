@@ -9,6 +9,8 @@ import core.VerifyResult;
 import io.appium.java_client.android.AndroidDriver;
 import pages.claimpoints.CardDetailsPage;
 import pages.claimpoints.CategoryPage;
+import pages.claimpoints.ClaimDetailsPage;
+import pages.claimpoints.ClaimInformationPage;
 import pages.claimpoints.DealerListPage;
 import pages.claimpoints.DealerPage;
 import pages.claimpoints.MyClaimsPage;
@@ -24,6 +26,10 @@ public class ClaimPointsExecutor implements KeywordExecutor {
     private CompanyLoginPage companyLoginPage;
     private CategoryPage categoryPage;
     private CardDetailsPage cardDetailsPage;
+    private ClaimInformationPage claimInformationPage;
+    private ClaimDetailsPage claimDetailsPage;
+    
+    
     
 
     @Override
@@ -46,8 +52,8 @@ public class ClaimPointsExecutor implements KeywordExecutor {
               companyLoginPage = new CompanyLoginPage(driver);
                categoryPage = new CategoryPage(driver);
                cardDetailsPage = new CardDetailsPage(driver);
-              
-             
+               claimInformationPage = new ClaimInformationPage(driver);
+               claimDetailsPage = new ClaimDetailsPage(driver);      
             
         }
 
@@ -69,8 +75,13 @@ public class ClaimPointsExecutor implements KeywordExecutor {
                 dashboardPage.clickOn_ClaimPoints_Menu();
                 return null;
 
+                case "verify_navigatetodashboard":
+                return dashboardPage.claimPointsMenuIsDisplay();
+
             case "verifypagetitle":
                 return myClaimsPage.get_PageTitle();
+
+                
 
             case "myclaims_clickonlisticon":
                 myClaimsPage.clickOn_ClaimListIcon();
@@ -127,6 +138,29 @@ public class ClaimPointsExecutor implements KeywordExecutor {
                 String claimId=myClaimsPage.get_ClaimIdFromView(0).trim();
                 GlobalStore.put("MYCLIAMS_CLAIMID", claimId);
                 return claimId;
+
+                 case "verify_claimid_onclaimdetails":
+               return myClaimsPage.isClaimIdPresent();
+
+              
+                
+               case "verify_myclaims_generated_dealername":
+               return GlobalStore.get("ROW_DEALERNAME");
+
+                case "verify_myclaims_generated_invno":
+               return GlobalStore.get("ROW_INVNO");
+
+                case "verify_myclaims_generated_productdesc":
+               return GlobalStore.get("ROW_PRODUCTDESC");
+
+                case "verify_myclaims_generated_claimqty":
+               return GlobalStore.get("ROW_CLAIMQTY");
+
+                case "verify_myclaims_generated_claimpoints":
+               return GlobalStore.get("ROW_CLAIMPOINTS");
+
+               case "verify_myclaims_generated_invdate":
+               return GlobalStore.get("ROW_INVDATE");
 
                  case "myclaim_getdealername":
                  String dealerName=myClaimsPage.get_DealerNameFromView(0).trim();
@@ -234,9 +268,38 @@ public class ClaimPointsExecutor implements KeywordExecutor {
 
                  case "dealerlist_getdealername":
                     String list_dealerName =dealerListPage.get_DealerNameFromList(0);
-                    GlobalStore.put("DEALERLIST_DEALERNAME", list_dealerName);
-                    
+                    GlobalStore.put("DEALERLIST_DEALERNAME", list_dealerName);    
                 return list_dealerName ;
+
+                 case "dealerpage_getdealername":
+                    String selected_dealerName =dealerPage.get_DealerName();
+                    GlobalStore.put("SELECTED_DEALERNAME", selected_dealerName); 
+                     
+                     System.out.println("Dealer Name Stored: " + GlobalStore.get("SELECTED_DEALERNAME"));  
+                return selected_dealerName ;
+
+                 case "dealerpage_getdealernamebysplit":
+                    String dealerFull =dealerPage.get_DealerName();
+                    String[] parts = dealerFull.split("\\|");
+
+String dealerNametext = parts[1].trim();
+
+
+GlobalStore.put("SELECTED_DEALERNAMESPLIT", dealerNametext);
+                    GlobalStore.put("SELECTED_DEALERNAME", dealerNametext); 
+                     
+                     System.out.println("Dealer Name Stored: " + GlobalStore.get("SELECTED_DEALERNAMESPLIT"));  
+                return dealerNametext ;
+
+                 case "dealerpage_getinvdate":
+                    String purchaseDate =dealerPage.get_PurchaseDate();
+                    GlobalStore.put("INVOICE_DATE", purchaseDate);    
+                return purchaseDate ;
+
+                case "dealerpage_getinvno":
+                    String invoiceNo =dealerPage.get_InvNo();
+                    GlobalStore.put("INVOICE_NO", invoiceNo);    
+                return invoiceNo ;
 
                 case "verify_dealer_selectedealername":
                 return dealerPage.get_DealerName();
@@ -276,7 +339,10 @@ public class ClaimPointsExecutor implements KeywordExecutor {
 
                 case "verify_warningmsg":
                 return dealerPage.get_WarningToastMsg();
+
+                 
                   
+                
                 case "dealer_clickoncancelbtn":
                  dealerPage.clickOn_CancelBtn();
                  return null;
@@ -315,6 +381,14 @@ public class ClaimPointsExecutor implements KeywordExecutor {
                  categoryPage.selectBrandByHorizontalScroll(data.get("BRAND_NAME"));
                  return null;
 
+                 case "category_selecttmtcategory":
+                 categoryPage.selectCategoryByHorizontalScroll("TMT");
+                 return null;
+
+                  case "category_selectfortunrtmtbrand":
+                 categoryPage.selectBrandByHorizontalScroll("Fortune TMT");
+                 return null;
+
                   case "category_enterproductname_insearchfield":
                  categoryPage.enter_searchData_InSearchField(data.get("PRODUCT_NAME"));
                  return null;
@@ -338,7 +412,9 @@ public class ClaimPointsExecutor implements KeywordExecutor {
                  return null;
 
                  case "category_get_points_fieldvalue":
-                 return categoryPage.getPointsFieldValue(0);
+                    String product_Points=categoryPage.getPointsFieldValue(0).trim();
+                GlobalStore.put("PRODUCT_POINTS", product_Points);
+                 return product_Points;
 
                   case "category_get_totalpoints_fieldvalue":
                   String product_totalPoints=categoryPage.get_TotalPointsField_value(0).trim();
@@ -357,6 +433,11 @@ public class ClaimPointsExecutor implements KeywordExecutor {
                  categoryPage.clickOn_AddToCartBtn(0);
                  return null;
 
+                 case "smallwait":
+                 categoryPage.smallWait();
+                 return null;
+
+                 
                  case "category_clickon_carticon":
                  categoryPage.clickOn_CartIcon();
                  return null;
@@ -415,9 +496,23 @@ public class ClaimPointsExecutor implements KeywordExecutor {
                  case "category_addproductsincart":
                   categoryPage.addProductsToCart(data.get("PRODUCT_NAME"));
                   return null;
+
+                  case "category_select_product_diameter":
+                  categoryPage.select_Product_DiameterDropValue();
+                  return null;
+
+                  case "category_select_product_size":
+                  categoryPage.select_Product_SizeDropValue();
+                  return null;
+
                  
                   case "verify_cartdetails_totalclaimpoints":
                  return cardDetailsPage.get_TotalClaimPoints_value();
+
+                  case "cartdetails_get_totalclaimpoints":
+                     String totalclaimpoints= cardDetailsPage.get_TotalClaimPoints_value();
+                  GlobalStore.put("CARD_TOTAL_CLAIMPOINTS", totalclaimpoints);
+                 return totalclaimpoints ;
 
                   case "verify_cartdetails_added_categoryname":
                  return cardDetailsPage.get_AddedCategoryName(0);
@@ -461,7 +556,14 @@ public class ClaimPointsExecutor implements KeywordExecutor {
                  return cardDetailsPage.get_UOMText();
 
                  case "cartdetails_get_points":
-                 return cardDetailsPage.get_PointsText();
+                    String points= cardDetailsPage.get_PointsText();
+                  GlobalStore.put("CARDDETAILS_POINTS", points);
+                 return points;
+
+                  case "cartdetails_get_totalpoints":
+                    String totalpoints= cardDetailsPage.get_TotalPointsText();
+                  GlobalStore.put("CARDDETAILS_TOTALPOINTS", totalpoints);
+                 return totalpoints;
 
                  case "verify_cartdetails_totalpoints":
                  return cardDetailsPage.get_TotalPointsText();
@@ -499,8 +601,110 @@ public class ClaimPointsExecutor implements KeywordExecutor {
                  case "verify_cartdetails_submitbtn_isenabled":
                  return cardDetailsPage.verify_submitbtn_isEnable();
                   
+                  case "claiminfo_enter_customername":
+                  claimInformationPage.enter_CustomerName(data.get("CUTOMER_NAME"));
+                  return null;
+
+                  case "claiminfo_enter_customermobileno":
+                  claimInformationPage.enter_CustomerMobileNo(data.get("CUSTOMER_MOBILE"));
+                  return null;
+
+                  case "claiminfo_enter_siteaddress":
+                  claimInformationPage.enter_SiteAddress(data.get("SITE_ADDRESS"));
+                  return null;
+
+                   case "claiminfo_clikon_sitephotoicon":
+                  claimInformationPage.clickOn_SitePhotoIcon();
+                  return null;
+
+                  case "claiminfo_get_addedbrandname":
+                  return claimInformationPage.get_BrandName_Text();
+
+                   case "claiminfo_get_addedproductname":
+                  return claimInformationPage.get_ProductName_Text();
+
+                  case "claiminfo_clikon_materialproductimageicon":
+                  claimInformationPage.clickOn_ProductImageIcon();
+                  return null;
+
+                  case "claiminfo_clikon_cancelbtn":
+                  claimInformationPage.clickOn_CancelBtn();
+                  return null;
+
+                  case "claiminfo_clikon_submitbtn":
+                  claimInformationPage.clickOn_SubmitBtn();
+                  return null;
+
+                  case "verify_claiminfo_alertbox_title":
+                  return claimInformationPage.get_AlertDialogBoxTitle_Text();
+
+                  case "claiminfo_get_alertbox_text":
+                  return claimInformationPage.get_AlertDialogBox_Text();
+
+                  case "claiminfo_clikon_alertbox_nobtn":
+                  claimInformationPage.clickOn_Alert_DialogBox_NoBtn();
+                  return null;
+
+                  case "claiminfo_clikon_alertbox_yesbtn":
+                  claimInformationPage.clickOn_Alert_DialogBox_YesBtn();
+                  return null;
+
+                   case "verify_claiminfo_customerdetailsfields":
+                 return claimInformationPage.verify_FieldsDisplayed_WithScroll(data.get("CUSTOMER_DETAILS_FIELDS"));
+
+                 case "verify_claimdetails_dealername":
+                  return claimDetailsPage.get_DealerName();
+
+                   case "verify_claimdetails_claim_invno":
+                  return claimDetailsPage.get_ClaimInvNo();
+
+                   case "verify_claimdetails_claim_invdate":
+                  return claimDetailsPage.get_ClaimInvDate();
+
+                   case "verify_claimdetails_claim_totalpointsonheader":
+                  return claimDetailsPage.get_ClaimTotalPoints_OnHeader();
+
+                   case "claimdetails_getclaim_id":
+                    String claimid= claimDetailsPage.get_ClaimId();
+                  GlobalStore.put("GENERATED_CLAIMID", claimid);
+                 return claimid ;
                  
- 
+
+                   case "verify_claimdetails_claimid":
+                  return claimDetailsPage.verifyClaimIdNotEmpty();
+
+                  
+
+                   case "verify_claimdetails_productcode":
+                  return claimDetailsPage.get_Code();
+
+                  case "verify_claimdetails_productdesc":
+                  return claimDetailsPage.get_Description();
+
+                  case "claimdetails_clickon_pdficon":
+                  claimDetailsPage.clickOn_PdfIcon();
+                  return null;
+
+                  case "verify_claimdetails_claim_qty":
+                  return claimDetailsPage.getQuantity();
+
+                   case "verify_claimdetails_uom":
+                  return claimDetailsPage.getUOM();
+
+                   case "verify_claimdetails_claim_points":
+                  return claimDetailsPage.get_ClaimPoints();
+
+                   case "verify_claimdetails_claim_totalpoints":
+                  return claimDetailsPage.get_ClaimTotalPoints();
+
+                  case "verify_claimdetails_pdfdownloadstratedtext":
+                  return claimDetailsPage.verify_PDFDownload_ToastMsg("PDF download started.");
+
+                  case "claimdetails_clickon_closebtn":
+                  claimDetailsPage.clickOn_CloseBtn();
+                  return null;
+
+             
    
             default:
                 throw new RuntimeException("Invalid ACTION: " + step);

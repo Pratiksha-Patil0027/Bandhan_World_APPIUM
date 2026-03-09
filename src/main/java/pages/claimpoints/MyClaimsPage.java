@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
+import core.GlobalStore;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import pages.base.BasePage;
@@ -301,6 +302,79 @@ private boolean isElementPresent(WebElement element) {
 		return getText(claimId);
 	}
 
+
+	public boolean isClaimIdPresent() {
+
+    String claimId = GlobalStore.get("GENERATED_CLAIMID");
+	 //String claimId = "C2618004-1";
+	
+
+    int maxScroll = 5;
+
+    for (int i = 0; i < maxScroll; i++) {
+
+        List<WebElement> claims = driver.findElements(
+                By.id("com.prowess.apps.bandhan.world:id/tvClaimId"));
+
+        for (WebElement claim : claims) {
+
+            if (claim.getText().trim().equalsIgnoreCase(claimId)) {
+
+                WebElement row = driver.findElement(By.xpath(
+                        "//android.widget.TextView[@resource-id='com.prowess.apps.bandhan.world:id/tvClaimId' and @text='" 
+                        + claimId +
+                        "']/ancestor::android.view.ViewGroup[@resource-id='com.prowess.apps.bandhan.world:id/clgrid']"));
+
+                String dealerName = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvRetailerDealerValue")).getText();
+                String invNo = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvInvoiceNoValue")).getText();
+                String productDesc = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvDescValue")).getText().replaceAll("\\s*-\\s*$", "").trim();
+                String claimQty = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvClaimQtyValue")).getText();
+                String claimPoints = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvClaimPointsValue")).getText();
+                String invDate = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvLabel")).getText();
+
+                GlobalStore.put("ROW_DEALERNAME", dealerName);
+                GlobalStore.put("ROW_INVNO", invNo);
+                GlobalStore.put("ROW_PRODUCTDESC", productDesc);
+                GlobalStore.put("ROW_CLAIMQTY", claimQty.replace(".000",""));
+                GlobalStore.put("ROW_CLAIMPOINTS", claimPoints.split("\\.")[0]);
+                GlobalStore.put("ROW_INVDATE", invDate);
+
+                return true;
+            }
+        }
+
+        scrollDownSafe();
+    }
+
+    return false;
+}
+
+
+
+public String normalizeBagText(String text) {
+
+    if (text == null || text.isEmpty()) return text;
+
+    String[] parts = text.trim().split(" ");
+
+    try {
+        double num = Double.parseDouble(parts[0]);
+        String normalized = String.valueOf(num);
+
+        if (parts.length > 1) {
+            return normalized + " " + parts[1];
+        }
+
+        return normalized;
+
+    } catch (Exception e) {
+        return text;
+    }
+}
+
+
+
+
 	public void openClaim(int i) {
 		WebElement claimId = claimId_Elements.get(i);
 		clickIfPresent(claimId,2);
@@ -387,7 +461,7 @@ private boolean isElementPresent(WebElement element) {
                 );
             }
 
-            // ❌ FAIL FAST if out of range
+            //  FAIL FAST if out of range
             if (claimDate.isBefore(fromDate) || claimDate.isAfter(toDate)) {
                 System.err.println(
                         "Date out of range -> UI: " + uiDateText +

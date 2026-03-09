@@ -643,6 +643,46 @@ public void swipeLeftOnElement(By element) {
     driver.perform(Collections.singletonList(swipe));
 }
 
+
+public boolean verify_FieldsDisplayed_WithScroll(String fields) {
+
+    if (fields == null || fields.trim().isEmpty()) {
+        throw new RuntimeException("Field list is empty!");
+    }
+
+    String[] fieldArray = fields.split(",");
+
+    for (String field : fieldArray) {
+
+        String fieldName = field.trim();
+        System.out.println("Verifying field: " + fieldName);
+
+        try {
+
+            WebElement element = driver.findElement(
+                AppiumBy.androidUIAutomator(
+                    "new UiScrollable(new UiSelector().scrollable(true))"
+                    + ".scrollIntoView(new UiSelector().textContains(\""
+                    + fieldName + "\"))"
+                )
+            );
+
+            if (element.isDisplayed()) {
+                System.out.println(fieldName + " is displayed");
+            } else {
+                System.out.println(fieldName + " is NOT displayed");
+                return false;
+            }
+
+        } catch (Exception e) {
+            System.out.println(fieldName + " NOT found even after scroll");
+            return false;
+        }
+    }
+
+    return true;
+}
+
 }
 
 
