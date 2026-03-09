@@ -54,6 +54,7 @@ public class ExcelLogger implements ITestListener {
         String moduleName   = getAttribute(result, "ModuleName", "ModuleName");
         String testcaseId   = getAttribute(result, "TestID", "TestID");
         String testcaseDesc = getAttribute(result, "TestDesc", "TestDesc");
+         String steps = getAttribute(result, "Steps", "Steps");
         String influencerAccount  = getAttribute(result, "InfluencerAcccount", "InfluencerAcccount");
         String expected     = getAttribute(result, "Expected", "Expected");
         String actual       = getAttribute(result, "Actual", "Actual");
@@ -64,6 +65,7 @@ public class ExcelLogger implements ITestListener {
                 moduleName,
                 testcaseId,
                 testcaseDesc,
+                steps,
                 influencerAccount,
                 status,
                 assertionMessage,
@@ -143,7 +145,7 @@ public class ExcelLogger implements ITestListener {
         CellStyle skipStyle   = createStatusStyle(workbook, "SKIP");
 
         String[] headers = {
-                "MODULE_NAME", "TESTCASE_ID", "TEST_DESC",
+                "MODULE_NAME", "TESTCASE_ID", "TEST_DESC","STEPS",
                 "INFLUENCER_ACCOUNT", "STATUS", "ASSERTION_MESSAGE",
                 "EXPECTED_RESULT", "ACTUAL_RESULT"
         };

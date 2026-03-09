@@ -85,6 +85,11 @@ public class DealerPage extends BasePage {
 		sendText(inv_No_Element, invNo);
 	}
 
+	 public String get_InvNo()
+	{
+		return getText(inv_No_Element);
+	}
+
 	public void clickOn_InvPhotoIcon()
 	{
 		 clickElement(inv_PhotoIcon_Element);
@@ -138,6 +143,7 @@ public String get_AttachDocLable()
 		return getText(warning_ToastMsg_Element);
 	}
 
+	
 
 	public void clickOn_CancelBtn()
 	{

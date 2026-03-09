@@ -1,24 +1,41 @@
 package utils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Utils {
-/* 
+ 
 	public static String resolvePlaceholders(String input) {
-		if (input == null)
-			return null;
 
-		String resolved = input;
-		// Replace all other placeholders using GlobalStore
-		Pattern pattern = Pattern.compile("\\{(\\w+)}"); // matches {PLACEHOLDER}
-		Matcher matcher = pattern.matcher(resolved);
-		while (matcher.find()) {
-			String key = matcher.group(1);
-			String value = GlobalStore.getOrDefault(key, ""); // default to empty string if not found
-			resolved = resolved.replace("{" + key + "}", value);
-		}
+    if (input == null) return null;
 
-		return resolved;
-	}
+    Pattern pattern = Pattern.compile("\\{(\\w+)}");
+    Matcher matcher = pattern.matcher(input);
 
+    StringBuffer result = new StringBuffer();
+
+    while (matcher.find()) {
+
+        String key = matcher.group(1);
+
+        String value = GlobalStore.get(key);
+
+        if (value == null) {
+            System.out.println("GlobalStore missing key: " + key);
+            value = "";
+        }
+
+        System.out.println("Replacing {" + key + "} with -> " + value);
+
+        matcher.appendReplacement(result, Matcher.quoteReplacement(value));
+    }
+
+    matcher.appendTail(result);
+
+    return result.toString();
+}
+
+/* 
 	public static void removeFieldsRecursive(JsonNode node, List<String> fieldsToRemove) {
 		if (node.isObject()) {
 			ObjectNode objNode = (ObjectNode) node;

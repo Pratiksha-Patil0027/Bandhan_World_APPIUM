@@ -14,6 +14,7 @@ import core.GlobalStore;
 import core.ModuleDispatcher;
 import core.VerifyResult;
 import utils.TestContext;
+import utils.Utils;
 
 public class RunAllModulesTest extends BaseClassTest {
 
@@ -29,6 +30,11 @@ public class RunAllModulesTest extends BaseClassTest {
         String testcaseId = data.get("TESTCASE_ID");
         String testDesc = data.get("TEST_DESC");
         String influencerAccount = data.getOrDefault("INFLUENCER_ACCOUNT", "");
+         String allSteps = data.get("ACTIONS");
+
+         if (allSteps != null) {
+    allSteps = allSteps.replace("\r\n", "\n"); // normalize newlines
+}
 
         System.out.println("======================================");
         System.out.println("MODULE       : " + module);
@@ -41,6 +47,7 @@ public class RunAllModulesTest extends BaseClassTest {
         TestContext.put("ModuleName", module);
         TestContext.put("TestID", testcaseId);
         TestContext.put("TestDesc", testDesc);
+        TestContext.put("Steps", allSteps);
         TestContext.put("InfluencerAcccount", influencerAccount);
         TestContext.put("Expected", data.getOrDefault("EXPECTED_RESULT", "NA"));
         TestContext.put("Actual", "NA"); // default
@@ -75,10 +82,19 @@ public class RunAllModulesTest extends BaseClassTest {
                             ? data.get("EXPECTED_RESULT").trim()
                             : "null";
 
+                            if (expectedText.contains("{")) {
+    expectedText = Utils.resolvePlaceholders(expectedText);
+}
                     String assertType = data.getOrDefault("ASSERT_TYPE", "EXACT").toUpperCase();
 
                     // Update TestContext with actual verification result
                     TestContext.put("Actual", actualText);
+                    TestContext.put("Expected", expectedText);
+
+
+                
+
+    
 
 
                     if(testcaseId.toLowerCase().equalsIgnoreCase("MyClaimsPageTest_10")) {
@@ -116,8 +132,124 @@ public class RunAllModulesTest extends BaseClassTest {
                         expectedText =GlobalStore.get("DEALERLIST_DEALERNAME").trim();
                     }
 
+                     if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_10")) {
+                        TestContext.put("Expected", GlobalStore.get("PRODUCT_EXPECTED_TOTAL_POINTS"));
+                        expectedText =GlobalStore.get("PRODUCT_EXPECTED_TOTAL_POINTS").trim();
+                    }
+
+                     if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_14")) {
+                        TestContext.put("Expected", GlobalStore.get("CATEGORY_PRODUCTCODE"));
+                        expectedText =GlobalStore.get("CATEGORY_PRODUCTCODE").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_15")) {
+                        TestContext.put("Expected", GlobalStore.get("CATEGORY_PRODUCTDESC"));
+                        expectedText =GlobalStore.get("CATEGORY_PRODUCTDESC").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_16")) {
+                        TestContext.put("Expected", GlobalStore.get("CATEGORY_PRODUCTUOM"));
+                        expectedText =GlobalStore.get("CATEGORY_PRODUCTUOM").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_17")) {
+                        TestContext.put("Expected", GlobalStore.get("PRODUCT_TOTAL_POINTS"));
+                        expectedText =GlobalStore.get("PRODUCT_TOTAL_POINTS").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_18")) {
+                        TestContext.put("Expected", GlobalStore.get("PRODUCT_QTY"));
+                        expectedText =GlobalStore.get("PRODUCT_QTY").trim();
+                    }
+
+                     if(testcaseId.toLowerCase().equalsIgnoreCase("CategoryPageTest_19")) {
+                        TestContext.put("Expected", GlobalStore.get("CARDDETAILS_ADDITIONTOTALPOINTS"));
+                        expectedText =GlobalStore.get("CARDDETAILS_ADDITIONTOTALPOINTS").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_03")) {
+                        TestContext.put("Expected", GlobalStore.get("SELECTED_DEALERNAMESPLIT"));
+                        expectedText =GlobalStore.get("SELECTED_DEALERNAMESPLIT").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_04")) {
+                        TestContext.put("Expected", GlobalStore.get("INVOICE_NO"));
+                        expectedText =GlobalStore.get("INVOICE_NO").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_05")) {
+                        TestContext.put("Expected", GlobalStore.get("INVOICE_DATE"));
+                        expectedText =GlobalStore.get("INVOICE_DATE").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_06")) {
+                        TestContext.put("Expected", GlobalStore.get("CARD_TOTAL_CLAIMPOINTS"));
+                        expectedText =GlobalStore.get("CARD_TOTAL_CLAIMPOINTS").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_08")) {
+                        TestContext.put("Expected", GlobalStore.get("CATEGORY_PRODUCTCODE"));
+                        expectedText =GlobalStore.get("CATEGORY_PRODUCTCODE").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_09")) {
+                        TestContext.put("Expected", GlobalStore.get("CATEGORY_PRODUCTDESC"));
+                        expectedText =GlobalStore.get("CATEGORY_PRODUCTDESC").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_10")) {
+                        TestContext.put("Expected", GlobalStore.get("PRODUCT_QTY"));
+                        expectedText =GlobalStore.get("PRODUCT_QTY").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_11")) {
+                        TestContext.put("Expected", GlobalStore.get("CATEGORY_PRODUCTUOM"));
+                        expectedText =GlobalStore.get("CATEGORY_PRODUCTUOM").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_12")) {
+                        TestContext.put("Expected", GlobalStore.get("CARDDETAILS_POINTS"));
+                        expectedText =GlobalStore.get("CARDDETAILS_POINTS").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_13")) {
+                        TestContext.put("Expected", GlobalStore.get("CARDDETAILS_TOTALPOINTS"));
+                        expectedText =GlobalStore.get("CARDDETAILS_TOTALPOINTS").trim();
+                    }
+
                     
-                   
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_17")) {
+                        TestContext.put("Expected", GlobalStore.get("INVOICE_DATE"));
+                        expectedText =GlobalStore.get("INVOICE_DATE").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_18")) {
+                        TestContext.put("Expected", GlobalStore.get("SELECTED_DEALERNAME"));
+                        expectedText =GlobalStore.get("SELECTED_DEALERNAME").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_19")) {
+                        TestContext.put("Expected", GlobalStore.get("INVOICE_NO"));
+                        expectedText =GlobalStore.get("INVOICE_NO").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_20")) {
+                        TestContext.put("Expected", GlobalStore.get("GENERATED_CLAIMQTY"));
+                        expectedText =GlobalStore.get("GENERATED_CLAIMQTY").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_21")) {
+                        TestContext.put("Expected", GlobalStore.get("CATEGORY_PRODUCTDESC"));
+                        expectedText =GlobalStore.get("CATEGORY_PRODUCTDESC").trim();
+                    }
+
+                    if(testcaseId.toLowerCase().equalsIgnoreCase("AddClaimTest_22")) {
+                        TestContext.put("Expected", GlobalStore.get("CARDDETAILS_TOTALPOINTS"));
+                        expectedText =GlobalStore.get("CARDDETAILS_TOTALPOINTS").trim();
+                    }
+
+
 
                     switch (assertType) {
                         case "EXACT":
