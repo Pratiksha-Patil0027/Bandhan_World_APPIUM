@@ -61,7 +61,7 @@ public class AutomationReportListener implements ISuiteListener {
 
         if (latestReport.isPresent()) {
             OutlookMailSender.sendOutlookMailWithAttachments(
-                    Credentials.getOutlookSenderMail(),
+                    Credentials.getOutlookToRecipients(),     // getOutlookSenderMail
                     subject,
                     body,
                     List.of(latestReport.get())

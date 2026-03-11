@@ -26,10 +26,10 @@ public class BaseClassTest {
                 .setAutomationName(configReader.getProperty("AUTOMATIONNAME"))
                 .setDeviceName(configReader.getProperty("DEVICENAME"))
                 .setUdid(configReader.getProperty("UDID")) // udid is mandatory for real devices"")
-                 //.setApp(configReader.getProperty("APP"))
-                .setAppPackage("com.prowess.apps.bandhan.world")
-                .setAppActivity("com.prowess.apps.influencer.mvvm.presentation.activity.NewDashboardActivity")
-                .setNoReset(true) // IMPORTANT
+                 .setApp(configReader.getProperty("APP"))
+                // .setAppPackage("com.prowess.apps.bandhan.world")
+                // .setAppActivity("com.prowess.apps.influencer.mvvm.presentation.activity.NewDashboardActivity")
+                .setNoReset(false) // IMPORTANT
                 .setFullReset(false)
                 .setDisableWindowAnimation(true) // SPEED BOOST
                .setAutoGrantPermissions(true);
@@ -40,7 +40,7 @@ public class BaseClassTest {
 options.setCapability("uiautomator2ServerInstallTimeout", 120000);
 options.setCapability("uiautomator2ServerLaunchTimeout", 120000);
 options.setCapability("uiautomator2ServerReadTimeout", 120000);
-options.setCapability("skipServerInstallation", true);
+options.setCapability("skipServerInstallation", false);
 
 options.setCapability("adbExecTimeout", 120000);
 // VERY IMPORTANT FOR STABILITY
