@@ -19,11 +19,16 @@ public class DashboardPage extends BasePage {
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id/blinkItem\").instance(0)")
 	public WebElement claimPoints_Menu_Element;
 
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id/blinkItem\").instance(3)")
+	public WebElement redemptions_Menu_Element;
+
+	
+
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id\").instance(11)")
 	public WebElement digital_business_card_Menu_Element;
 
-	// @AndroidFindBy(id = "")
-	// public WebElement _Element;
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvMyBalance")
+	public WebElement myBalancePoints_Element;
 
 	// @AndroidFindBy(id = "")
 	// public WebElement _Element;
@@ -44,6 +49,10 @@ public class DashboardPage extends BasePage {
 		claimPoints_Menu_Element.click();
 	}
 
+	public void clickOn_Redemptions_Menu() {
+		clickElement(redemptions_Menu_Element);
+	}
+
 	public boolean claimPointsMenuIsDisplay() {
 		return isElementVisible(claimPoints_Menu_Element);
 	}
@@ -61,4 +70,11 @@ public class DashboardPage extends BasePage {
 			throw new RuntimeException("Failed to navigate back to Home Dashboard");
 		}
 	}
+
+	public String get_MyBalancePoints()
+	{
+		String balancePoints = getText(myBalancePoints_Element);
+       return String.valueOf((int) Double.parseDouble(balancePoints));	
+	}
+	
 }

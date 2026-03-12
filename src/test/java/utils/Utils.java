@@ -75,7 +75,14 @@ public class Utils {
 	}
 
 	
-
+public static String setExpectedFromGlobal(String key) {
+    String value = GlobalStore.get(key);
+    if (value != null) {
+        value = value.trim();
+        TestContext.put("Expected", value);
+    }
+    return value;
+}
 	
 	
 

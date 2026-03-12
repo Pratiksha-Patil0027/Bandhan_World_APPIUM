@@ -14,7 +14,6 @@ import core.GlobalStore;
 import core.ModuleDispatcher;
 import core.VerifyResult;
 import utils.TestContext;
-import utils.Utils;
 
 public class RunAllModulesTest extends BaseClassTest {
 
@@ -78,22 +77,27 @@ public class RunAllModulesTest extends BaseClassTest {
                 // ===== VERIFY STEPS =====
                 if (currentStep.toLowerCase().startsWith("verify")) {
                     String actualText = actual != null ? actual.toString().trim() : "null";
-                    String expectedText = data.get("EXPECTED_RESULT") != null
-                            ? data.get("EXPECTED_RESULT").trim()
-                            : "null";
 
-                            if (expectedText.contains("{")) {
-    expectedText = Utils.resolvePlaceholders(expectedText);
-}
+                  String expectedText = data.get("EXPECTED_RESULT");
+
+    if(expectedText == null || expectedText.trim().isEmpty()) {
+
+        String expectedKey = data.get("EXPECTED_KEY");
+
+        if(expectedKey != null && !expectedKey.trim().isEmpty()) {
+            expectedText = GlobalStore.get(expectedKey);
+
+            if(expectedText != null) {
+                expectedText = expectedText.trim();
+            }
+        }
+    }
+
                     String assertType = data.getOrDefault("ASSERT_TYPE", "EXACT").toUpperCase();
 
                     // Update TestContext with actual verification result
                     TestContext.put("Actual", actualText);
                     TestContext.put("Expected", expectedText);
-
-
-                
-
     
 
 
@@ -250,6 +254,7 @@ public class RunAllModulesTest extends BaseClassTest {
                     }
 
 
+                    
 
                     switch (assertType) {
                         case "EXACT":

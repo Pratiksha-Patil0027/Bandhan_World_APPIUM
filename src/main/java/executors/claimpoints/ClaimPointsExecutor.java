@@ -337,11 +337,10 @@ GlobalStore.put("SELECTED_DEALERNAMESPLIT", dealerNametext);
                  case "verify_dealerlist_adddeddealerisdisplay":
                 return dealerListPage.isAddedDealerDisplayed(GlobalStore.get("DEALERLIST_NEWDEALER"));
 
+
                 case "verify_warningmsg":
                 return dealerPage.get_WarningToastMsg();
 
-                 
-                  
                 
                 case "dealer_clickoncancelbtn":
                  dealerPage.clickOn_CancelBtn();

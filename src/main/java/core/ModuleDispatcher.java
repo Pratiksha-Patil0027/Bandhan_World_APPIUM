@@ -3,6 +3,7 @@ package core;
 import executors.claimpoints.ClaimPointsExecutor;
 import executors.login.CompanyLoginExecutor;
 import executors.profile.ProfileExecutor;
+import executors.redemptions.RedemptionsExecutor;
 
 
 public class ModuleDispatcher {
@@ -24,6 +25,10 @@ public class ModuleDispatcher {
             case "03_PROFILE":
                 return new ProfileExecutor();
 
+                case "04_REDEMPTIONS":
+                return new RedemptionsExecutor();
+
+                
             
 
            

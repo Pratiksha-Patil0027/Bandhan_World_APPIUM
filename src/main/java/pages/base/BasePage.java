@@ -588,12 +588,19 @@ public boolean clickIfPresent(AppiumBy element, int timeout) {
     }
 }
 
+
 public LocalDate parseExcelDate(String dateText) {
 
     dateText = dateText.trim();
 
+    // Remove time part if present
+    if (dateText.contains("|")) {
+        dateText = dateText.split("\\|")[0].trim();
+    }
+
     List<DateTimeFormatter> formatters = List.of(
         DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH),
+        DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH),
         DateTimeFormatter.ofPattern("dd-MMM-yyyy", Locale.ENGLISH),
         DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH)
     );
