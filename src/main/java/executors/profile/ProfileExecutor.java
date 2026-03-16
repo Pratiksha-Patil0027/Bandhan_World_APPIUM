@@ -43,13 +43,9 @@ public class ProfileExecutor implements KeywordExecutor {
         if (dashboardPage == null) {
 
             dashboardPage = new DashboardPage(driver);
-            myClaimsPage = new MyClaimsPage(driver);
-             dealerListPage = new DealerListPage(driver);
-             dealerPage = new DealerPage(driver);
-              companyLoginPage = new CompanyLoginPage(driver);
-               categoryPage = new CategoryPage(driver);
             profilePage = new ProfilePage(driver);
-             chooseLanguagePage =new ChooseLanguagePage(driver);
+            chooseLanguagePage = new ChooseLanguagePage(driver);
+            
             
         }
 

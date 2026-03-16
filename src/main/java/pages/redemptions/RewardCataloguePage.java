@@ -272,6 +272,19 @@ System.out.println("cartPoints : " + cartPoints);
     return getText(rewardProductCode_Element);
 }
 
+public String get_RewardProductCodepart(int i) {
+
+    WebElement rewardProductCode_Element =rewardProductCode_Elements.get(i);
+
+    String expected = getText(rewardProductCode_Element);
+
+String expectedProductName = expected.split("\\|")[1].trim();
+
+System.out.println(" expectedProductName_Part : " + expectedProductName);
+
+    return expectedProductName ;
+}
+
  public String get_RewardProductDesc(int i) {
 
     WebElement rewardProductDesc_Element=rewardProductDesc_Elements.get(i);

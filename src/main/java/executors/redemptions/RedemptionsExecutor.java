@@ -10,7 +10,9 @@ import pages.claimpoints.ClaimDetailsPage;
 import pages.claimpoints.ClaimInformationPage;
 import pages.dashboard.DashboardPage;
 import pages.login.CompanyLoginPage;
+import pages.profile.ProfilePage;
 import pages.redemptions.RedemptionCartPage;
+import pages.redemptions.RedemptionDetailsPage;
 import pages.redemptions.RedemptionHistoryPage;
 import pages.redemptions.RedemptionSummaryPage;
 import pages.redemptions.RewardCataloguePage;
@@ -26,6 +28,10 @@ public class RedemptionsExecutor implements KeywordExecutor {
     private ClaimDetailsPage claimDetailsPage;
      private RedemptionCartPage redemptionCartPage;
      private RedemptionSummaryPage redemptionSummaryPage;
+      private ProfilePage profilePage;
+      private RedemptionDetailsPage redemptionDetailsPage;
+      
+     
 
      
     
@@ -51,6 +57,9 @@ public class RedemptionsExecutor implements KeywordExecutor {
             rewardCataloguePage = new RewardCataloguePage(driver);
             redemptionCartPage = new RedemptionCartPage(driver);
             redemptionSummaryPage = new RedemptionSummaryPage(driver);
+            profilePage = new ProfilePage(driver);
+             redemptionDetailsPage = new RedemptionDetailsPage(driver);
+            
                 
         }
 
@@ -72,8 +81,33 @@ public class RedemptionsExecutor implements KeywordExecutor {
                 dashboardPage.clickOn_Redemptions_Menu();
                 return null;
 
+                 case "openrewardcataloguemenu":
+                dashboardPage.clickOn_RewardCatalogue_Menu();
+                return null;
+
+                
+
                 case "verify_navigatetodashboard":
                 return dashboardPage.claimPointsMenuIsDisplay();
+
+                 case "profile_clickon_showprofile":
+                profilePage.clickOn_profileShow();
+                return null;
+
+                case "profile_get_inflstate":
+                String profilestate = profilePage.get_Infl_State();
+                    GlobalStore.put("PROFILE_STATE", profilestate);
+                return profilestate;
+                
+                 case "profile_get_inflmobileno":
+                    String profilemobile = profilePage.get_Infl_Mobileno();
+                    GlobalStore.put("PROFILE_MOBILENO", profilemobile);
+                    return profilemobile;
+
+                case "profile_clickon_closebtn":
+                profilePage.clickOn_Profile_CloseBtn();
+                return null;
+                
 
             case "verifypagetitle":
                 return redemptionHistoryPage.get_PageTitle(); 
@@ -148,7 +182,6 @@ public class RedemptionsExecutor implements KeywordExecutor {
 
                 case "verify_redhistory_generated_totalredeempoints":
                return GlobalStore.get("ROW_TOTAL_REDEEM_POINTS");
-
 
                 case "redhistory_get_redemptionno":
                 String redemptionno = redemptionHistoryPage.get_History_RedemptionNo(0).trim();
@@ -302,6 +335,11 @@ public class RedemptionsExecutor implements KeywordExecutor {
                 String cat_productcode = rewardCataloguePage.get_RewardProductCode(0).trim();
                 GlobalStore.put("CATALOGUE_PRODUCTCODE", cat_productcode);
                 return cat_productcode;
+
+                 case "catalogue_get_rewardproductcode_bysplit":
+                String cat_product = rewardCataloguePage.get_RewardProductCodepart(0).trim();
+                GlobalStore.put("CATALOGUE_PRODUCTCODE_PART", cat_product);
+                return cat_product;
 
                 case "catalogue_get_rewardproductdesc":
                 String cat_productdesc = rewardCataloguePage.get_RewardProductDesc(0).trim();
@@ -504,32 +542,86 @@ public class RedemptionsExecutor implements KeywordExecutor {
                 case "verify_redemptioncart_warningtoastmsg":
                 return redemptionCartPage.get_WarningToastMsg();
 
-                 case "verify_summary_cartpoints":
+                 
+
+                 case "verify_dashboard_balancepoints_afterdeleteproduct":
+                        return  redemptionSummaryPage.verify_BalancePoints_Calculation();
+                 
+
+                case "verify_summary_cartpoints":
                 return redemptionSummaryPage.get_CartPoints();
 
                  case "summary_enter_deliveredaddress":
-                 redemptionSummaryPage.enter_DeliveredAddress();
+                 redemptionSummaryPage.enter_DeliveredAddress(data.get("DELIVERED_ADDRESS"));
                  return null;
 
-                  case "verify_summary_deliveredmobileno":
+                case "verify_summary_deliveredmobileno":
                 return redemptionSummaryPage.get_DeliveredMobileNo();
 
+                case "summary_get_deliveredaddress":
+                  String address = redemptionSummaryPage.get_DeliveredAddress();
+                    GlobalStore.put("SUMMARY_DELIVEREDADDRESS", address);
+                    return address;
+
+                case "summary_get_deliveredmobile":
+                    String mobileNo = redemptionSummaryPage.get_DeliveredMobileNo();
+                    GlobalStore.put("SUMMARY_DELIVEREDMOBILENO", mobileNo);
+                    return mobileNo;
+               
+                case "summary_get_pincode":
+                     String pincode = redemptionSummaryPage.get_Pincode();
+                    GlobalStore.put("SUMMARY_PINCODE", pincode);
+                    return pincode;
+                
+
+                case "summary_get_city":
+                     String city = redemptionSummaryPage.get_City();
+                    GlobalStore.put("SUMMARY_CITY", city);
+                    return city;
+
+                case "summary_get_state":
+                     String state = redemptionSummaryPage.get_State();
+                    GlobalStore.put("SUMMARY_STATE", state);
+                    return state;
+
+                case "summary_get_district":
+                     String dist = redemptionSummaryPage.get_District();
+                    GlobalStore.put("SUMMARY_DISTRICT", dist);
+                    return dist;
+
+                case "summary_get_panno":
+                     String panno = redemptionSummaryPage.get_PanNo();
+                    GlobalStore.put("SUMMARY_PANNO", panno);
+                    return panno;
+
+                case "summary_enter_mobileno":
+                 redemptionSummaryPage.enter_MobileNo(data.get("MOBILE_NO"));
+                 return null;
+
                 case "summary_enter_pincode":
-                 redemptionSummaryPage.enter_PinCode();
+                 redemptionSummaryPage.enter_PinCode(data.get("PINCODE"));
                  return null;
 
                  case "verify_summary_state":
-                return redemptionSummaryPage. get_State();
+                return redemptionSummaryPage.get_State();
+
+                 case "summary_clear_statefield":
+                 redemptionSummaryPage.clear_StateField();
+                 return null;
 
                 case "summary_enter_district":
-                 redemptionSummaryPage.enter_District();
+                 redemptionSummaryPage.enter_District(data.get("DISTRICT"));
                  return null;
 
                  case "verify_summary_city":
                 return redemptionSummaryPage. get_City();
 
+                 case "summary_clear_cityfield":
+                 redemptionSummaryPage. clear_CityField();
+                 return null;
+
                 case "summary_enter_panno":
-                 redemptionSummaryPage.enter_PANno();
+                 redemptionSummaryPage.enter_PANno(data.get("PAN_NUMBER"));
                  return null;
 
                   case "verify_summary_productcode":
@@ -555,6 +647,9 @@ public class RedemptionsExecutor implements KeywordExecutor {
                   case "summary_clickon_checkout":
                  redemptionSummaryPage.clickOn_CheckoutBtn();
                  return null;
+
+                  case "verify_summary_mandatoryfields_error":
+                    return redemptionSummaryPage. isErrorDisplayed(data.get("ERROR_MSG"));
 
                  case "verify_summary_cartisemptytext":
                 return redemptionSummaryPage. get_CartIsEmpty_Text();
@@ -608,8 +703,81 @@ public class RedemptionsExecutor implements KeywordExecutor {
                  redemptionSummaryPage.clickOn_Success_DialogBox_OkBtn();
                  return null;
 		
+    
+                  case "verify_redemtiondetails_deliveredaddress":
+                return redemptionDetailsPage.get_DeliveredAddress();
 
-                  
+                case "verify_redemtiondetails_deliveredmobileno":
+                return redemptionDetailsPage.get_DeliveredMobileNo();
+
+                case "verify_redemtiondetails_pincode":
+                return redemptionDetailsPage.get_PinCodeValue();
+
+                case "verify_redemtiondetails_city":
+                return redemptionDetailsPage. get_CityValue();
+
+                case "verify_redemtiondetails_state":
+                return redemptionDetailsPage. get_StateValue();
+
+                case "verify_redemtiondetails_district":
+                return redemptionDetailsPage.get_DistrictValue();
+
+                case "verify_redemtiondetails_redemptionno":
+                return redemptionDetailsPage.verify_RedemptionIdNotEmpty();
+
+                case "verify_redemtiondetails_redemptiondate":
+                return redemptionDetailsPage.verify_RedemptionDateNotEmpty();
+
+                case "verify_redemtiondetails_productcode":
+                return redemptionDetailsPage.get_ProductName();
+
+                case "verify_redemtiondetails_productdesc":
+                return redemptionDetailsPage. get_ProductDesc();
+                
+                case "verify_redemtiondetails_productqty":
+                return redemptionDetailsPage.get_ProductQty();
+
+                case "verify_redemtiondetails_productpoints":
+                return redemptionDetailsPage. get_ProductPoints();
+
+                case "verify_redemtiondetails_tdspoints":
+                return redemptionDetailsPage. get_TDSPoints();
+
+                case "verify_redemtiondetails_totalredeempoints_calculation":
+                return redemptionDetailsPage.verify_TotalRedeemPoints_Calculation();
+
+                 case "redemtiondetails_get_totalredeempoints":
+                   String totalredeem =  redemptionDetailsPage.get_TotalRedeemPoints();
+                    GlobalStore.put("REDEMPTIONDETAILS_TOTALREDEEMPOINTS", totalredeem);
+                return totalredeem;
+
+                case "verify_redemtiondetails_tdspercentage":
+                return redemptionDetailsPage.get_TDSPercentage();
+
+                case "verify_redemtiondetails_downloadstartedtext":
+                return redemptionDetailsPage.verify_PDFDownload_ToastMsg("PDF download started.");
+
+                 case "redemtiondetails_clickon_downloadpdf":
+                 redemptionDetailsPage.clickOn_DownloadPdf();
+                 return null;
+
+                  case "redemtiondetails_clickon_cancelbtn":
+                 redemptionDetailsPage.clickOn_CancelBtn();
+                 return null;
+
+                 case "redemtiondetails_get_redemptionno":
+                    String gen_redno = redemptionDetailsPage.get_RedemptionNo();
+                    GlobalStore.put("GENERATED_REDEMPTIONNO", gen_redno);
+                return gen_redno;
+        
+
+                case "redemtiondetails_get_redemptiondate":
+                     String gen_reddate= redemptionDetailsPage.get_RedemptionDate();
+                    GlobalStore.put("GENERATED_REDEMPTIONDATE", gen_reddate);
+                return gen_reddate;
+              
+
+	 
 
    
             default:

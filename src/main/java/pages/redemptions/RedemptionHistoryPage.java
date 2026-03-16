@@ -1,6 +1,7 @@
 package pages.redemptions;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -271,55 +272,92 @@ public class RedemptionHistoryPage extends BasePage {
 		return getText(claimId);
 	}
 
-	public boolean isRedemptionNoPresent() {
+	
 
-		String redemptionNo = GlobalStore.get("GENERATED_REDEMPTIONO");
-		// String RedemptioNo = "ILP09829882";
 
-		int maxScroll = 5;
 
-		for (int i = 0; i < maxScroll; i++) {
 
-			List<WebElement> redemptions = driver.findElements(
-					By.id("com.prowess.apps.bandhan.world:id/tvRedemptionNo"));
+   public boolean isRedemptionNoPresent() {
 
-			for (WebElement redemption : redemptions) {
+    String redemptionNo = GlobalStore.get("GENERATED_REDEMPTIONNO").trim();
 
-				if (redemption.getText().trim().equalsIgnoreCase(redemptionNo)) {
+	// String redemptionNo = "ILP2603000038";
+    System.out.println("GENERATED_REDEMPTIONNO : " + redemptionNo);
+	
 
-					WebElement row = driver.findElement(By.xpath(
-							"//android.widget.TextView[@resource-id='com.prowess.apps.bandhan.world:id/tvRedemptionNo' and @text='"
-									+ redemptionNo +
-									"']/ancestor::android.view.ViewGroup[@resource-id='com.prowess.apps.bandhan.world:id/item_stripe_bar']"));
+    int maxScroll = 5;
 
-					String dateTime = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvDateLabel")).getText();
-					String productName = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvProduct"))
-							.getText();
-					String productDesc = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvProductDesc"))
-							.getText();
-					String qty = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvQtyValue")).getText();
-					String points = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvPointsValue")).getText();
-					String tds = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvTDSValue")).getText();
-					String totalRedeemPoints = row
-							.findElement(By.id("com.prowess.apps.bandhan.world:id/tvTotalRedeemPointsValue")).getText();
+    for (int i = 0; i < maxScroll; i++) {
 
-					GlobalStore.put("ROW_DATE_TIME", dateTime);
-					GlobalStore.put("ROW_PRODUCTNAME", productName);
-					GlobalStore.put("ROW_PRODUCTDESC", productDesc);
-					GlobalStore.put("ROW_QTY", qty);
-					GlobalStore.put("ROW_POINTS", points);
-					GlobalStore.put("ROW_TDS", tds);
-					GlobalStore.put("ROW_TOTAL_REDEEM_POINTS", totalRedeemPoints);
+        List<WebElement> redemptions = driver.findElements(
+                By.id("com.prowess.apps.bandhan.world:id/tvRedemptionNo"));
 
-					return true;
-				}
-			}
+				 System.out.println("Step 111");
 
-			scrollDownSafe();
-		}
+        for (WebElement redemption : redemptions) {
 
-		return false;
-	}
+			 System.out.println("Step 222");
+
+            if (redemption.getText().trim().equalsIgnoreCase(redemptionNo)) {
+
+				 System.out.println("Step 333");
+
+               WebElement row = driver.findElement(By.xpath(
+"//android.widget.TextView[@resource-id='com.prowess.apps.bandhan.world:id/tvRedemptionNo' and normalize-space(@text)='" 
++ redemptionNo +
+"']/ancestor::android.view.ViewGroup[@resource-id='com.prowess.apps.bandhan.world:id/item_stripe_bar']/parent::android.view.ViewGroup"));
+
+
+               String date = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvDateLabel")).getText();
+
+			   String uiDate = date.split("\\|")[0].trim();   // 15 Mar 2026
+
+DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("dd MMM yyyy");
+DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+LocalDate splitdate = LocalDate.parse(uiDate, inputFormat);
+String formattedDate = splitdate.format(outputFormat);
+
+System.out.println(formattedDate);  
+                String productName = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvProduct")).getText();
+                System.out.println("Step 2");
+
+                String productDesc = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvProductDesc")).getText();
+                System.out.println("Step 3");
+
+                String qty = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvQtyValue")).getText();
+                System.out.println("Step 4");
+
+                String points = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvPointsValue")).getText();
+                System.out.println("Step 5");
+
+                String tds = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvTDSValue")).getText();
+				String formatted_tds = String.format("%.1f", Double.parseDouble(tds));
+                System.out.println("formatted_tds : "+ formatted_tds);
+
+                String totalRedeemPoints = row.findElement(By.id("com.prowess.apps.bandhan.world:id/tvTotalRedeemPointsValue")).getText();
+				removeDecimal(totalRedeemPoints);
+				 System.out.println("totalRedeemPoints :" + removeDecimal(totalRedeemPoints));
+
+				   
+				  GlobalStore.put("ROW_DATE_TIME", formattedDate);
+                GlobalStore.put("ROW_PRODUCTNAME", productName);
+                GlobalStore.put("ROW_PRODUCTDESC", productDesc);
+                GlobalStore.put("ROW_QTY", qty);
+                GlobalStore.put("ROW_POINTS", points);
+                GlobalStore.put("ROW_TDS", formatted_tds);
+                GlobalStore.put("ROW_TOTAL_REDEEM_POINTS", removeDecimal(totalRedeemPoints));
+
+                return true;
+            }
+        }
+
+        scrollDownSafe();
+    }
+
+    return false;
+}
+
 
 	public void openRedemption(int i) {
 		WebElement redemption = history_RedemptionNo_Elements.get(i);

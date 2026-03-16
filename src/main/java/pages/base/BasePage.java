@@ -597,6 +597,10 @@ public LocalDate parseExcelDate(String dateText) {
     if (dateText.contains("|")) {
         dateText = dateText.split("\\|")[0].trim();
     }
+    // Handle format like: 16-Mar-2026 10:03:44 AM
+else if (dateText.matches("\\d{2}-[A-Za-z]{3}-\\d{4}.*")) {
+    dateText = dateText.split(" ")[0].trim();
+}
 
     List<DateTimeFormatter> formatters = List.of(
         DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.ENGLISH),
@@ -721,6 +725,11 @@ public boolean verify_FieldsDisplayed_WithScroll(String fields) {
     }
 
     return true;
+}
+
+
+public String removeDecimal(String value) {
+    return String.valueOf((int) Double.parseDouble(value));
 }
 
 }

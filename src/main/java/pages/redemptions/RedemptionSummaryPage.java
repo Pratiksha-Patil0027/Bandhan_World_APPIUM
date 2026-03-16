@@ -2,6 +2,7 @@ package pages.redemptions;
 
 import org.openqa.selenium.WebElement;
 
+import core.GlobalStore;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import pages.base.BasePage;
@@ -106,37 +107,86 @@ public class RedemptionSummaryPage extends BasePage {
 	}
 
 
-	
+
+public boolean isErrorDisplayed(String errorMessage) {
+    return driver.getPageSource().contains(errorMessage);
+}
+
+
 	public String get_CartPoints() {
 		return getText(cartPoints_Element);
 	}
 
-	public void enter_DeliveredAddress() {
-		clickElement(deliveredAddress_Element);
+	public String verify_BalancePoints_Calculation()
+	{ 
+        String old_balpoints = GlobalStore.get("BALANCE_POINTS");
+        String cartpoints_str = GlobalStore.get("CATALOGUE_CARTPOINTS");
+
+         int oldbalpoints_int = Integer.parseInt(old_balpoints);
+int cartpoints_int = (int) Double.parseDouble(cartpoints_str);
+ int new_balpoints = (oldbalpoints_int + cartpoints_int);
+ System.out.println("new_balpoints : " + new_balpoints);
+//String cartPoints = String.format("%.1f", (double) new_balpoints);
+String newPoints = String.valueOf(new_balpoints);
+System.out.println("newPoints : " + newPoints);
+      return newPoints;
+	}
+
+	public void enter_DeliveredAddress(String input) {
+		sendText(deliveredAddress_Element, input);
+	}
+
+
+	public String get_DeliveredAddress() {
+		return getText(deliveredAddress_Element);
 	}
 
 	public String get_DeliveredMobileNo() {
 		return getText(deliveredMobileNo_Element);
 	}
 
-	public void enter_PinCode() {
-		clickElement(pinCode_Element);
-	}
-
-	public String get_State() {
-		return getText(state_Element);
-	}
-
-	public void enter_District() {
-		clickElement(district_Element);
+	public String get_Pincode() {
+		return getText(pinCode_Element);
 	}
 
 	public String get_City() {
 		return getText(city_Element);
 	}
 
-	public void enter_PANno() {
-		clickElement(panNo_Element);
+	public String get_State() {
+		return getText(state_Element);
+	}
+
+	public String get_District() {
+		return getText(district_Element);
+	}
+
+	public String get_PanNo() {
+		return getText(panNo_Element);
+	}
+
+	public void enter_MobileNo(String input) {
+		sendText(deliveredMobileNo_Element, input);
+	}
+
+	public void enter_PinCode(String input) {
+		sendText(pinCode_Element, input);
+	}
+
+	public void clear_StateField () {
+		state_Element.clear();
+	}
+
+	public void enter_District(String input) {
+		sendText(district_Element, input);
+	}
+
+	public void clear_CityField () {
+		city_Element.clear();
+	}
+
+	public void enter_PANno(String input) {
+		sendText(panNo_Element, input);
 	}
 
 	public String get_ProductCode() {

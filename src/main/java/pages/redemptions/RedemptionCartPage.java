@@ -120,7 +120,7 @@ public String get_TDSPerscentage() {
 
 public void clickOn_CancelBtn()
 	{
-     clickElement(cancelBtn_Element);
+     clickIfPresent(cancelBtn_Element,0);
 	}
 
 	public void clickOn_CheckoutBtn()

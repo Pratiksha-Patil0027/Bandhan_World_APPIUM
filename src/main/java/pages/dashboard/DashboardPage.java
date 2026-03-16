@@ -2,6 +2,7 @@ package pages.dashboard;
 
 import org.openqa.selenium.WebElement;
 
+import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
@@ -21,6 +22,9 @@ public class DashboardPage extends BasePage {
 
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id/blinkItem\").instance(3)")
 	public WebElement redemptions_Menu_Element;
+
+	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id/blinkItem\").instance(6)")
+	public WebElement callMe_Menu_Element;
 
 	
 
@@ -52,6 +56,21 @@ public class DashboardPage extends BasePage {
 	public void clickOn_Redemptions_Menu() {
 		clickElement(redemptions_Menu_Element);
 	}
+
+	public void clickOn_CallMe_Menu() {
+		clickElement(callMe_Menu_Element);
+	}
+
+	public void clickOn_RewardCatalogue_Menu() {
+
+    driver.findElement(AppiumBy.androidUIAutomator(
+        "new UiScrollable(new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id/recyclerviewMenu\").instance(1))" +
+        ".setAsHorizontalList()" +
+        ".scrollIntoView(new UiSelector().text(\"Reward Catalogue\"));"
+    )).click();
+
+}
+
 
 	public boolean claimPointsMenuIsDisplay() {
 		return isElementVisible(claimPoints_Menu_Element);

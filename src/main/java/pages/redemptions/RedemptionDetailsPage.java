@@ -1,5 +1,7 @@
 package pages.redemptions;
 
+import java.util.List;
+
 import org.openqa.selenium.WebElement;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -27,7 +29,7 @@ public class RedemptionDetailsPage  extends BasePage {
 	public WebElement districtValue_Element;
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvRedemptionNo")
-	public WebElement redemptionNo_Element;
+	public List<WebElement> redemptionNo_Element;
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvDateLabel")
 	public WebElement redemptionDate_Element;
@@ -101,7 +103,8 @@ public String get_DeliveredAddress()
 
 	public String get_RedemptionNo()
 	{
-     return getText(redemptionNo_Element);
+        WebElement redNo = redemptionNo_Element.get(1);
+     return getText(redNo).trim();
 	}
 
 	public String get_RedemptionDate()
@@ -131,13 +134,25 @@ public String get_DeliveredAddress()
 
 	public String get_TDSPoints()
 	{
-     return getText(TDSPoints_Element);
+		return String.valueOf(Double.parseDouble(getText(TDSPoints_Element)));
+      
 	}
 
 	public String get_TotalRedeemPoints()
-	{
-     return getText(TotalRedeemPoints_Element);
+	{  
+		return removeDecimal(getText(TotalRedeemPoints_Element));
 	}
+
+	public String verify_TotalRedeemPoints_Calculation() {
+
+    int qty = Integer.parseInt(get_ProductQty());
+    int points = Integer.parseInt(get_ProductPoints());
+    double tdsPoints = Double.parseDouble(get_TDSPoints());
+	int toatlRedeem_int = (int)((qty * points) + tdsPoints);
+
+    return String.valueOf(toatlRedeem_int);
+}
+
 
 	public String get_TDSPercentage()
 	{
@@ -149,6 +164,22 @@ public String get_DeliveredAddress()
      return getText(downloadStartedMsg_Element);
 	}
 
+	public boolean verify_PDFDownload_ToastMsg(String expectedMessage) {
+
+    int attempts = 5;
+
+    for (int i = 0; i < attempts; i++) {
+        if (driver.getPageSource().contains(expectedMessage)) {
+            return true;
+        }
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ignored) {}
+    }
+
+    return false;
+}
+
 	public void clickOn_DownloadPdf()
 	{
      clickElement(downloadPDF_Element);
@@ -159,7 +190,17 @@ public String get_DeliveredAddress()
      clickElement(cancelBtn_Element);
 	}
 
+public boolean verify_RedemptionIdNotEmpty() {
+    String id = get_RedemptionNo().trim();
+    
+  return id != null && !id.trim().isEmpty();
+}
 
+public boolean verify_RedemptionDateNotEmpty() {
+    String date = get_RedemptionDate().trim();
+    
+  return date != null && !date.trim().isEmpty();
+}
     
 }
 	

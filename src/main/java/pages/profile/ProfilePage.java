@@ -236,4 +236,20 @@ public class ProfilePage extends BasePage {
         return get_text_after_scroll(resourceId);
     }
 
+    public String get_Infl_State()
+    {
+        return getText(address_Element);
+    }
+
+    public String get_Infl_Mobileno()
+    {
+        return getText(phone_Element);
+    }
+
+    public void clickOn_Profile_CloseBtn()
+    {
+        clickIfPresent(profileCloseBtn_Element,0);
+    }
+    
+
 }

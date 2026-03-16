@@ -1,10 +1,10 @@
 package core;
 
+import executors.callme.CallMeExecutor;
 import executors.claimpoints.ClaimPointsExecutor;
 import executors.login.CompanyLoginExecutor;
 import executors.profile.ProfileExecutor;
 import executors.redemptions.RedemptionsExecutor;
-
 
 public class ModuleDispatcher {
 
@@ -25,13 +25,14 @@ public class ModuleDispatcher {
             case "03_PROFILE":
                 return new ProfileExecutor();
 
-                case "04_REDEMPTIONS":
+            case "04_REDEMPTIONS":
                 return new RedemptionsExecutor();
 
-                
-            
+            case "05_CALLME":
+                return new CallMeExecutor();
 
-           
+                case "06_REWARDCATALOGUE":
+                return new RedemptionsExecutor();
 
             default:
                 throw new RuntimeException("Invalid MODULE: " + module);
