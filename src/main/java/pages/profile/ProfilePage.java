@@ -100,6 +100,10 @@ public class ProfilePage extends BasePage {
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvAppVersion")
     public WebElement appversion_Element;
 
+     @AndroidFindBy(id = "android:id/button1")
+    public WebElement singout_YesBtn_Element;
+   
+
 
     public AppiumBy SIGNOUT_DIALOG_TITLE = (AppiumBy) AppiumBy.id("android:id/alertTitle");
     public AppiumBy SIGNOUT_DIALOG_MESSAGE = (AppiumBy) AppiumBy.id("android:id/message");
@@ -172,6 +176,12 @@ public class ProfilePage extends BasePage {
 			System.out.println("Profile dialog not shown");
 		}
 	}
+
+    public void clickOn_logout_YesBtn() {
+		clickIfPresent(singout_YesBtn_Element,0);
+	}
+
+    
 
     public boolean clickOn_logoutBtnNo() {
 		try {

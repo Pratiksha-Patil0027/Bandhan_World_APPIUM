@@ -2,7 +2,10 @@ package core;
 
 import executors.callme.CallMeExecutor;
 import executors.claimpoints.ClaimPointsExecutor;
+import executors.digitalbussinesscard.DigitalBusinessCardExecutor;
+import executors.digitalbussinesscard.SendBusinessCardExecutor;
 import executors.login.CompanyLoginExecutor;
+import executors.mywebsite.MyWebSiteExecutor;
 import executors.profile.ProfileExecutor;
 import executors.redemptions.RedemptionsExecutor;
 
@@ -33,6 +36,17 @@ public class ModuleDispatcher {
 
                 case "06_REWARDCATALOGUE":
                 return new RedemptionsExecutor();
+
+                 case "07_DIGITALBUSINESSCARD":
+                return new DigitalBusinessCardExecutor();
+
+                case "08_SENDBUSINESSCARD":
+                return new SendBusinessCardExecutor();
+
+                case "09_MYWEBSITE":
+                return new MyWebSiteExecutor();
+
+                
 
             default:
                 throw new RuntimeException("Invalid MODULE: " + module);

@@ -26,6 +26,9 @@ public class DashboardPage extends BasePage {
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id/blinkItem\").instance(6)")
 	public WebElement callMe_Menu_Element;
 
+	@AndroidFindBy(uiAutomator = "new UiSelector().text(\"Digital Business Card\")")
+	public WebElement businessCard_Menu_Element;
+
 	
 
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id\").instance(11)")
@@ -70,6 +73,13 @@ public class DashboardPage extends BasePage {
     )).click();
 
 }
+
+
+
+
+public void clickOn_BusinessCard_Menu() {
+		clickElement(businessCard_Menu_Element);
+	}
 
 
 	public boolean claimPointsMenuIsDisplay() {
