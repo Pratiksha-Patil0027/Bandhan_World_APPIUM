@@ -29,6 +29,7 @@ import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
@@ -730,6 +731,16 @@ public boolean verify_FieldsDisplayed_WithScroll(String fields) {
 
 public String removeDecimal(String value) {
     return String.valueOf((int) Double.parseDouble(value));
+}
+
+public void ensureAppRunning() {
+    if (driver.queryAppState("com.prowess.apps.bandhan.world")
+        != ApplicationState.RUNNING_IN_FOREGROUND) {
+
+        System.out.println("App crashed. Restarting...");
+
+        driver.activateApp("com.prowess.apps.bandhan.world");
+    }
 }
 
 }
