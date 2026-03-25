@@ -133,9 +133,9 @@ public boolean verify_DealerListisDisplay() {
 }
 
 public boolean verify_RadioBtnisDisplay() {
-    if (radioBtn_Elements == null || radioBtn_Elements.isEmpty()) {
-        return false;
-    }
+    // if (radioBtn_Elements == null || radioBtn_Elements.isEmpty()) {
+    //     return false;
+    // }
     return isElementVisible(radioBtn_Elements.get(0));
 }
 

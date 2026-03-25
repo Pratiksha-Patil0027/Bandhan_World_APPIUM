@@ -37,6 +37,21 @@ public class DealerPage extends BasePage {
 	@AndroidFindBy(id = "com.google.android.providers.media.module:id/icon_thumbnail")
 	public List<WebElement> actualImage_Elements;
 
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/manage")
+	public WebElement gallary_ManageBtn_Element;
+
+	@AndroidFindBy(xpath = "//android.view.View[contains(@content-desc,'Photo taken')]")
+	public List<WebElement> gallary_Manage_actualImage_Elements;
+
+	@AndroidFindBy(uiAutomator = "new UiSelector().text(\"Done\")")
+	public WebElement gallary_Manage_DoneBtn_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/mediaImage")
+	public WebElement gallary_Manage_SelectedImage_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/btnAttachSelected")
+	public WebElement gallary_Manage_BtnAttachSelected_Element;
+
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/snackbar_text")
 	public WebElement warning_ToastMsg_Element;
 
@@ -49,114 +64,111 @@ public class DealerPage extends BasePage {
 	// @AndroidFindBy(id = "")
 	// public WebElement _Element;
 
-	
-
-
-	
 	public DealerPage(AndroidDriver driver) {
 		super(driver);
 	}
 
-	
-
-	public String get_DealerName()
-	{
+	public String get_DealerName() {
 		return getText(dealerName_Element);
 	}
 
-	public void clickOn_ChnageBtn()
-	{
-		 clickIfPresent(change_Btn_Element,0);
+	public void clickOn_ChnageBtn() {
+		clickIfPresent(change_Btn_Element, 0);
 	}
 
-	public boolean get_ChangeBtnDisplay()
-{
-	return isElementVisible(change_Btn_Element,1);
-}
+	public boolean get_ChangeBtnDisplay() {
+		return isElementVisible(change_Btn_Element, 1);
+	}
 
-  public String get_PurchaseDate()
-	{
+	public String get_PurchaseDate() {
 		return getText(inv_Date_Element);
 	}
 
-
-	public void enter_InvNo(String invNo)
-	{
+	public void enter_InvNo(String invNo) {
 		sendText(inv_No_Element, invNo);
 	}
 
-	 public String get_InvNo()
-	{
+	public String get_InvNo() {
 		return getText(inv_No_Element);
 	}
 
-	public void clickOn_InvPhotoIcon()
-	{
-		 clickElement(inv_PhotoIcon_Element);
+	public void clickOn_InvPhotoIcon() {
+		clickElement(inv_PhotoIcon_Element);
 	}
 
-public String get_AttachDocLable()
-	{
+	public String get_AttachDocLable() {
 		return getText(attachDoc_lable_Element);
 	}
 
-
-	public void clickOn_BrowseFileOption()
-	{
-		 clickElement(browseFile_Option_Element);
+	public void clickOn_BrowseFileOption() {
+		clickElement(browseFile_Option_Element);
 	}
 
-	public String get_CameraOptionLable()
-	{
+	public String get_CameraOptionLable() {
 		return getText(camera_Option_Element);
 	}
 
-	public String get_BrowseFileOptionLable()
-	{
+	public String get_BrowseFileOptionLable() {
 		return getText(browseFile_Option_Element);
 	}
 
+	public boolean verify_BrowseFile_Option_isDisplay() {
 
-	 public boolean verify_BrowseFile_Option_isDisplay() {
+		clickIfPresent(inv_PhotoIcon_Element, 2);
+		return isElementVisible(browseFile_Option_Element, 2);
 
-         clickIfPresent(inv_PhotoIcon_Element, 2);
-        return isElementVisible(browseFile_Option_Element, 2);
-       
-    }
-
-    public boolean verify_CaptureCamera_Option_isDisplay() {
-
-        clickIfPresent(inv_PhotoIcon_Element, 2);
-        return isElementVisible(camera_Option_Element, 2);
-        
-    }
-
-
-	public void clickOn_BrowseFileOption(int i)
-	{
-		WebElement image =actualImage_Elements.get(i);
-		 clickElement(image);
 	}
 
-	public String get_WarningToastMsg()
-	{
+	public boolean verify_CaptureCamera_Option_isDisplay() {
+
+		clickIfPresent(inv_PhotoIcon_Element, 2);
+		return isElementVisible(camera_Option_Element, 2);
+
+	}
+
+	public void clickOn_BrowseFileOption(int i) {
+		try {
+			// Check if Manage button is present safely
+			if (isElementVisible(gallary_ManageBtn_Element)) {
+
+				clickElement(gallary_ManageBtn_Element);
+
+				WebElement manageImage = gallary_Manage_actualImage_Elements.get(i);
+				clickElement(manageImage);
+
+				clickElement(gallary_Manage_DoneBtn_Element);
+				clickElement(gallary_Manage_SelectedImage_Element);
+				clickElement(gallary_Manage_BtnAttachSelected_Element);
+
+			} else {
+				// Fallback logic
+				clickFromGallery(i);
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error while selecting image: " + e.getMessage());
+			clickFromGallery(i); // fallback
+		}
+	}
+
+	private void clickFromGallery(int i) {
+
+		WebElement image = actualImage_Elements.get(i);
+		clickElement(image);
+	}
+
+	public String get_WarningToastMsg() {
 		return getText(warning_ToastMsg_Element);
 	}
 
-	
+	public void clickOn_CancelBtn() {
 
-	public void clickOn_CancelBtn()
-	{
-		
-		 clickElement(cancelBtn_Element);
+		clickElement(cancelBtn_Element);
 	}
 
-	public void clickOn_NextBtn()
-	{
-		
-		 clickElement(nextBtn_Element);
+	public void clickOn_NextBtn() {
+
+		clickElement(nextBtn_Element);
 	}
-
-
 
 }
