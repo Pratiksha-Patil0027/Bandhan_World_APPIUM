@@ -1,11 +1,15 @@
 package pages.callme;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
@@ -228,6 +232,7 @@ public class CallMePage extends BasePage {
 
 
 	public String get_History_Date(int i) {
+		waitForListToLoad(callHistoryDate_Elements);
 		WebElement callHistoryDate_Element = callHistoryDate_Elements.get(i);
 		String fulldate = getText(callHistoryDate_Element);
 		String[] parts = fulldate.split("\\|");
@@ -401,9 +406,26 @@ public class CallMePage extends BasePage {
 		return getText(element);
 	}
 
+	
+
 	public String get_Warning_ToastMsg() {
-		return getText(warning_TostMsg_Element);
-	}
+
+    By snackbar = By.id("com.prowess.apps.bandhan.world:id/snackbar_text");
+
+    WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    shortWait.pollingEvery(Duration.ofMillis(200)); // FAST polling
+
+    try {
+        WebElement element = shortWait.until(
+                ExpectedConditions.presenceOfElementLocated(snackbar)
+        );
+
+        return element.getText().trim();
+
+    } catch (Exception e) {
+        throw new RuntimeException("Snackbar not found / disappeared too fast");
+    }
+}
 
 	public String get_NoResultText() {
 		return getText(noResultAvailable_Element);

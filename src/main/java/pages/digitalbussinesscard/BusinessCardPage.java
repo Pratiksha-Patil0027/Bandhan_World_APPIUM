@@ -1,6 +1,11 @@
 package pages.digitalbussinesscard;
 
+import java.time.Duration;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -69,9 +74,26 @@ public class BusinessCardPage extends BasePage {
 		clickIfPresent(acceptBtn_Element, 0);
 	}
 
+	
+
 	public String get_WarningToastMsg() {
-		return getText(warning_ToastMsg_Element);
-	}
+
+    By snackbar = By.id("com.prowess.apps.bandhan.world:id/snackbar_text");
+
+    WebDriverWait shortWait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    shortWait.pollingEvery(Duration.ofMillis(200)); // FAST polling
+
+    try {
+        WebElement element = shortWait.until(
+                ExpectedConditions.presenceOfElementLocated(snackbar)
+        );
+
+        return element.getText().trim();
+
+    } catch (Exception e) {
+        throw new RuntimeException("Snackbar not found / disappeared too fast");
+    }
+}
 
 	public String get_ProofReading_DialogBox_Title() {
 		return getText(proofReading_DialogBox_Title_Element);

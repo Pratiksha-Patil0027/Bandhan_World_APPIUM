@@ -268,6 +268,7 @@ public class RedemptionHistoryPage extends BasePage {
 	}
 
 	public String get_History_RedemptionNo(int i) {
+		waitForListToLoad(history_RedemptionNo_Elements);
 		WebElement claimId = history_RedemptionNo_Elements.get(i);
 		return getText(claimId);
 	}
@@ -360,6 +361,7 @@ System.out.println(formattedDate);
 
 
 	public void openRedemption(int i) {
+		waitForListToLoad(history_RedemptionNo_Elements);
 		WebElement redemption = history_RedemptionNo_Elements.get(i);
 		clickIfPresent(redemption, 2);
 	}
@@ -469,36 +471,43 @@ System.out.println(formattedDate);
 	}
 
 	public String get_History_ProductCode(int i) {
+		waitForListToLoad(history_ProductCode_Elements);
 		WebElement produtDesc = history_ProductCode_Elements.get(i);
 		return getText(produtDesc);
 	}
 
 	public String get_History_ProductDesc(int i) {
+		waitForListToLoad(history_ProductDesc_Elements);
 		WebElement produtDesc = history_ProductDesc_Elements.get(i);
 		return getText(produtDesc);
 	}
 
 	public String get_History_ProductQty(int i) {
+		waitForListToLoad(history_Qty_Elements);
 		WebElement produtDesc = history_Qty_Elements.get(i);
 		return getText(produtDesc);
 	}
 
 	public String get_History_TotalPoints(int i) {
+		waitForListToLoad(history_TotalPoints_Elements);
 		WebElement produtDesc = history_TotalPoints_Elements.get(i);
 		return getText(produtDesc);
 	}
 
 	public String get_History_TDSPercentage(int i) {
+		waitForListToLoad(history_TDSPercentage_Elements);
 		WebElement produtDesc = history_TDSPercentage_Elements.get(i);
 		return getText(produtDesc);
 	}
 
 	public String get_History_TDSPoints(int i) {
+		waitForListToLoad(history_TDSPoints_Elements);
 		WebElement produtDesc = history_TDSPoints_Elements.get(i);
 		return getText(produtDesc);
 	}
 
 	public String get_History_TotalRedeemPoints(int i) {
+		waitForListToLoad(history_TotalRedeemPoints_Elements);
 		WebElement produtDesc = history_TotalRedeemPoints_Elements.get(i);
 		return getText(produtDesc);
 	}

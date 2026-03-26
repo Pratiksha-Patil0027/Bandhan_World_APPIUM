@@ -84,16 +84,19 @@ public class CardDetailsPage extends BasePage {
 	}
 
 	public String get_AddedCategoryName(int i) {
+		waitForListToLoad(added_CategoryName_Elements);
 		WebElement added_CategoryName_Element = added_CategoryName_Elements.get(i);
 		return getText(added_CategoryName_Element);
 	}
 
 	public String get_ProductCount(int i) {
+		waitForListToLoad(product_Count_Elements);
 		WebElement product_Count_Element = product_Count_Elements.get(i);
 		return getText(product_Count_Element);
 	}
 
 	public void clickOn_UpDownArrowIcon(int index) {
+		waitForListToLoad(arrowIcon_Elements);
 		WebElement arrowIcon_Element = arrowIcon_Elements.get(index);
 		clickElement(arrowIcon_Element);
 	}

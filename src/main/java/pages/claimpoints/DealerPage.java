@@ -2,6 +2,7 @@ package pages.claimpoints;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -34,7 +35,7 @@ public class DealerPage extends BasePage {
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/cl_camera")
 	public WebElement camera_Option_Element;
 
-	@AndroidFindBy(id = "com.google.android.providers.media.module:id/icon_thumbnail")
+	@AndroidFindBy(id = "com.google.android.documentsui:id/icon_thumb")
 	public List<WebElement> actualImage_Elements;
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/manage")
@@ -152,14 +153,34 @@ public class DealerPage extends BasePage {
 	}
 
 	private void clickFromGallery(int i) {
-
+       waitForListToLoad(actualImage_Elements);
 		WebElement image = actualImage_Elements.get(i);
 		clickElement(image);
 	}
 
 	public String get_WarningToastMsg() {
-		return getText(warning_ToastMsg_Element);
-	}
+
+    By snackbar = By.id("com.prowess.apps.bandhan.world:id/snackbar_text");
+
+    long endTime = System.currentTimeMillis() + 5000;
+
+    while (System.currentTimeMillis() < endTime) {
+        try {
+            List<WebElement> elements = driver.findElements(snackbar);
+
+            if (!elements.isEmpty()) {
+                String text = elements.get(0).getText();
+                if (!text.isEmpty()) {
+                    return text.trim();
+                }
+            }
+
+        } catch (Exception ignored) {}
+
+    }
+
+    throw new RuntimeException("Snackbar message not captured");
+}
 
 	public void clickOn_CancelBtn() {
 

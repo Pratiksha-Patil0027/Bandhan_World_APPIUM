@@ -28,6 +28,7 @@ public class ConfigReader {
 	public String getProperty(String key)  {
 		return properties.getProperty(key);
 	}
+
 	
 	  
 	public int getIntProperty(String key){

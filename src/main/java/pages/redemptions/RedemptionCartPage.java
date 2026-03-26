@@ -1,5 +1,8 @@
 package pages.redemptions;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -120,7 +123,7 @@ public String get_TDSPerscentage() {
 
 public void clickOn_CancelBtn()
 	{
-     clickIfPresent(cancelBtn_Element,0);
+     clickIfPresent(cancelBtn_Element,5);
 	}
 
 	public void clickOn_CheckoutBtn()
@@ -132,10 +135,31 @@ public String get_CartIsEmpty_Text() {
     return getText(cartIsEmpty_Element);
 }
 
-public String get_WarningToastMsg() {
-    return getText(warning_ToastMsg_Element);
-}
 
+
+public String get_WarningToastMsg() {
+
+    By snackbar = By.id("com.prowess.apps.bandhan.world:id/snackbar_text");
+
+    long endTime = System.currentTimeMillis() + 5000;
+
+    while (System.currentTimeMillis() < endTime) {
+        try {
+            List<WebElement> elements = driver.findElements(snackbar);
+
+            if (!elements.isEmpty()) {
+                String text = elements.get(0).getText();
+                if (!text.isEmpty()) {
+                    return text.trim();
+                }
+            }
+
+        } catch (Exception ignored) {}
+
+    }
+
+    throw new RuntimeException("Snackbar message not captured");
+}
 
 public String verify_CartPoints_Calculation()
 	{ 

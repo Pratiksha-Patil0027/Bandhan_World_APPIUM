@@ -155,6 +155,7 @@ public class InfluencerListPage extends BasePage {
     }
 
  public String get_InflNameFromList(int index) {
+    waitForListToLoad(influencerName_Txt_Elements);
         String fullName= influencerName_Txt_Elements.get(index).getText();
         String[] part =fullName.split("\\|");
                 String inflNameFromList = part[0].trim().replaceAll("\\s+", " ");
@@ -162,6 +163,7 @@ public class InfluencerListPage extends BasePage {
     }
 
     public String get_InflAccountNoFromList(int index) {
+        waitForListToLoad(influencerName_Txt_Elements);
         String fullName= influencerName_Txt_Elements.get(index).getText();
         String[] part =fullName.split("\\|");
                 String inflAccountFromList = part[1].trim().replaceAll("\\s+", " ");
@@ -169,6 +171,7 @@ public class InfluencerListPage extends BasePage {
     }
 
      public String get_InflMobileNoFromList(int index) {
+        waitForListToLoad(mobileNumber_Txt_Elements);
         return mobileNumber_Txt_Elements.get(index).getText();
     }
 
@@ -255,7 +258,7 @@ public void clickOn_Permission_Allow_Btn()
 }
 
 public InfluencerInformationPage clickOn_Information_Icon(int index) {
-
+waitForListToLoad(information_Icon_Elements);
     WebElement element = information_Icon_Elements.get(index);
     element.click();
 

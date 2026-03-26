@@ -298,6 +298,7 @@ private boolean isElementPresent(WebElement element) {
 	}
 
 	public String get_ClaimIdFromView(int i) {
+		waitForListToLoad(claimId_Elements);
 		WebElement claimId = claimId_Elements.get(i);
 		return getText(claimId);
 	}
@@ -376,6 +377,7 @@ public String normalizeBagText(String text) {
 
 
 	public void openClaim(int i) {
+		waitForListToLoad(claimId_Elements);
 		WebElement claimId = claimId_Elements.get(i);
 		clickIfPresent(claimId,2);
 	}
@@ -411,6 +413,7 @@ public String normalizeBagText(String text) {
 
 
 	public String get_ClaimDateFromView(int i) {
+		waitForListToLoad(claimDate_Elements);
 		WebElement claimDateElement = claimDate_Elements.get(i);
 		String fulldate = getText(claimDateElement);
 		String[] parts = fulldate.split("\\|");
@@ -492,16 +495,19 @@ public String normalizeBagText(String text) {
 
 
 	public String get_DealerNameFromView(int i) {
+		waitForListToLoad(dealerName_Elements);
 		WebElement dealerName = dealerName_Elements.get(i);
 		return getText(dealerName);
 	}
 
 	public String get_ProductDescFromView(int i) {
+		waitForListToLoad(productDesc_Elements);
 		WebElement produtDesc = productDesc_Elements.get(i);
 		return getText(produtDesc);
 	}
 
 	public String get_InvNoFromView(int i) {
+		waitForListToLoad(invoice_No_Elements);
 		WebElement invNo = invoice_No_Elements.get(i);
 		return getText(invNo);
 	}
@@ -512,6 +518,7 @@ public String normalizeBagText(String text) {
 	}
 
 	public String get_ClaimQtyFromView(int i) {
+		waitForListToLoad(claimQty_Elements);
 		WebElement claimQty = claimQty_Elements.get(i);
 		String fullText = getText(claimQty);
 		// String[] parts = fullText.split("\\ ");
@@ -521,6 +528,7 @@ public String normalizeBagText(String text) {
 	}
 
 	public String get_ClaimPointFromView(int i) {
+		waitForListToLoad(claim_Points_Elements);
 		WebElement claimPoint = claim_Points_Elements.get(i);
 		return getText(claimPoint);
 	}

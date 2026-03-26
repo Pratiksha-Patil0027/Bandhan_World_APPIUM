@@ -109,7 +109,18 @@ public class RedemptionSummaryPage extends BasePage {
 
 
 public boolean isErrorDisplayed(String errorMessage) {
-    return driver.getPageSource().contains(errorMessage);
+
+    long endTime = System.currentTimeMillis() + 5000;
+
+    while (System.currentTimeMillis() < endTime) {
+        try {
+            if (driver.getPageSource().contains(errorMessage)) {
+                return true;
+            }
+        } catch (Exception ignored) {}
+    }
+
+    return false;
 }
 
 

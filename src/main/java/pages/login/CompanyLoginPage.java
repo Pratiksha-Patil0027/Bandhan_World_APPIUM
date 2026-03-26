@@ -1,7 +1,9 @@
 package pages.login;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import io.appium.java_client.android.AndroidDriver;
@@ -88,17 +90,47 @@ public  void wifiOn() throws IOException {
         clickElement(submitButton_Element);
     }
 
-    // Get error message
+
     public String getErrorMessage() {
-       return getText(warning_Toast_Msg_Element);
+
+    By snackbar = By.id("com.prowess.apps.bandhan.world:id/snackbar_text");
+
+    long endTime = System.currentTimeMillis() + 5000;
+
+    while (System.currentTimeMillis() < endTime) {
+        try {
+            List<WebElement> elements = driver.findElements(snackbar);
+
+            if (!elements.isEmpty()) {
+                String text = elements.get(0).getText();
+                if (!text.isEmpty()) {
+                    return text.trim();
+                }
+            }
+
+        } catch (Exception ignored) {}
+
     }
 
-    public void hideKeyboardIfVisible() 
-    {
+    throw new RuntimeException("Snackbar message not captured");
+}
+
+
+   public void hideKeyboardIfVisible() {
     try {
-        driver.hideKeyboard();
+        if (isKeyboardVisible()) {
+            driver.hideKeyboard();
+        }
     } catch (Exception e) {
-        // Keyboard was not open – ignore
+        System.out.println("Keyboard not visible, skip hiding");
+    }
+}
+
+public boolean isKeyboardVisible() {
+    try {
+        return driver.isKeyboardShown();
+    } catch (Exception e) {
+        return false;
     }
 }
 
