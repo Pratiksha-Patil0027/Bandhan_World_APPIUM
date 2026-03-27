@@ -27,15 +27,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.AppiumBy;
-import io.appium.java_client.PerformsTouchActions;
-import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.appmanagement.ApplicationState;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
 
 public class BasePage {
 
@@ -889,7 +885,6 @@ public String removeDecimal(String value) {
     return String.valueOf((int) Double.parseDouble(value));
 }
 
-<<<<<<< HEAD
 public void ensureAppRunning() {
     if (driver.queryAppState("com.prowess.apps.bandhan.world")
         != ApplicationState.RUNNING_IN_FOREGROUND) {
@@ -900,7 +895,6 @@ public void ensureAppRunning() {
     }
 }
 
-=======
 public void waitForListToLoad(List<WebElement> elements) {
     new WebDriverWait(driver, Duration.ofSeconds(15))
         .until(driver -> {
@@ -911,6 +905,19 @@ public void waitForListToLoad(List<WebElement> elements) {
             }
         });
 }
+
+public void waitForListToLoad(By locator) {
+    new WebDriverWait(driver, Duration.ofSeconds(15))
+        .until(driver -> {
+            try {
+                List<WebElement> elements = driver.findElements(locator);
+                return elements.size() > 0 && elements.get(0).isDisplayed();
+            } catch (Exception e) {
+                return false;
+            }
+        });
+}
+
 
 public void waitForElement(By locator) {
     new WebDriverWait(driver, Duration.ofSeconds(20))
@@ -937,7 +944,7 @@ public void relaunchAppIfClosed(String appActivity) {
         driver.activateApp("com.prowess.apps.bandhan.world");
     }
 }
->>>>>>> b0d8b3703ac929090a64d2f2976287dc8617a96f
+
 }
 
 

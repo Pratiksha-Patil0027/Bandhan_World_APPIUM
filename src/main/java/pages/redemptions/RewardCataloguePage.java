@@ -39,6 +39,8 @@ public class RewardCataloguePage  extends BasePage {
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvTitle")
 	public List<WebElement> rewardProductCode_Elements;
 
+    private By rewardProductCode_Locatorts = By.id("com.prowess.apps.bandhan.world:id/tvTitle");
+
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvDescription")
 	public List<WebElement> rewardProductDesc_Elements;
 
@@ -290,8 +292,8 @@ System.out.println("cartPoints : " + cartPoints);
 
    
     public String get_RewardProductCode(int i) {
-     waitForListToLoad(rewardProductCode_Elements);
-    WebElement rewardProductCode_Element =rewardProductCode_Elements.get(i);
+     waitForListToLoad(rewardProductCode_Locatorts);
+    WebElement rewardProductCode_Element =driver.findElements(rewardProductCode_Locatorts).get(i);
 
     return getText(rewardProductCode_Element);
 }
