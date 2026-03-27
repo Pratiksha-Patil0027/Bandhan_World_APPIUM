@@ -125,7 +125,11 @@ if (failurePercent > 80 || infraFailure || (passed == 0 && failed == 0)) {
 
         if (latestReport.isPresent()) {
             OutlookMailSender.sendOutlookMailWithAttachments(
+<<<<<<< HEAD
+                    Credentials.getOutlookSenderMail(),     // getOutlookSenderMail,getOutlookToRecipients
+=======
                     Credentials.getOutlookSenderMail(), // getOutlookSenderMail, getOutlookToRecipients
+>>>>>>> b0d8b3703ac929090a64d2f2976287dc8617a96f
                     subject,
                     body,
                     List.of(latestReport.get()));

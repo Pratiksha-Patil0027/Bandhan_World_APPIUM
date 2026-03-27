@@ -90,6 +90,10 @@ public Object execute(
             chooseLanguagePage.clickOn_SelectLanguage_SubmitBtn();
             return null ;
 
+             case "relounchapp":  
+            page.ensureAppRunning();
+            return null ;
+            
             case "clickondeclarationnextbtn":  
             chooseLanguagePage.clickOn_DeclarationNextBtn_UntilExpectedVisible();
             return null ;

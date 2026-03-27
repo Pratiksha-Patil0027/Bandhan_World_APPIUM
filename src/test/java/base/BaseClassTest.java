@@ -22,6 +22,7 @@ public class BaseClassTest {
         configReader = new ConfigReader();
 
         UiAutomator2Options options = new UiAutomator2Options()
+       
                 .setPlatformName(configReader.getProperty("PLATFORMNAME"))
                 .setAutomationName(configReader.getProperty("AUTOMATIONNAME"))
                 .setDeviceName(configReader.getProperty("DEVICENAME"))
@@ -32,10 +33,12 @@ public class BaseClassTest {
                 .setNoReset(true) // IMPORTANT
                 .setFullReset(false)
                 .setDisableWindowAnimation(true) // SPEED BOOST
-               .setAutoGrantPermissions(true);
+               .setAutoGrantPermissions(true)
+               .setGpsEnabled(true);
 
 
         options.setCapability("automationName", "UiAutomator2");
+        
 
 options.setCapability("uiautomator2ServerInstallTimeout", 120000);
 options.setCapability("uiautomator2ServerLaunchTimeout", 120000);
@@ -49,7 +52,7 @@ options.setCapability("skipDeviceInitialization", false);
 
 
         // Optional but safe
-        options.setCapability("appium:androidImageInjectionEnabled", true);
+       options.setCapability("appium:androidImageInjectionEnabled", true);
 
         driver = new AndroidDriver(
                 new URL(configReader.getProperty("SERVERURL")),
@@ -59,6 +62,9 @@ options.setCapability("skipDeviceInitialization", false);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         System.out.println(" Driver started for test");
     }
+
+
+    
 
      @AfterClass(alwaysRun = true)
     public void tearDown() {
@@ -71,5 +77,8 @@ options.setCapability("skipDeviceInitialization", false);
     public AndroidDriver getDriver() {
         return driver;
     }
+
+
+
 
 }

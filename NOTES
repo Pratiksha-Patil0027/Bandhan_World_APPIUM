@@ -1,3 +1,4 @@
 1. REDEMPTION MODULE - after excution delete added REDEMPTION  
 2. SEND BUSINESS CARD - Check Send Business card field enabled or not. 
+3. Use Cmd to keep machine on while test run : caffeinate -dims mvn clean install
 

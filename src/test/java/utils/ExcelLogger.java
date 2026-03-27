@@ -220,13 +220,13 @@ public class ExcelLogger implements ITestListener {
         System.out.println("Report generated: " + filePath.toAbsolutePath());
 
         // Open the file automatically if Desktop is supported
-        if (Desktop.isDesktopSupported()) {
-            try {
-                Desktop.getDesktop().open(filePath.toFile());
-            } catch (Exception e) {
-                System.out.println("Could not open report automatically: " + e.getMessage());
-            }
-        }
+        // if (Desktop.isDesktopSupported()) {
+        //     try {
+        //         Desktop.getDesktop().open(filePath.toFile());
+        //     } catch (Exception e) {
+        //         System.out.println("Could not open report automatically: " + e.getMessage());
+        //     }
+        // }
     }
 
     /* ================= STYLE CREATION ================= */

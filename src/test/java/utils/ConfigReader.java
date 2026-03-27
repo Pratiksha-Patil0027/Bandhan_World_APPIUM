@@ -11,7 +11,9 @@ import java.util.stream.Collectors;
 public class ConfigReader {
 
 	Properties properties;
-	private static final String CONFIG_FILE_PATH=".\\src\\test\\resources\\config.properties";
+	private static final String CONFIG_FILE_PATH=".//src//test//resources//config.properties";
+	
+
 	
 	
 	public ConfigReader() {
@@ -23,6 +25,9 @@ public class ConfigReader {
 	            throw new RuntimeException("Failed to load config.properties file");
 	    }
     }
+	
+	
+
 	
 	  
 	public String getProperty(String key)  {
