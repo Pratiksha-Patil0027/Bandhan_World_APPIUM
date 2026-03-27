@@ -1,9 +1,12 @@
 package pages.claimpoints;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -161,26 +164,17 @@ public class DealerPage extends BasePage {
 	public String get_WarningToastMsg() {
 
     By snackbar = By.id("com.prowess.apps.bandhan.world:id/snackbar_text");
-
-    long endTime = System.currentTimeMillis() + 5000;
-
-    while (System.currentTimeMillis() < endTime) {
-        try {
-            List<WebElement> elements = driver.findElements(snackbar);
-
-            if (!elements.isEmpty()) {
-                String text = elements.get(0).getText();
-                if (!text.isEmpty()) {
-                    return text.trim();
-                }
-            }
-
-        } catch (Exception ignored) {}
-
-    }
-
-    throw new RuntimeException("Snackbar message not captured");
+return getText(snackbar);
+    
 }
+
+public void waitForSnackbarToDisappear() {
+    By snackbar = By.id("com.prowess.apps.bandhan.world:id/snackbar_text");
+
+    new WebDriverWait(driver, Duration.ofSeconds(5))
+            .until(ExpectedConditions.invisibilityOfElementLocated(snackbar));
+}
+
 
 	public void clickOn_CancelBtn() {
 

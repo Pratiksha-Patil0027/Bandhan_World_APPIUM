@@ -542,7 +542,9 @@ public class RedemptionsExecutor implements KeywordExecutor {
                 case "verify_redemptioncart_warningtoastmsg":
                 return redemptionCartPage.get_WarningToastMsg();
 
-                 
+                  case "waitforsnackbardisappear":
+                 redemptionCartPage.waitForSnackbarToDisappear();
+                 return null;
 
                  case "verify_dashboard_balancepoints_afterdeleteproduct":
                         return  redemptionSummaryPage.verify_BalancePoints_Calculation();
