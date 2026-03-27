@@ -44,40 +44,40 @@ public class AutomationReportListener implements ISuiteListener {
 // ==================  EMAIL SKIP LOGIC ==================
 
 // 1. Failure %
-double failurePercent = (total == 0) ? 0 : ((failed * 100.0) / total);
+// double failurePercent = (total == 0) ? 0 : ((failed * 100.0) / total);
 
-// 2. Infra failure detection
-boolean infraFailure = false;
+// // 2. Infra failure detection
+// boolean infraFailure = false;
 
-for (ISuiteResult result : suite.getResults().values()) {
-    ITestContext ctx = result.getTestContext();
+// for (ISuiteResult result : suite.getResults().values()) {
+//     ITestContext ctx = result.getTestContext();
 
-    for (ITestResult fail : ctx.getFailedTests().getAllResults()) {
+//     for (ITestResult fail : ctx.getFailedTests().getAllResults()) {
 
-        String error = fail.getThrowable() != null
-                ? fail.getThrowable().toString()
-                : "";
+//         String error = fail.getThrowable() != null
+//                 ? fail.getThrowable().toString()
+//                 : "";
 
-        if (error.contains("session is either terminated") ||
-            error.contains("instrumentation process is not running") ||
-            error.contains("UiAutomator2") ||
-            error.contains("StaleObjectException")) {
+//         if (error.contains("session is either terminated") ||
+//             error.contains("instrumentation process is not running") ||
+//             error.contains("UiAutomator2") ||
+//             error.contains("StaleObjectException")) {
 
-            infraFailure = true;
-            break;
-        }
-    }
-}
+//             infraFailure = true;
+//             break;
+//         }
+//     }
+// }
 
-// 3. Skip conditions
-if (failurePercent > 80 || infraFailure || (passed == 0 && failed == 0)) {
-    System.out.println("Skipping email due to unstable execution");
+// // 3. Skip conditions
+// if (failurePercent > 80 || infraFailure || (passed == 0 && failed == 0)) {
+//     System.out.println("Skipping email due to unstable execution");
 
-    System.out.println("Failure %: " + failurePercent);
-    System.out.println("Infra failure detected: " + infraFailure);
+//     System.out.println("Failure %: " + failurePercent);
+//     System.out.println("Infra failure detected: " + infraFailure);
 
-    return;
-}
+//     return;
+// }
 
         String dateTime = new SimpleDateFormat("dd-MMM-yyyy HH:mm").format(new Date());
         String subject = "Bandhan World Mobile Automation Report - " + dateTime;
