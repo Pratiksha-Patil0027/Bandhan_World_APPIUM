@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -12,8 +13,10 @@ import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
@@ -51,34 +54,114 @@ public class BasePage {
     }
 
     //  Click element with wait
-   public void clickElement(WebElement element) {
-    try {
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-        element.click();
-    } catch (WebDriverException e) {
+  public void clickElement(WebElement element) {
+    int attempts = 0;
 
-        if (e.getMessage().contains("instrumentation process is not running")) {
-            System.err.println("UiAutomator2 crashed. Killing driver...");
-            driver.quit();
+    while (attempts < 3) {
+        try {
+            wait.until(ExpectedConditions.refreshed(
+                    ExpectedConditions.elementToBeClickable(element)
+            ));
+
+            element.click();
+            return;
+
+        } catch (StaleElementReferenceException e) {
+            System.out.println("Retrying click due to stale element...");
+
+            attempts++;
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ignored) {}
+        } catch (WebDriverException e) {
+
+            if (e.getMessage().contains("instrumentation process is not running")) {
+                System.err.println("UiAutomator2 crashed. Killing driver...");
+                driver.quit();
+            }
+
+            throw e;
         }
+    }
 
-        throw e;
+    throw new RuntimeException("Click failed after retries");
+}
+
+public List<WebElement> getFreshElements(List<WebElement> elements) {
+    try {
+        elements.size(); // triggers re-evaluation in PageFactory
+        return elements;
+    } catch (Exception e) {
+        return elements; // PageFactory will reload internally
     }
 }
 
+public void clickFromList(List<WebElement> elements, int index) {
+    int attempts = 0;
+
+    while (attempts < 3) {
+        try {
+            List<WebElement> freshList = getFreshElements(elements);
+
+            if (freshList.size() > index) {
+                WebElement element = freshList.get(index);
+
+                wait.until(ExpectedConditions.refreshed(
+                        ExpectedConditions.elementToBeClickable(element)
+                ));
+
+                element.click();
+                return;
+            }
+
+        } catch (StaleElementReferenceException e) {
+            System.out.println("Retry list click due to stale...");
+            attempts++;
+        }
+    }
+
+    throw new RuntimeException("Unable to click element at index: " + index);
+}
 
     //  Send text with wait
-    public void sendText(WebElement element, String text) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        element.clear();
-        element.sendKeys(text);
+   public void sendText(WebElement element, String text) {
+    int attempts = 0;
+
+    while (attempts < 3) {
+        try {
+            wait.until(ExpectedConditions.refreshed(
+                    ExpectedConditions.visibilityOf(element)
+            ));
+            element.clear();
+            element.sendKeys(text);
+            return;
+
+        } catch (StaleElementReferenceException e) {
+            attempts++;
+        }
     }
 
+    throw new RuntimeException("SendKeys failed due to stale element");
+}
+
     //  Get text with wait
-    public String getText(WebElement element) {
-        wait.until(ExpectedConditions.visibilityOf(element));
-        return element.getText();
+   public String getText(WebElement element) {
+    int attempts = 0;
+
+    while (attempts < 3) {
+        try {
+            return wait.until(ExpectedConditions.refreshed(
+                    ExpectedConditions.visibilityOf(element)
+            )).getText();
+
+        } catch (StaleElementReferenceException e) {
+            attempts++;
+        }
     }
+
+    throw new RuntimeException("GetText failed due to stale element");
+}
 
     public String getText(By locatoBy) {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locatoBy));
@@ -139,7 +222,13 @@ public class BasePage {
 
 public static boolean isElementVisible(WebElement element) {
     try {
-        return element != null && element.isDisplayed();
+        if (element == null || !element.isDisplayed()) return false;
+
+        Dimension size = element.getSize();
+        if (size.height == 0 || size.width == 0) return false;
+
+        return true;
+
     } catch (Exception e) {
         return false;
     }
@@ -340,6 +429,10 @@ public void selectDropValues(int x, int y) throws InterruptedException {
             "Unable to click product index: " + productIndex);
 }
 
+public void smallWait() throws InterruptedException
+{
+    Thread.sleep(1000);
+}
 public void enterTextByResourceId(String resourceId, int index, String text) {
 
     int maxScroll = 6;
@@ -371,6 +464,23 @@ public void enterTextByResourceId(String resourceId, int index, String text) {
 }
 
 
+// public void scrollDownSmall() {
+
+//     Dimension size = driver.manage().window().getSize();
+
+//     int startX = size.width / 2;
+//     int startY = (int) (size.height * 0.7);
+//     int endY = (int) (size.height * 0.4);
+
+//     new TouchAction((PerformsTouchActions) driver)
+//             .press(PointOption.point(startX, startY))
+//             .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+//             .moveTo(PointOption.point(startX, endY))
+//             .release()
+//             .perform();
+// }
+
+
 public void scrollDownSmall() {
 
     Dimension size = driver.manage().window().getSize();
@@ -379,14 +489,21 @@ public void scrollDownSmall() {
     int startY = (int) (size.height * 0.7);
     int endY = (int) (size.height * 0.4);
 
-    new TouchAction((PerformsTouchActions) driver)
-            .press(PointOption.point(startX, startY))
-            .waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
-            .moveTo(PointOption.point(startX, endY))
-            .release()
-            .perform();
-}
+    PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+    Sequence swipe = new Sequence(finger, 1);
 
+    swipe.addAction(finger.createPointerMove(Duration.ZERO,
+            PointerInput.Origin.viewport(), startX, startY));
+
+    swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+
+    swipe.addAction(finger.createPointerMove(Duration.ofMillis(500),
+            PointerInput.Origin.viewport(), startX, endY));
+
+    swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+    driver.perform(Arrays.asList(swipe));
+}
 
 
 
@@ -447,21 +564,28 @@ public void selectDropValueByAndroidKey(int index) {
 
     
     try {
+
+        // Thread.sleep(500); // wait for dropdown to open
         // move focus from search field to list
         driver.pressKey(new KeyEvent(AndroidKey.DPAD_DOWN));
 
         // move to required item
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i <index; i++) {
             driver.pressKey(new KeyEvent(AndroidKey.DPAD_DOWN));
+             
         }
 
         // select
         driver.pressKey(new KeyEvent(AndroidKey.ENTER));
+       
 
     } catch (Exception e) {
         throw new AssertionError("Failed to select dropdown value using Android keys", e);
     }
 }
+
+
+
 
 
 public void tapDropdownItemByPosition(int itemIndex) {
@@ -567,15 +691,47 @@ public void pressDeviceBack() {
     driver.pressKey(new KeyEvent(AndroidKey.BACK));
 }
 
+// public boolean clickIfPresent(WebElement element, int timeout) {
+//     try {
+//         new WebDriverWait(driver, Duration.ofSeconds(timeout))
+//                 .until(ExpectedConditions.elementToBeClickable(element))
+//                 .click();
+//         return true;
+//     } catch (TimeoutException e) {
+//         return false;
+//     }
+// }
+
+
 public boolean clickIfPresent(WebElement element, int timeout) {
-    try {
-        new WebDriverWait(driver, Duration.ofSeconds(timeout))
-                .until(ExpectedConditions.elementToBeClickable(element))
-                .click();
-        return true;
-    } catch (TimeoutException e) {
-        return false;
+
+    int attempts = 0;
+
+    while (attempts < 3) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
+
+            WebElement el = wait.until(ExpectedConditions.refreshed(
+                    ExpectedConditions.elementToBeClickable(element)
+            ));
+
+            el.click();
+            return true;
+
+        } catch (StaleElementReferenceException e) {
+            System.out.println("Retrying click (stale)...");
+            attempts++;
+
+        } catch (ElementClickInterceptedException e) {
+            System.out.println("Click intercepted, retrying...");
+            attempts++;
+
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
+
+    return false;
 }
 
 public boolean clickIfPresent(AppiumBy element, int timeout) {
@@ -733,6 +889,7 @@ public String removeDecimal(String value) {
     return String.valueOf((int) Double.parseDouble(value));
 }
 
+<<<<<<< HEAD
 public void ensureAppRunning() {
     if (driver.queryAppState("com.prowess.apps.bandhan.world")
         != ApplicationState.RUNNING_IN_FOREGROUND) {
@@ -743,6 +900,44 @@ public void ensureAppRunning() {
     }
 }
 
+=======
+public void waitForListToLoad(List<WebElement> elements) {
+    new WebDriverWait(driver, Duration.ofSeconds(15))
+        .until(driver -> {
+            try {
+                return elements.size() > 0 && elements.get(0).isDisplayed();
+            } catch (Exception e) {
+                return false;
+            }
+        });
+}
+
+public void waitForElement(By locator) {
+    new WebDriverWait(driver, Duration.ofSeconds(20))
+            .until(ExpectedConditions.visibilityOfElementLocated(locator));
+}
+
+
+public void relaunchAppIfClosed(String appActivity) {
+    try {
+        String currentPackage = driver.getCurrentPackage();
+
+        if (currentPackage == null || !currentPackage.contains("com.prowess.apps.bandhan.world")) {
+            System.out.println("App is not in foreground. Relaunching...");
+
+            driver.activateApp(appActivity);
+            // OR
+            // driver.launchApp();
+
+            Thread.sleep(3000); // wait for app to load
+        }
+
+    } catch (Exception e) {
+        System.out.println("App might be closed. Launching again...");
+        driver.activateApp("com.prowess.apps.bandhan.world");
+    }
+}
+>>>>>>> b0d8b3703ac929090a64d2f2976287dc8617a96f
 }
 
 

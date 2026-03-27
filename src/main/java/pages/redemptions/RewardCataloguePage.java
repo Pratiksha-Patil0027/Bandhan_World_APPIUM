@@ -142,10 +142,34 @@ public class RewardCataloguePage  extends BasePage {
     return isElementVisible(cartIcon_Element);
 }
     
-    public String get_WarningToastMsg()
-	{
-		return getText(warning_ToastMsg_Element);
-	}
+    // public String get_WarningToastMsg()
+	// {
+	// 	return getText(warning_ToastMsg_Element);
+	// }
+
+    public String get_WarningToastMsg() {
+
+    By snackbar = By.id("com.prowess.apps.bandhan.world:id/snackbar_text");
+
+    long endTime = System.currentTimeMillis() + 5000;
+
+    while (System.currentTimeMillis() < endTime) {
+        try {
+            List<WebElement> elements = driver.findElements(snackbar);
+
+            if (!elements.isEmpty()) {
+                String text = elements.get(0).getText();
+                if (!text.isEmpty()) {
+                    return text.trim();
+                }
+            }
+
+        } catch (Exception ignored) {}
+
+    }
+
+    throw new RuntimeException("Snackbar message not captured");
+}
 
 	public void clickOn_BackArrow()
 	{
@@ -266,14 +290,14 @@ System.out.println("cartPoints : " + cartPoints);
 
    
     public String get_RewardProductCode(int i) {
-
+     waitForListToLoad(rewardProductCode_Elements);
     WebElement rewardProductCode_Element =rewardProductCode_Elements.get(i);
 
     return getText(rewardProductCode_Element);
 }
 
 public String get_RewardProductCodepart(int i) {
-
+    waitForListToLoad(rewardProductCode_Elements);
     WebElement rewardProductCode_Element =rewardProductCode_Elements.get(i);
 
     String expected = getText(rewardProductCode_Element);
@@ -286,34 +310,35 @@ System.out.println(" expectedProductName_Part : " + expectedProductName);
 }
 
  public String get_RewardProductDesc(int i) {
-
+    waitForListToLoad(rewardProductDesc_Elements);
     WebElement rewardProductDesc_Element=rewardProductDesc_Elements.get(i);
 
     return getText(rewardProductDesc_Element);
 }
 
  public String get_RewardProductPoints(int i) {
-
+    waitForListToLoad(rewardProductPoints_Elements);
     WebElement rewardProductPoints_Element =rewardProductPoints_Elements.get(i);
 
     return getText(rewardProductPoints_Element);
 }
 
 public String get_RewardProductQty(int i) {
-
+    waitForListToLoad(addQty_Box_Elements);
     WebElement addQty_Box_Element =addQty_Box_Elements.get(i);
 
     return getText(addQty_Box_Element);
 }
 
    public void clickOn_QtyMinus_Btn(int i )
-	{
+	{ waitForListToLoad(qtyMinus_Btn_Elements);
         WebElement qtyMinus_Btn_Element =qtyMinus_Btn_Elements.get(i);
      clickElement(qtyMinus_Btn_Element);
 	}
 
     public void clickOn_QtyPlus_Btn(int i )
 	{
+        waitForListToLoad(qtyPlus_Btn_Elements);
         WebElement qtyPlus_Btn_Element =qtyPlus_Btn_Elements.get(i);
      clickElement(qtyPlus_Btn_Element);
 	}
@@ -336,6 +361,7 @@ public String get_RewardProductQty(int i) {
 
     public void clickOn_ViewDetails_Btn(int i )
 	{
+        waitForListToLoad(viewDetails_Btn_Elements);
      WebElement viewDetails_Btn_Element =viewDetails_Btn_Elements.get(i);
      clickElement(viewDetails_Btn_Element);
 	}
@@ -439,6 +465,7 @@ public boolean verify_filterMaxPoints(boolean eligibleCheckboxChecked) {
 
     public void clickOn_Filter_Specific_Category_Checkbox(int i)
 	{
+        waitForListToLoad(filter_Categories_Checkbox_Elements);
         WebElement filter_Categories_CElements =filter_Categories_Checkbox_Elements.get(i);
      clickElement(filter_Categories_CElements);
 	}

@@ -73,6 +73,12 @@ public Object execute(
             page.hideKeyboardIfVisible();
             return null ;
 
+             case "relaunchapp":  
+            page.relaunchAppIfClosed("com.prowess.apps.bandhan.world");
+            return null ;
+
+            
+
              case "verifychooselanguagepagedisplay":  
            return chooseLanguagePage.verifyChooseLanguagePageisdisplay();
              

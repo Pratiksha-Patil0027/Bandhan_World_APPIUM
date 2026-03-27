@@ -29,6 +29,11 @@ public class DashboardPage extends BasePage {
 	@AndroidFindBy(uiAutomator = "new UiSelector().text(\"Digital Business Card\")")
 	public WebElement businessCard_Menu_Element;
 
+	@AndroidFindBy(uiAutomator = "new UiSelector().text(\"My Web Site\")")
+	public WebElement myWebSite_Menu_Element;
+
+	
+
 	
 
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id\").instance(11)")
@@ -74,9 +79,6 @@ public class DashboardPage extends BasePage {
 
 }
 
-
-
-
 public void clickOn_BusinessCard_Menu() {
 		clickElement(businessCard_Menu_Element);
 	}
@@ -105,5 +107,10 @@ public void clickOn_BusinessCard_Menu() {
 		String balancePoints = getText(myBalancePoints_Element);
        return String.valueOf((int) Double.parseDouble(balancePoints));	
 	}
+
+	public void clickOn_MyWebSite_Menu() {
+		clickElement(myWebSite_Menu_Element);
+	}
+	
 	
 }

@@ -3,6 +3,7 @@ package pages.mycustomer.influencer;
 import java.time.Duration;
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -272,6 +273,7 @@ public class InfluencerKYCPage extends BasePage {
     }
 
     public void selectvivoBrowseImageByIndex(int index) {
+        waitForListToLoad(vivo_browse_Actual_Image_Elements);
         WebElement imageElement = vivo_browse_Actual_Image_Elements.get(index);
         clickElement(imageElement);
     }
@@ -401,9 +403,31 @@ public class InfluencerKYCPage extends BasePage {
         clickElement(backAadhar_ImageScanIcon_Element);
     }
 
+    
+
     public String get_Error_Toast_Text() {
-        return getText(error_ToastMsg_Element);
+
+    By snackbar = By.id("com.prowess.apps.bandhan.world:id/snackbar_text");
+
+    long endTime = System.currentTimeMillis() + 5000;
+
+    while (System.currentTimeMillis() < endTime) {
+        try {
+            List<WebElement> elements = driver.findElements(snackbar);
+
+            if (!elements.isEmpty()) {
+                String text = elements.get(0).getText();
+                if (!text.isEmpty()) {
+                    return text.trim();
+                }
+            }
+
+        } catch (Exception ignored) {}
+
     }
+
+    throw new RuntimeException("Snackbar message not captured");
+}
 
     public void clickOn_AadharFront_EditBtn() {
         clickElement(aadharFront_EditBtn_Element);

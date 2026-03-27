@@ -121,6 +121,7 @@ public boolean isAddedDealerDisplayed(String expectedDealerName) {
 
 public String get_DealerNameFromList(int i)
 {
+	waitForListToLoad(dealerName_Elements);
 	WebElement element = dealerName_Elements.get(i);
 	return getText(element);
 }
@@ -143,6 +144,7 @@ public boolean verify_RadioBtnisDisplay() {
 
 public void clickOn_RadioBtn(int i)
 {
+	waitForListToLoad(radioBtn_Elements);
 	WebElement element = radioBtn_Elements.get(i);
 	clickElement(element);
 }
