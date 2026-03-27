@@ -341,7 +341,11 @@ GlobalStore.put("SELECTED_DEALERNAMESPLIT", dealerNametext);
                 case "verify_warningmsg":
                 return dealerPage.get_WarningToastMsg();
 
-                
+                 case "waitforsnackbardisappear":
+                 dealerPage.waitForSnackbarToDisappear();
+                 return null;
+
+        
                 case "dealer_clickoncancelbtn":
                  dealerPage.clickOn_CancelBtn();
                  return null;

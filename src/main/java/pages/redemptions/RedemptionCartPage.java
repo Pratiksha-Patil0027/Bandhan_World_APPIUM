@@ -1,9 +1,12 @@
 package pages.redemptions;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
@@ -163,6 +166,13 @@ public String get_WarningToastMsg() {
     throw new RuntimeException("Snackbar message not captured");
 }
 
+
+public void waitForSnackbarToDisappear() {
+    By snackbar = By.id("com.prowess.apps.bandhan.world:id/snackbar_text");
+
+    new WebDriverWait(driver, Duration.ofSeconds(5))
+            .until(ExpectedConditions.invisibilityOfElementLocated(snackbar));
+}
 public String verify_CartPoints_Calculation()
 	{ 
         String qty_str = get_QtyText();
