@@ -730,16 +730,19 @@ public boolean clickIfPresent(WebElement element, int timeout) {
     return false;
 }
 
-public boolean clickIfPresent(AppiumBy element, int timeout) {
+public boolean clickIfPresent(By by, int timeout) {
     try {
-        new WebDriverWait(driver, Duration.ofSeconds(timeout))
-                .until(ExpectedConditions.elementToBeClickable(element))
-                .click();
+        WebElement element = new WebDriverWait(driver, Duration.ofSeconds(timeout))
+                .until(ExpectedConditions.elementToBeClickable(by));
+
+        element.click();
         return true;
+
     } catch (TimeoutException e) {
         return false;
     }
 }
+
 
 
 public LocalDate parseExcelDate(String dateText) {

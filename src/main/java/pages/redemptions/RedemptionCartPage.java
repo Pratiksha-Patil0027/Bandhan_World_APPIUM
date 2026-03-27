@@ -40,9 +40,11 @@ public class RedemptionCartPage  extends BasePage {
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvCancel")
 	public WebElement cancelBtn_Element;
+	private By cancelBtn_Locator= By.id("com.prowess.apps.bandhan.world:id/tvCancel");
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvSubmit")
 	public WebElement checkoutBtn_Element;
+	private By checkoutBtn_Locator= By.id("com.prowess.apps.bandhan.world:id/tvSubmit");
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/noCartItem")
 	public WebElement cartIsEmpty_Element;
@@ -123,12 +125,12 @@ public String get_TDSPerscentage() {
 
 public void clickOn_CancelBtn()
 	{
-     clickIfPresent(cancelBtn_Element,5);
+     clickIfPresent(cancelBtn_Locator,5);
 	}
 
 	public void clickOn_CheckoutBtn()
 	{
-     clickElement(checkoutBtn_Element);
+     clickIfPresent(checkoutBtn_Locator,5);
 	}
  
 public String get_CartIsEmpty_Text() {
