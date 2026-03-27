@@ -25,11 +25,11 @@ public class BaseClassTest {
                 .setPlatformName(configReader.getProperty("PLATFORMNAME"))
                 .setAutomationName(configReader.getProperty("AUTOMATIONNAME"))
                 .setDeviceName(configReader.getProperty("DEVICENAME"))
-                .setUdid(configReader.getProperty("UDID")) // udid is mandatory for real devices"")
-                 .setApp(configReader.getProperty("APP"))
-                // .setAppPackage("com.prowess.apps.bandhan.world")
-                // .setAppActivity("com.prowess.apps.influencer.mvvm.presentation.activity.NewDashboardActivity")
-                .setNoReset(false) // IMPORTANT
+               // .setUdid(configReader.getProperty("UDID")) // udid is mandatory for real devices"")
+                // .setApp(configReader.getProperty("APP"))
+                .setAppPackage("com.prowess.apps.bandhan.world")
+                .setAppActivity("com.prowess.apps.influencer.mvvm.presentation.activity.NewDashboardActivity")
+                .setNoReset(true) // IMPORTANT
                 .setFullReset(false)
                 .setDisableWindowAnimation(true) // SPEED BOOST
                .setAutoGrantPermissions(true);
