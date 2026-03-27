@@ -1,5 +1,6 @@
 package pages.redemptions;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import core.GlobalStore;
@@ -53,6 +54,7 @@ public class RedemptionSummaryPage extends BasePage {
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvSubmit")
 	public WebElement checkoutBtn_Element;
+	private By checkoutBtn_Locator = By.id("com.prowess.apps.bandhan.world:id/tvSubmit");
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/noCartItem")
 	public WebElement cartIsEmpty_Text_Element;
@@ -225,7 +227,7 @@ System.out.println("newPoints : " + newPoints);
 	}
 
 	public void clickOn_CheckoutBtn() {
-		clickIfPresent(checkoutBtn_Element,1);
+		clickIfPresent(checkoutBtn_Locator,5);
 	}
 
 	public String get_CartIsEmpty_Text() {
