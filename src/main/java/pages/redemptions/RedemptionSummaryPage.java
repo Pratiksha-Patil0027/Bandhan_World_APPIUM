@@ -225,7 +225,7 @@ System.out.println("newPoints : " + newPoints);
 	}
 
 	public void clickOn_CheckoutBtn() {
-		clickElement(checkoutBtn_Element);
+		clickIfPresent(checkoutBtn_Element,1);
 	}
 
 	public String get_CartIsEmpty_Text() {
