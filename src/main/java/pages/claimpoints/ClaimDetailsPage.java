@@ -150,7 +150,8 @@ public String getUOM() {
     return false;
 }
 
-	public void clickOn_CloseBtn() {
+	public void clickOn_CloseBtn() throws InterruptedException {
+		Thread.sleep(2000);
 		clickElement(close_Btn_Element);
 	}
 

@@ -82,41 +82,47 @@ public class AutomationReportListener implements ISuiteListener {
         String dateTime = new SimpleDateFormat("dd-MMM-yyyy HH:mm").format(new Date());
         String subject = "Bandhan World Mobile Automation Report - " + dateTime;
 
-        String body = "<html><body>" +
-                "Hello Team,<br/><br/>" +
-                "Please find the attached automation report.<br/><br/>" +
+        
+        String body = "<html><body style='font-family:Arial; font-size:14px;'>" +
 
-                "<b>Execution Summary</b><br/>" +
-                "<table border='1' cellspacing='0' cellpadding='6' " +
-                "style='border-collapse:collapse;font-family:Arial;font-size:14px;'>" +
-                "<tr style='background-color:#f2f2f2;'>" +
-                "<th>Total</th><th>Passed</th><th>Failed</th><th>Skipped</th></tr>" +
-                "<tr>" +
-                "<td align='center'>" + total + "</td>" +
-                "<td align='center'>" + passed + "</td>" +
-                "<td align='center'>" + failed + "</td>" +
-                "<td align='center'>" + skipped + "</td>" +
-                "</tr></table><br/><br/>" +
+        "Hello Team,<br/><br/>" +
 
-                "<b>Build Version</b><br/>" +
-                "------------------------------<br/>" +
-                "Build Version : " + configReader.getProperty("BUILDVERSION") + "<br/><br/>" +
+        "Please find the attached automation report.<br/><br/>" +
 
-                "<b>Device Details</b><br/>" +
-                "------------------------------<br/>" +
-                "Device Type : " + configReader.getProperty("INFO_DEVICE_TYPE") + "<br/>" +
-                "Device Name : " + configReader.getProperty("INFO_DEVICE_NAME") + "<br/>" +
-                "Android Version : " + configReader.getProperty("INFO_ANDROID_VERSION") + "<br/>" +
-                "API Level : " + configReader.getProperty("INFO_API_LEVEL") + "<br/><br/>" +
+        "<b>Execution Summary</b><br/>" +
 
-                "<b>Execution Details</b><br/>" +
-                "------------------------------<br/>" +
-                "Total Execution Time : " + executionTime + "<br/><br/>" +
+        "<table border='1' cellspacing='0' cellpadding='6' " +
+        "style='border-collapse:collapse; text-align:center;'>" +
 
-                
+        "<tr style='background-color:#f2f2f2; font-weight:bold;'>" +
+        "<th>Total</th><th>Passed</th><th>Failed</th><th>Skipped</th>" +
+        "</tr>" +
 
-                "Thanks & Regards,<br/><b>Bandhan World Automation</b>" +
-                "</body></html>";
+        "<tr>" +
+        "<td>" + total + "</td>" +
+        "<td style='color:green; font-weight:bold;'>" + passed + "</td>" +
+        "<td style='color:red; font-weight:bold;'>" + failed + "</td>" +
+        "<td>" + skipped + "</td>" +
+        "</tr>" +
+
+        "</table><br/><br/>" +
+
+        "<b>Build Version: </b><br/>" +
+        "Build Version : " + configReader.getProperty("BUILDVERSION") + "<br/><br/>" +
+
+        "<b>Device Details: </b><br/>" +
+        "Device Type : " + configReader.getProperty("INFO_DEVICE_TYPE") + "<br/>" +
+        "Device Name : " + configReader.getProperty("INFO_DEVICE_NAME") + "<br/>" +
+        "Android Version : " + configReader.getProperty("INFO_ANDROID_VERSION") + "<br/>" +
+        "API Level : " + configReader.getProperty("INFO_API_LEVEL") + "<br/><br/>" +
+
+        "<b>Execution Details: </b><br/>" +
+        "Total Execution Time : " + executionTime + "<br/><br/><br/><br/>" +
+
+        "Thanks & Regards,<br/>" +
+        "<b>Bandhan World Automation</b>" +
+
+        "</body></html>";
 
         Optional<String> latestReport = GlobalStore.getAllReportPaths().stream()
                 .map(File::new)

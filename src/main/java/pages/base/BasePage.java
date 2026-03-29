@@ -731,16 +731,24 @@ public boolean clickIfPresent(WebElement element, int timeout) {
 }
 
 public boolean clickIfPresent(By by, int timeout) {
-    try {
-        WebElement element = new WebDriverWait(driver, Duration.ofSeconds(timeout))
-                .until(ExpectedConditions.elementToBeClickable(by));
+    int attempts = 0;
 
-        element.click();
-        return true;
+    while (attempts < 3) {
+        try {
+            WebElement element = new WebDriverWait(driver, Duration.ofSeconds(timeout))
+                    .until(ExpectedConditions.elementToBeClickable(by));
 
-    } catch (TimeoutException e) {
-        return false;
+            element.click();
+            return true;
+
+        } catch (Exception e) {
+            attempts++;
+            try {
+                Thread.sleep(500); // small wait before retry
+            } catch (InterruptedException ignored) {}
+        }
     }
+    return false;
 }
 
 
