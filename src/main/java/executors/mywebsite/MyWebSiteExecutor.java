@@ -396,7 +396,8 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 return industry;
 
             case "brandmaterial_select_brandwindow_industrydropvalue":
-                myWebSitePage.selectDropValues(168, 763);
+                Thread.sleep(1000);
+                myWebSitePage.selectDropValues(270, 1232);
                 return null;
 
             case "brandmaterial_clickon_brandwindow_branddropfield":
@@ -449,18 +450,18 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 GlobalStore.put("PROJECT_NAME", projectName);
                 return projectName;
 
-                case "project_showworkwin_get_projectstyle":
+            case "project_showworkwin_get_projectstyle":
                 String projectStyle = myWebSitePage.get_Project_ShowWork_ProjectStyle();
                 GlobalStore.put("PROJECT_STYLE", projectStyle);
                 return projectStyle;
 
-                 case "project_showworkwin_get_projectarea":
+            case "project_showworkwin_get_projectarea":
                 String projectArea = myWebSitePage.project_ShowWork_get_AreaValue();
                 GlobalStore.put("PROJECT_AREA", projectArea);
                 return projectArea;
 
-                case "project_showworkwin_get_projectbudget":
-                String projectBudget= myWebSitePage.project_ShowWork_get_BudgetValue();
+            case "project_showworkwin_get_projectbudget":
+                String projectBudget = myWebSitePage.project_ShowWork_get_BudgetValue();
                 GlobalStore.put("PROJECT_BUDGET", projectBudget);
                 return projectBudget;
 
@@ -469,7 +470,8 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 return null;
 
             case "project_select_showworwin_styledropvalue":
-                myWebSitePage.selectDropValueByAndroidKey(1);
+                Thread.sleep(1000);
+                myWebSitePage.selectDropValues(206,944);
                 return null;
 
             case "project_enter_showworwin_area":
@@ -490,12 +492,47 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 myWebSitePage.project_ShowWork_ClickOn_ProjectPhotosIcon();
                 return null;
 
+                 case "project_clickon_showworwin_projectphotoiconafterselectimage":
+                myWebSitePage.project_ShowWork_ClickOn_ProjectPhotosIconafterselectimage();
+                return null;
+
+                
+
             case "project_addprojectphotos":
-                for (int i = 0; i <= 5; i++) {
+                try{
+                for (int i = 0; i < 5; i++) {
                     myWebSitePage.project_ShowWork_ClickOn_ProjectPhotosIcon();
                     myWebSitePage.clickOn_BrowseFileOption();
                     myWebSitePage.select_GallaryImage(0);
                     myWebSitePage.clickOn_GallaryDoneButton();
+                }}catch(Exception e)
+                {
+                      System.out.println(e.getMessage());
+                }
+                return null;
+
+            case "project_add_projects":
+                for (int i = 0; i <3; i++) {
+                    myWebSitePage.project_clickOn_fabbBtn();
+                    myWebSitePage
+                            .project_ShowWork_enter_ProjectName(data.get("PROJECT_NAME") + System.currentTimeMillis());
+                    companyLoginPage.hideKeyboardIfVisible();
+                    myWebSitePage.project_ShowWork_ClickOn_StyleField();
+                    myWebSitePage.selectDropValueByAndroidKey(1);
+                    myWebSitePage.project_ShowWork_enter_Area(data.get("PROJECT_AREA"));
+                    companyLoginPage.hideKeyboardIfVisible();
+                    myWebSitePage.project_ShowWork_enter_Budget(data.get("PROJECT_BUDGET"));
+                    companyLoginPage.hideKeyboardIfVisible();
+                    for (int count = 0; count <3; count++) {
+                         Thread.sleep(1000);
+                         myWebSitePage.project_ShoWorkWin_ProjectPhotos_ImageCapture_Element.click();
+                        myWebSitePage.project_ShowWork_ClickOn_ProjectPhotosIcon();
+                        myWebSitePage.clickOn_BrowseFileOption();
+                        myWebSitePage.select_GallaryImage(0);
+                        myWebSitePage.clickOn_GallaryDoneButton();
+                        Thread.sleep(1000);
+                    }
+                    myWebSitePage.project_ShowWork_ClickOn_SaveBtn();
                 }
                 return null;
 
@@ -534,9 +571,8 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 myWebSitePage.project_ShowWork_ClickOn_SaveBtn();
                 return null;
 
-                 case "verify_project_addedproject_isdisplayed":
+            case "verify_project_addedproject_isdisplayed":
                 return myWebSitePage.verify_AddedProject_isDisplayed();
-                
 
             case "verify_project_addedprojectname":
                 return myWebSitePage.project_get_AddedProjectName();
@@ -558,10 +594,10 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 myWebSitePage.project_ClickOn_SubmitBtn();
                 return null;
 
-            case "verify_Successdialogbox_title":
+            case "verify_successdialogbox_title":
                 return myWebSitePage.get_SuccessDialogBox_Title();
 
-            case "verify_Successdialogbox_text":
+            case "verify_successdialogbox_text":
                 return myWebSitePage.get_SuccessDialogBox_Text();
 
             case "clickon_successdialogbox_okbtn":

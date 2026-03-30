@@ -2,3 +2,5 @@
 2. SEND BUSINESS CARD - Check Send Business card field enabled or not. 
 3. Use Cmd to keep machine on while test run : caffeinate -dims mvn clean install
 
+4.WebSite should delete before excution.
+5.Claim Points - On Mapped Dealer Check "Rahul" DEaler is present or not

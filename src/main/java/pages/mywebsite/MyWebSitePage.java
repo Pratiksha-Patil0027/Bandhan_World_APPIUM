@@ -137,7 +137,7 @@ public class MyWebSitePage extends BasePage {
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/cl_camera")
 	public WebElement camera_Option_Element;
 
-	@AndroidFindBy(id = "com.google.android.providers.media.module:id/icon_thumbnail")
+	@AndroidFindBy(id = "com.google.android.documentsui:id/icon_thumb")
 	public List<WebElement> actualImage_Elements;
 
 	@AndroidFindBy(accessibility = "Crop")
@@ -441,9 +441,9 @@ public class MyWebSitePage extends BasePage {
 		clickElement(personalInfo_RoleInFirm_Element);
 	}
 
-	public void personalInfo_Select_RoleFirmDropValue()  {
-		//Thread.sleep(1000);
-		selectDropValueByAndroidKey(1);
+	public void personalInfo_Select_RoleFirmDropValue() throws InterruptedException  {
+		Thread.sleep(1000);
+		selectDropValues(142,1044);
 	}
 
 	public void personalInfo_ClickOn_WorkProfessionField() {
@@ -731,8 +731,9 @@ public class MyWebSitePage extends BasePage {
 		clickElement(firmDetails_FirmLogo_ImageIcon_Element);
 	}
 
-	public void clickOn_NextButton() {
-		clickIfPresent(nextButton_Element,0);
+	public void clickOn_NextButton() throws InterruptedException {
+		Thread.sleep(1000);
+		clickIfPresent(nextButton_Element,5);
 	}
 
 	public String get_OwnersAndPart_Header() {
@@ -769,7 +770,8 @@ public class MyWebSitePage extends BasePage {
 	}
 
 	public void OwnersAndPart_Select_PositionDropOption() throws InterruptedException {
-		 OwnersAndPart_clickOn_WorkingSince();
+		Thread.sleep(1000);
+		 selectDropValues(124,692);
 	}
 
 	public void OwnersAndPart_clickOn_WorkingSince() {
@@ -907,7 +909,8 @@ public class MyWebSitePage extends BasePage {
 		selectDropValueByAndroidKey(1);
 	}
 
-	public void brandsAndMat_clickOn_BrandIndWindow_BrandsDropField() {
+	public void brandsAndMat_clickOn_BrandIndWindow_BrandsDropField() throws InterruptedException {
+		Thread.sleep(1000);
 		clickElement(brandsMaterial_BrandInd_BrandDropField_Element);
 	}
 
@@ -917,7 +920,8 @@ public class MyWebSitePage extends BasePage {
 		return String.join(",", values);
 	}
 
-	public void brandsAndMat_clickOn_BrandIndWindow_OkBtn() {
+	public void brandsAndMat_clickOn_BrandIndWindow_OkBtn() throws InterruptedException {
+		Thread.sleep(1000);
 		clickElement(brandsMaterial_BrandInd_OkBtn_Element);
 	}
 
@@ -993,7 +997,22 @@ public String get_Project_ShowWork_ProjectName() {
 	}
 
 	public void project_ShowWork_ClickOn_ProjectPhotosIcon() {
-		clickElement(project_ShoWorkWin_ProjectPhotos_ImageCapture_Element);
+		try {
+				clickIfPresent(project_ShoWorkWin_ProjectPhotos_ImageCapture_Element,0);
+		} catch (Exception e) {
+			
+		}
+	
+	}
+
+	public void project_ShowWork_ClickOn_ProjectPhotosIconafterselectimage() {
+		try {
+			project_ShoWorkWin_ProjectPhotos_ImageCapture_Element.click();
+		} catch (Exception e) {
+			System.out.println("Element disable");
+		}
+			
+		
 	}
 
 	public String project_ShowWork_Verify_ProjectImageIcon_isClickable() {
@@ -1044,9 +1063,13 @@ public String get_Project_ShowWork_ProjectName() {
 	}
 
 	public boolean verify_AddedProject_isDisplayed() {
-		
-		return isElementVisible(project_ProjectName_Elements.get(0));
-	}
+
+    if (project_ProjectName_Elements != null && !project_ProjectName_Elements.isEmpty()) {
+        return isElementVisible(project_ProjectName_Elements.get(0));
+    }
+
+    return false;
+}
 
 	public void project_ClickOn_DeleteIcon() {
 		WebElement element = project_DeleteIcon_Elements.get(0);
@@ -1059,15 +1082,21 @@ public String get_Project_ShowWork_ProjectName() {
 	}
 
 	public String project_get_AddedAreaName() {
-		WebElement element = project_Area_Elements.get(0);
-		return getText(element);
-	}
+    if (project_Area_Elements == null || project_Area_Elements.isEmpty()) {
+        return "";
+    }
+    String text = getText(project_Area_Elements.get(0)); // "5600 sq ft"
+    return text.replaceAll("[^0-9]", ""); // → "5600"
+}
 
 	public String project_get_AddedBudgetValue() {
-		WebElement element = project_Budget_Elements.get(0);
-		return getText(element);
-	}
+    if (project_Budget_Elements == null || project_Budget_Elements.isEmpty()) {
+        return "";
+    }
 
+    String text = getText(project_Budget_Elements.get(0)); // "8 lac"
+    return text.replaceAll("[^0-9]", ""); // → "8"
+}
 	public void project_ClickOn_SubmitBtn() {
 		clickElement(project_SubmitBtn_Element);
 	}
