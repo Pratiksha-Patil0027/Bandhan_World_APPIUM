@@ -104,18 +104,25 @@ public List<String> get_DealerNameList()
 
 public boolean isAddedDealerDisplayed(String expectedDealerName) {
 
-    List<String> dealerList = get_DealerNameList();
+    int maxScrolls = 5;
 
-    if (dealerList == null || dealerList.isEmpty()) {
-        return false;
-    }
+    for (int i = 0; i < maxScrolls; i++) {
 
-    for (String dealer : dealerList) {
-        if (dealer.equalsIgnoreCase(expectedDealerName)) {
-            return true; //  dealer found
+        List<String> dealerList = get_DealerNameList();
+
+        if (dealerList != null && !dealerList.isEmpty()) {
+            for (String dealer : dealerList) {
+                if (dealer.equalsIgnoreCase(expectedDealerName)) {
+                    return true; //  dealer found
+                }
+            }
         }
+
+        // Scroll down if not found
+        scrollDownSafe();
     }
-    return false; //  not found
+
+    return false; //  not found after scrolling
 }
 
 

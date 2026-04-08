@@ -3,10 +3,6 @@ package executors.claimpoints;
 import java.util.List;
 import java.util.Map;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import core.GlobalStore;
 import core.KeywordExecutor;
 import core.VerifyResult;
