@@ -1,8 +1,8 @@
-1. REDEMPTION MODULE - after excution delete added REDEMPTION  
+1. REDEMPTION MODULE - after excution delete added REDEMPTION - (Influencer - 2602000005)
 2. SEND BUSINESS CARD - Check Send Business card field enabled or not. 
 3. Use Cmd to keep machine on while test run : caffeinate -dims mvn clean install
 
-4.WebSite should delete before excution.
-5.Claim Points - On Mapped Dealer Check "Rahul" DEaler is present or not
-6. Dream Gift - Recors should be blank on Dream gift page.
+4.WebSite should delete before excution. (Influencer - 2602000005)
+5.Claim Points - On Mapped Dealer Check "Rahul" DEaler is present or not. (Influencer - 2602000005)
+6. Dream Gift - Recors should be blank on Dream gift page. (Influencer - 2602000005)
 7.Insurance KYC - Need to clear Insurance KYC of Influencer -2602000013 from DB side.

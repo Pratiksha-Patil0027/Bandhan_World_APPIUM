@@ -110,6 +110,9 @@ public class ProfilePage extends BasePage {
     public AppiumBy SIGNOUT_BUTTON_POSITIVE = (AppiumBy) AppiumBy.id("android:id/button1");
     public AppiumBy SIGNOUT_BUTTON_NEGATIVE = (AppiumBy) AppiumBy.id("android:id/button2");
 
+    @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/alertTitle")
+    public WebElement logout_title_Element;
+
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/profileLabel")
     public WebElement deleteAccount_header_Element;
 
@@ -231,15 +234,8 @@ public class ProfilePage extends BasePage {
         }
     }
 
-    public boolean isImageViewVisible(AppiumBy locator) {
-        try {
-            WebElement imageView = driver.findElement(locator);
-            return imageView.isDisplayed() && 
-                   imageView.getSize().getWidth() > 0 && 
-                   imageView.getSize().getHeight() > 0;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+    public boolean isImageViewVisible() {
+        return profile_image_Element.isDisplayed() && profile_image_Element.getSize().getWidth() > 0;
     }
 
     public String get_permanent_address_TextAfterScroll(WebElement element, String resourceId) {
@@ -261,5 +257,11 @@ public class ProfilePage extends BasePage {
         clickIfPresent(profileCloseBtn_Element,0);
     }
     
+    public boolean pointsVisibilityCheck(WebElement webElement) {
+        if (getText(webElement).isBlank() || getText(webElement).isEmpty()) {
+            return false;
+        }
+		return true;
+	}
 
 }

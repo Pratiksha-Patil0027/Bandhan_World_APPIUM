@@ -3,6 +3,7 @@ package core;
 import executors.callme.CallMeExecutor;
 import executors.catalogue.CatalogueExecutor;
 import executors.claimpoints.ClaimPointsExecutor;
+import executors.cost_calculator.CostCalculatorExecutor;
 import executors.digitalbussinesscard.DigitalBusinessCardExecutor;
 import executors.digitalbussinesscard.SendBusinessCardExecutor;
 import executors.dreamgift.DreamGiftExecutor;
@@ -65,6 +66,9 @@ public class ModuleDispatcher {
 
                  case "14_QUERYLIST":
                 return new QueryListExecutor();
+
+                 case "16_COST_CALCULATOR":
+                    return new CostCalculatorExecutor();
 
 
                 

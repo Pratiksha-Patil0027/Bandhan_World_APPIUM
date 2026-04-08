@@ -11,6 +11,12 @@ import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import pages.base.BasePage;
 
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
+import java.time.Duration;
+import java.util.Arrays;
+
 public class DashboardPage extends BasePage {
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/iv_insurance")
@@ -111,13 +117,62 @@ public class DashboardPage extends BasePage {
 
 	public void clickOn_RewardCatalogue_Menu() {
 
-    driver.findElement(AppiumBy.androidUIAutomator(
-        "new UiScrollable(new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id/recyclerviewMenu\").instance(1))" +
-        ".setAsHorizontalList()" +
-        ".scrollIntoView(new UiSelector().text(\"Reward Catalogue\"));"
-    )).click();
+		driver.findElement(AppiumBy.androidUIAutomator(
+			"new UiScrollable(new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id/recyclerviewMenu\").instance(1))" +
+			".setAsHorizontalList()" +
+			".scrollIntoView(new UiSelector().text(\"Reward Catalogue\"));"
+		)).click();
+	}
 
-}
+	public void clickOn_CostCalculation_Menu() {
+		driver.findElement(AppiumBy.androidUIAutomator(
+			"new UiScrollable(new UiSelector().scrollable(true))" +
+			".setAsVerticalList()" +
+			".scrollIntoView(new UiSelector().text(\"Cost Calculator\"))"
+		)).click();
+	}
+
+	public void scrollAndClick(String visibleText) {
+    	boolean found = false;
+    	int retry = 0;
+    
+    	while (!found && retry < 5) {
+        	try {
+            	driver.findElement(AppiumBy.androidUIAutomator("new UiSelector().text(\"" + visibleText + "\")")).click();
+            	found = true;
+        	} catch (Exception e) {
+            	// Use a PointerInput/Sequence to swipe up here
+            	swipeUp(); 
+            	retry++;
+        	}
+    	}
+	}
+
+
+	public void swipeUp() {
+		// 1. Get screen dimensions
+		Dimension size = driver.manage().window().getSize();
+		int startX = size.getWidth() / 2;
+		int startY = (int) (size.getHeight() * 0.8); // Start at 80% of the screen height
+		int endY = (int) (size.getHeight() * 0.2);   // End at 20% of the screen height
+
+		// 2. Setup PointerInput
+		PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+		Sequence swipe = new Sequence(finger, 1);
+
+		// 3. Define the sequence of actions
+		// Move to start position
+		swipe.addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), startX, startY));
+		// Press down
+		swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
+		// Move to end position (the actual swipe)
+		swipe.addAction(finger.createPointerMove(Duration.ofMillis(600), PointerInput.Origin.viewport(), startX, endY));
+		// Lift up
+		swipe.addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+
+		// 4. Perform the action
+		driver.perform(Arrays.asList(swipe));
+	}
 
 public void clickOn_BusinessCard_Menu() {
 		clickElement(businessCard_Menu_Element);

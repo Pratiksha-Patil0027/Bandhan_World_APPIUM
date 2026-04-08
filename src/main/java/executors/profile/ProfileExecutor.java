@@ -111,17 +111,17 @@ public class ProfileExecutor implements KeywordExecutor {
 				"com.prowess.apps.bandhan.world:id/tvAppVersion");
 
             case "verifymilestonepointsondisplay" :
-                return profilePage.get_PageTitle(profilePage.milestoneCount_Element);
+                return profilePage.pointsVisibilityCheck(profilePage.milestoneCount_Element);
 
             case "verifybalancepointsondisplay" :
-                return profilePage.get_PageTitle(profilePage.balanceCount_Element);
+                return profilePage.pointsVisibilityCheck(profilePage.balanceCount_Element);
 
             case "verifylockedpointsondisplay" :
-                return profilePage.get_PageTitle(profilePage.lockCount_Element);
+                return profilePage.pointsVisibilityCheck(profilePage.lockCount_Element);
 
-            // case "verifyinfluencerimageondisplay":
-            //     profilePage.isImageViewVisible();
-            //     return null;
+            case "verifyinfluencerimageondisplay":
+                profilePage.isImageViewVisible();
+                return null;
 
             case "verifymilestonehorizontalscroll":
                 profilePage.milestoneHorizontalScroll();
@@ -148,7 +148,8 @@ public class ProfileExecutor implements KeywordExecutor {
                 return null;
 
             case "veriftysignoutlable":
-                profilePage.get_PageTitle(profilePage.SIGNOUT_DIALOG_TITLE);
+                profilePage.get_PageTitle(profilePage.logout_title_Element);
+                // profilePage.get_PageTitle(profilePage.SIGNOUT_DIALOG_TITLE);
                 return null;
 
             case "clickonnosignout":
