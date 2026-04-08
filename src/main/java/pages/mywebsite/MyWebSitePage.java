@@ -137,8 +137,17 @@ public class MyWebSitePage extends BasePage {
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/cl_camera")
 	public WebElement camera_Option_Element;
 
+	@AndroidFindBy(accessibility = "List view")
+	public WebElement gallary_ListIcon_Element;
+
+	
 	@AndroidFindBy(id = "com.google.android.documentsui:id/icon_thumb")
 	public List<WebElement> actualImage_Elements;
+
+	@AndroidFindBy(id = "android:id/title")
+	public List<WebElement> imageTitle_Elements;
+
+	
 
 	@AndroidFindBy(accessibility = "Crop")
 	public WebElement camera_DoneBtn_Element;
@@ -650,17 +659,34 @@ public class MyWebSitePage extends BasePage {
 		clickElement(camera_Option_Element);
 	}
 
+	public void clickOn_Gallary_ListIcon() {
+		clickElement(gallary_ListIcon_Element);
+	}
+
+	
 	public void select_GallaryImage(int i) {
 		waitForListToLoad(actualImage_Elements);
 		WebElement image = actualImage_Elements.get(i);
 		clickElement(image);
 	}
 
+	public void selectGalleryImageByName(String imageName) {
+    waitForListToLoad(imageTitle_Elements);
+
+    for (WebElement image : imageTitle_Elements) {
+        String desc = image.getText(); // or "text"
+
+        if (desc != null && desc.contains(imageName)) {
+            clickElement(image);
+            break;
+        }
+    }
+}
+
 	public void clickOn_GallaryDoneButton() {
 		clickElement(camera_DoneBtn_Element);
 	}
 
-	
 
 	public String get_WarningToastMsg() {
 

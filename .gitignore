@@ -13,3 +13,7 @@ test-output/
 reports/
 
 
+
+hs_err_pid6976.log
+replay_pid6976.log
+src/test/resources/testdata/Modules/10_Catalogue/Catalogue/01_CatalogueTest.xlsx

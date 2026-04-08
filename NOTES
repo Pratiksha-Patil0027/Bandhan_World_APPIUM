@@ -4,3 +4,5 @@
 
 4.WebSite should delete before excution.
 5.Claim Points - On Mapped Dealer Check "Rahul" DEaler is present or not
+6. Dream Gift - Recors should be blank on Dream gift page.
+7.Insurance KYC - Need to clear Insurance KYC of Influencer -2602000013 from DB side.

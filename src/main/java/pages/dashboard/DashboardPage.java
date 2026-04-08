@@ -1,5 +1,7 @@
 package pages.dashboard;
 
+import java.util.List;
+
 import org.openqa.selenium.WebElement;
 
 import io.appium.java_client.AppiumBy;
@@ -32,15 +34,53 @@ public class DashboardPage extends BasePage {
 	@AndroidFindBy(uiAutomator = "new UiSelector().text(\"My Web Site\")")
 	public WebElement myWebSite_Menu_Element;
 
-	
+	@AndroidFindBy(uiAutomator = "new UiSelector().text(\"Catalogue\")")
+	public WebElement catalogue_Menu_Element;
 
-	
+	@AndroidFindBy(uiAutomator = "new UiSelector().text(\"My Health Benefits\")")
+	public WebElement myHealthBenefits_Menu_Element;
+
+	@AndroidFindBy(uiAutomator = "new UiSelector().text(\"Dream Gift\")")
+	public WebElement dreamGift_Menu_Element;
+
+	@AndroidFindBy(uiAutomator = "new UiSelector().text(\"Query List\")")
+	public WebElement queryList_Menu_Element;
 
 	@AndroidFindBy(uiAutomator = "new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id\").instance(11)")
 	public WebElement digital_business_card_Menu_Element;
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvMyBalance")
 	public WebElement myBalancePoints_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvAttachlable")
+	public WebElement attachDoc_lable_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/cl_browse")
+	public WebElement browseFile_Option_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/cl_camera")
+	public WebElement camera_Option_Element;
+
+	@AndroidFindBy(id = "com.google.android.documentsui:id/icon_thumb")
+	public List<WebElement> actualImage_Elements;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/manage")
+	public WebElement gallary_ManageBtn_Element;
+
+	@AndroidFindBy(xpath = "//android.view.View[contains(@content-desc,'Photo taken')]")
+	public List<WebElement> gallary_Manage_actualImage_Elements;
+
+	@AndroidFindBy(uiAutomator = "new UiSelector().text(\"Done\")")
+	public WebElement gallary_Manage_DoneBtn_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/mediaImage")
+	public WebElement gallary_Manage_SelectedImage_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/btnAttachSelected")
+	public WebElement gallary_Manage_BtnAttachSelected_Element;
+
+	@AndroidFindBy(accessibility = "Crop")
+	public WebElement camera_DoneBtn_Element;
 
 	// @AndroidFindBy(id = "")
 	// public WebElement _Element;
@@ -111,6 +151,65 @@ public void clickOn_BusinessCard_Menu() {
 	public void clickOn_MyWebSite_Menu() {
 		clickElement(myWebSite_Menu_Element);
 	}
+
 	
+	public void clickOn_Catalogue_Menu() {
+		clickElement(catalogue_Menu_Element);
+	}
+
+	public void clickOn_DreamGift_Menu() {
+		clickElement(dreamGift_Menu_Element);
+	}
+
+	public void clickOn_QueryList_Menu() {
+		clickElement(queryList_Menu_Element);
+	}
+
+	public void clickOn_MyHealthBenefits_Menu() {
+		clickElement(myHealthBenefits_Menu_Element);
+	}
+
+public void clickOn_BrowseFileOption(int i) {
+		try {
+			// Check if Manage button is present safely
+			if (isElementVisible(gallary_ManageBtn_Element)) {
+
+				clickElement(gallary_ManageBtn_Element);
+
+				WebElement manageImage = gallary_Manage_actualImage_Elements.get(i);
+				clickElement(manageImage);
+
+				clickElement(gallary_Manage_DoneBtn_Element);
+				clickElement(gallary_Manage_SelectedImage_Element);
+				clickElement(gallary_Manage_BtnAttachSelected_Element);
+
+			} else {
+				// Fallback logic
+				clickFromGallery(i);
+			}
+
+		} catch (Exception e) {
+			System.out.println("Error while selecting image: " + e.getMessage());
+			clickFromGallery(i); // fallback
+		}
+	}
+	
+	private void clickFromGallery(int i) {
+       waitForListToLoad(actualImage_Elements);
+		WebElement image = actualImage_Elements.get(i);
+		clickElement(image);
+	}
+
+	public void clickOn_BrowseFileOption() {
+		clickElement(browseFile_Option_Element);
+	}
+
+	public void clickOn_CameraCaptureOption() {
+		clickElement(camera_Option_Element);
+	}
+
+	public void clickOn_GallaryDoneButton() {
+		clickElement(camera_DoneBtn_Element);
+	}
 	
 }
