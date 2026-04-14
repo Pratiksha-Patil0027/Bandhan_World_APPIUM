@@ -6,13 +6,17 @@ import core.KeywordExecutor;
 import io.appium.java_client.android.AndroidDriver;
 import pages.dashboard.DashboardPage;
 import pages.login.CompanyLoginPage;
+import pages.login.InfluencerLoginPage;
 import pages.myheathbenefits.MyHeathBenefitsPage;
+import pages.profile.ProfilePage;
 
 public class MyHealthBenefitsExecutor implements KeywordExecutor {
 
     private DashboardPage dashboardPage;
     private CompanyLoginPage companyLoginPage;
     private MyHeathBenefitsPage myHeathBenefitsPage;
+     private  InfluencerLoginPage influencerLoginPage;  
+       private ProfilePage profilePage;
 
     @Override
     public Object execute(
@@ -30,10 +34,55 @@ public class MyHealthBenefitsExecutor implements KeywordExecutor {
             companyLoginPage = new CompanyLoginPage(driver);
             dashboardPage = new DashboardPage(driver);
             myHeathBenefitsPage = new MyHeathBenefitsPage(driver);
+              influencerLoginPage= new InfluencerLoginPage(driver);
+             profilePage = new ProfilePage(driver);
 
         }
 
         switch (step.toLowerCase()) {
+
+            case "terminateapp":
+                Thread.sleep(3000);
+               driver.terminateApp("com.prowess.apps.bandhan.world");
+                return null;
+
+                  case "relaunchapp":
+                    Thread.sleep(2000);
+               driver.activateApp("com.prowess.apps.bandhan.world");
+                return null;
+
+            
+             case "clickonskipbtnofinsurancewindow":
+                dashboardPage.clickOn_SkipBtnOf_FamilyInsuranceWindow();
+                return null;
+
+            case "profile_clickon_showprofile":
+                profilePage.clickOn_profileShow();
+                return null;
+
+                 case "clickon_signout":
+                profilePage.clickOn_logoutBtn();
+                return null;
+
+                case "clickon_signout_yesbtn":
+                profilePage.clickOn_logout_YesBtn();
+                return null;
+
+                 case "enter_loginmobilenumber":  
+            influencerLoginPage.enterMobileNumber(data.get("INFLUENCER_MOBILENO"));
+            return null ;
+
+            case "clickongetotpbtn":  
+            influencerLoginPage.clickOn_GetOtp_Btn();
+            return null ;
+
+             case "enterotp":  
+            influencerLoginPage.enterOTP(data.get("OTP"));
+            return null ;
+
+            case "clickonotpsubmitbtn":  
+            influencerLoginPage.clickOn_OtpSubmit_Btn();
+            return null ;
 
             case "hidekeyboard":
                 companyLoginPage.hideKeyboardIfVisible();
@@ -41,10 +90,6 @@ public class MyHealthBenefitsExecutor implements KeywordExecutor {
 
             case "navigatebacktodashboardpage":
                 dashboardPage.navigateBackToHomeDashboard();
-                return null;
-
-            case "clickonskipbtnofinsurancewindow":
-                dashboardPage.clickOn_SkipBtnOf_FamilyInsuranceWindow();
                 return null;
 
             case "open_myhealthbenefitsmenu":

@@ -331,7 +331,8 @@ public class MyHeathBenefitsPage extends BasePage {
 		clickIfPresent(claimDetailsWindow_CancelBtn_Element, 0);
 	}
 
-	public void clickOn_ClaimDetails_SendMailBtn() {
+	public void clickOn_ClaimDetails_SendMailBtn() throws InterruptedException {
+		Thread.sleep(1000);
 		clickIfPresent(claimDetailsWindow_SendMail_Element, 0);
 	}
 

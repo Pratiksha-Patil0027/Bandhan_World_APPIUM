@@ -503,7 +503,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 for (int i = 0; i < 5; i++) {
                     myWebSitePage.project_ShowWork_ClickOn_ProjectPhotosIcon();
                     myWebSitePage.clickOn_BrowseFileOption();
-                    myWebSitePage.select_GallaryImage(0);
+                    myWebSitePage.select_GallaryImage(3);
                     myWebSitePage.clickOn_GallaryDoneButton();
                 }}catch(Exception e)
                 {

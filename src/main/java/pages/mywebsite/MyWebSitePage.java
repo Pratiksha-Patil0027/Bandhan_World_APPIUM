@@ -825,7 +825,7 @@ public class MyWebSitePage extends BasePage {
 	}
 
 	public void OwnersAndPart_clickOn_CancelBtn() {
-		clickElement(ownersAndPart_AddTeam_CancelBtn_Element);
+		clickIfPresent(ownersAndPart_AddTeam_CancelBtn_Element,0);
 	}
 
 	public void OwnersAndPart_clickOn_SaveBtn() {

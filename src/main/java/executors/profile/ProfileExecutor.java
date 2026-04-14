@@ -50,6 +50,7 @@ public class ProfileExecutor implements KeywordExecutor {
         }
 
         switch (step.toLowerCase()) {
+            
             case "clickshowprofile":
                 profilePage.clickOn_profileShow();
                 return null;

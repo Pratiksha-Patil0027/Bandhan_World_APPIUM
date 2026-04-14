@@ -49,7 +49,7 @@ return getText(snackbar);
 }
 
 public String get_ProductCode() throws InterruptedException {
-	Thread.sleep(2000);
+	Thread.sleep(4000);
 	WebElement productCode_Element= productCode_Elements.get(0);
 		return getText(productCode_Element);
 	}
