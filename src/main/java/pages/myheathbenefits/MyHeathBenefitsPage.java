@@ -220,7 +220,8 @@ public class MyHeathBenefitsPage extends BasePage {
 		clickIfPresent(policyDetails_ViewIcon_Elements.get(i), 0);
 	}
 
-	public void clickOn_EmailIcon() {
+	public void clickOn_EmailIcon() throws InterruptedException {
+		Thread.sleep(1000);
 		clickIfPresent(emailIcon_Locator, 1);
 	}
 
@@ -332,7 +333,7 @@ public class MyHeathBenefitsPage extends BasePage {
 	}
 
 	public void clickOn_ClaimDetails_SendMailBtn() throws InterruptedException {
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 		clickIfPresent(claimDetailsWindow_SendMail_Element, 0);
 	}
 

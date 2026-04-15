@@ -766,8 +766,9 @@ public class MyWebSitePage extends BasePage {
 		return getText(ownersAndPart_Header_Element);
 	}
 
-	public void OwnersAndPart_clickOn_FabBtn() {
-		clickElement(ownersAndPart_FabButton_Element);
+	public void OwnersAndPart_clickOn_FabBtn() throws InterruptedException {
+		Thread.sleep(500);
+		clickIfPresent(ownersAndPart_FabButton_Element,0);
 	}
 
 	public String OwnersAndPart_get_AddTeamWindow_Title() {
