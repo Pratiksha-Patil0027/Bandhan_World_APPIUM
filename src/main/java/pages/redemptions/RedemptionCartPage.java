@@ -131,8 +131,9 @@ public void clickOn_CancelBtn()
      clickIfPresent(cancelBtn_Locator,5);
 	}
 
-	public void clickOn_CheckoutBtn()
+	public void clickOn_CheckoutBtn() throws InterruptedException
 	{
+		Thread.sleep(3000);
      clickIfPresent(checkoutBtn_Locator,5);
 	}
  
