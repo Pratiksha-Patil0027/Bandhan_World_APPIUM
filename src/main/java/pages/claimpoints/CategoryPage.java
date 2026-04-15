@@ -418,7 +418,9 @@ public String get_WarningToastMsg() {
 
     public void select_Product_DiameterDropValue() throws InterruptedException {
         clickOn_Product_Diameter_field();
-        selectDropValueByAndroidKey(1);
+        Thread.sleep(1000);  
+        selectDropValues(180,1573);
+        //selectDropValueByAndroidKey(1);
 
     }
 
