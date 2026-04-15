@@ -157,6 +157,9 @@ public class CostCalculatorPage extends BasePage {
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/totalPointsValue")
     public WebElement total_points_dream_gift_Element;
 
+     @AndroidFindBy(uiAutomator  = "new UiSelector().className(\"android.view.ViewGroup\").instance(7)")
+    public WebElement dreamGift_Element;
+
     public CostCalculatorPage(AndroidDriver driver) {
         super(driver);
     }
@@ -168,7 +171,8 @@ public class CostCalculatorPage extends BasePage {
 
     public boolean clickOn_next(WebElement webElement) {
 		try {
-			clickIfPresent(webElement, 0);
+            Thread.sleep(1000);
+			clickIfPresent(webElement, 2);
             return true;
 		} catch (Exception e) {
             // System.out.println("Profile dialog not shown");
@@ -387,13 +391,11 @@ public class CostCalculatorPage extends BasePage {
 
     public boolean clickOn_dream_gift() {
 		try {
-			// Locate the element
-            WebElement element = driver.findElement(AppiumBy.xpath("//androidx.recyclerview.widget.RecyclerView[@resource-id=\"com.prowess.apps.bandhan.world:id/rvDreamGift\"]/androidx.cardview.widget.CardView[1]/android.view.ViewGroup"));
-            // Click the element
-            element.click();
+			Thread.sleep(1000);
+                       clickIfPresent(dreamGift_Element,0);
             return true;
 		} catch (Exception e) {
-            // System.out.println("Profile dialog not shown");
+             System.out.println("element not found.");
             return false;
 		}
 	}
@@ -404,14 +406,15 @@ public class CostCalculatorPage extends BasePage {
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(2).click();
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(2).click();
-        scrollDownSafe();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+
+         scrollDownSafe();
         Thread.sleep(500);
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(2).click();
         Thread.sleep(500);
         scrollDownSafe();
         Thread.sleep(500);
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
         Thread.sleep(500);
 
         return true;
@@ -470,17 +473,18 @@ public class CostCalculatorPage extends BasePage {
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(2).click();
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(2).click();
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(2).click();
-        scrollDownSafe();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
+       
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+         scrollDownSafe();
         Thread.sleep(500);
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(2).click();
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(2).click();
@@ -492,19 +496,18 @@ public class CostCalculatorPage extends BasePage {
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(2).click();
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(2).click();
         driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(2).click();
+       
         Thread.sleep(500);
-        scrollDownSafe();
-        Thread.sleep(500);
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
-        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(1).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
+        driver.findElements(AppiumBy.id("com.prowess.apps.bandhan.world:id/btnPlus")).get(3).click();
         Thread.sleep(500);
 
         return true;

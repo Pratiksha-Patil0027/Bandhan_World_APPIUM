@@ -290,6 +290,8 @@ public class CostCalculatorExecutor implements KeywordExecutor {
                 return costCalculatorPage.verify_costing_plumbing(data.get("Material name"), data.get("Cost"), data.get("Qty"),0);
             
             case "verify_costing_dream_gift_civil_work":
+                 costCalculatorPage.scrollDownSafe();
+                costCalculatorPage.scrollDownSafe();
                 return costCalculatorPage.verify_costing_dream_gift_plumbing(data.get("Material name"), data.get("Cost"), data.get("Qty"),1);    
 
             case "verify_costing_dream_gift_paint_work":
