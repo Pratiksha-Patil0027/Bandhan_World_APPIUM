@@ -226,7 +226,8 @@ System.out.println("newPoints : " + newPoints);
 		clickElement(cancelBtn_Element);
 	}
 
-	public void clickOn_CheckoutBtn() {
+	public void clickOn_CheckoutBtn() throws InterruptedException {
+		Thread.sleep(1000);
 		clickIfPresent(checkoutBtn_Locator,5);
 	}
 

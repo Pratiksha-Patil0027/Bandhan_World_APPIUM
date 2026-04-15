@@ -133,7 +133,7 @@ public class MyHeathBenefitsPage extends BasePage {
 	@AndroidFindBy(id = "android:id/button1")
 	public WebElement  calendareOkBtn_Element;
 
-	@AndroidFindBy(id = "com.android.chrome:id/title")
+	@AndroidFindBy(uiAutomator  = "new UiSelector().text(\"IndusInd General Insurance logo\")")
 	public WebElement  cromeTitle_Element;
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/memberName")

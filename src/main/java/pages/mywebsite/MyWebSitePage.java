@@ -393,7 +393,8 @@ public class MyWebSitePage extends BasePage {
 		clickIfPresent(fillerInfo_ProceedBtn_Element, 0);
 	}
 
-	public void clickOn_BackArrrowBtn() {
+	public void clickOn_BackArrrowBtn() throws InterruptedException {
+		Thread.sleep(1000);
 		clickIfPresent(backArrowBtn_Element, 0);
 	}
 
@@ -409,7 +410,8 @@ public class MyWebSitePage extends BasePage {
 		clickIfPresent(alert_DialogBox_NoBtn_Element, 0);
 	}
 
-	public void clickOn_Alert_DialogBox_YesBtn() {
+	public void clickOn_Alert_DialogBox_YesBtn() throws InterruptedException {
+		Thread.sleep(2000);
 		clickIfPresent(alert_DialogBox_YesBtn_Element, 0);
 	}
 
@@ -1076,8 +1078,9 @@ public String get_Project_ShowWork_ProjectName() {
 	}
 	
 
-	public void project_ShowWork_ClickOn_cancelBtn() {
-		clickElement(project_ShoWorkWin_CancelBtn_Element);
+	public void project_ShowWork_ClickOn_cancelBtn() throws InterruptedException {
+		Thread.sleep(1000);
+		clickIfPresent(project_ShoWorkWin_CancelBtn_Element,0);
 	}
 
 	public void project_ShowWork_ClickOn_SaveBtn() {
@@ -1124,8 +1127,9 @@ public String get_Project_ShowWork_ProjectName() {
     String text = getText(project_Budget_Elements.get(0)); // "8 lac"
     return text.replaceAll("[^0-9]", ""); // → "8"
 }
-	public void project_ClickOn_SubmitBtn() {
-		clickElement(project_SubmitBtn_Element);
+	public void project_ClickOn_SubmitBtn() throws InterruptedException {
+		Thread.sleep(1000);
+		clickIfPresent(project_SubmitBtn_Element,0);
 	}
 
 	public String get_SuccessDialogBox_Title() {
