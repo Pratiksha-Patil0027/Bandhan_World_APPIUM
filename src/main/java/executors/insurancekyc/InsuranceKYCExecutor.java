@@ -160,15 +160,15 @@ public class InsuranceKYCExecutor implements KeywordExecutor {
 
 
             case "select_aadhar_frontimage":
-                myWebSitePage.selectGalleryImageByName("image3.jpg");
+                myWebSitePage.selectGalleryImageByName("shared image.jpg");
                 return null;
 
                  case "select_aadhar_backimage":
-                myWebSitePage.selectGalleryImageByName("image4.jpg");
+                myWebSitePage.selectGalleryImageByName("shared image-3.jpg");
                 return null;
 
                 case "select_pan_image":
-                myWebSitePage.selectGalleryImageByName("OmkarPancard.png");
+                myWebSitePage.selectGalleryImageByName("shared image-2.jpg");
                 return null;
 
             case "clickon_gallarydonebtn":
