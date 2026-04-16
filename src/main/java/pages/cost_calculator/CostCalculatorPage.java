@@ -58,6 +58,8 @@ public class CostCalculatorPage extends BasePage {
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/next")
     public WebElement next_btn_Element;
 
+    By next_btn_Locator = By.id("com.prowess.apps.bandhan.world:id/next");
+
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/title")
     public WebElement title_Element;
 
@@ -100,8 +102,18 @@ public class CostCalculatorPage extends BasePage {
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvItemName")
     public List<WebElement> material_name_material_estimated_Element;
 
+    @AndroidFindBy(uiAutomator  = "new UiSelector().text(\"Doors\")")
+    public WebElement quantities_Door_Element;
+   
+
+    @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/customerNameValue")
+    public WebElement summary_customerName_Element;
+
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvDreamGiftTitle")
     public List<WebElement> dream_gift_item_Element;
+
+    @AndroidFindBy(uiAutomator  = "new UiSelector().text(\"Ferrari Car\")")
+    public WebElement dreamgift_FerrariCar_Element;
 
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/dialog_alert_title")
     public WebElement submit_dream_gift_dialog_Element;
@@ -169,7 +181,7 @@ public class CostCalculatorPage extends BasePage {
 		sendText(webElement, input);
 	}
 
-    public boolean clickOn_next(WebElement webElement) {
+    public Boolean clickOn_next(WebElement webElement) {
 		try {
             Thread.sleep(1000);
 			clickIfPresent(webElement, 2);
@@ -178,7 +190,13 @@ public class CostCalculatorPage extends BasePage {
             // System.out.println("Profile dialog not shown");
             return false;
 		}
-	}
+    }
+
+     public void clickOn_NextBtn_try(WebElement webElement)
+     {
+            clickUntilElementVisible(next_btn_Locator, webElement);
+     }
+   
 
     public String get_ui_title(WebElement webElement){
         return getText(webElement);

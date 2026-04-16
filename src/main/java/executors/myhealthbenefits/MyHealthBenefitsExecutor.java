@@ -178,6 +178,12 @@ public class MyHealthBenefitsExecutor implements KeywordExecutor {
                 myHeathBenefitsPage.clickOn_EmailIcon();
                 return null;
 
+                case "clickon_mailicon_try":
+                myHeathBenefitsPage.clickOn_EmailIcon_try();
+                return null;
+
+                
+
                   case "clickon_grouphealth_mailicon":
                 myHeathBenefitsPage.clickOn_GroupHealth_EmailIcon();
                 return null;

@@ -49,6 +49,23 @@ public class CostCalculatorExecutor implements KeywordExecutor {
                 costCalculatorPage.enter_texts(data.get("Contact_number"),costCalculatorPage.contact_no_Element);
                 return null;
 
+                 case "clickon_projectdetails_nextbtn":
+                 costCalculatorPage.clickOn_NextBtn_try(costCalculatorPage.quantities_Door_Element);
+                 return null;
+
+                  case "clickon_quantities_nextbtn":
+                 costCalculatorPage.clickOn_NextBtn_try(costCalculatorPage.addMaterial_btn_Element);
+                 return null;
+
+                  case "clickon_material_nextbtn":
+                 costCalculatorPage.clickOn_NextBtn_try(costCalculatorPage.summary_customerName_Element);
+                 return null;
+
+                 case "clickon_add_dreamgiftbtn":
+                 costCalculatorPage.clickOn_NextBtn_try(costCalculatorPage.dreamgift_FerrariCar_Element);
+                 return null;
+                
+
             case "click_on_next":
                 return costCalculatorPage.clickOn_next(costCalculatorPage.next_btn_Element);
                 

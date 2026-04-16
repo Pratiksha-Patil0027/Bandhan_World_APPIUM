@@ -19,8 +19,8 @@ import utils.TestContext;
 
 public class RunAllModulesTest extends BaseClassTest {
 
-    @Test(dataProvider = "masterData", dataProviderClass = dataprovider.MasterDataProvider.class
-    // retryAnalyzer = retry.RetryAnalyzer.class
+    @Test(dataProvider = "masterData", dataProviderClass = dataprovider.MasterDataProvider.class,
+     retryAnalyzer = retry.RetryAnalyzer.class
     )
     public void runTests(Map<String, String> data) {
 

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.apache.poi.hssf.record.PageBreakRecord.Break;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.ElementClickInterceptedException;
@@ -54,7 +55,7 @@ public class BasePage {
 
     WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-    int maxAttempts = 5;
+    int maxAttempts = 3;
 
     for (int attempt = 1; attempt <= maxAttempts; attempt++) {
         try {
@@ -65,9 +66,10 @@ public class BasePage {
             System.out.println("Click attempt: " + attempt);
 
             //  Check if next screen element appears
+            Thread.sleep(1000);
             if (isElementVisible(nextScreenElement, 5)) {
                 System.out.println("Click successful, next element found");
-                return;
+                return; 
             }
 
         } catch (Exception e) {

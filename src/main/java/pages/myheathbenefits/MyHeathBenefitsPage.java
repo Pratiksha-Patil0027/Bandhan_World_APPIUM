@@ -225,6 +225,13 @@ public class MyHeathBenefitsPage extends BasePage {
 		clickIfPresent(emailIcon_Locator, 1);
 	}
 
+	public void clickOn_EmailIcon_try() throws InterruptedException {
+		clickUntilElementVisible(emailIcon_Locator,welcomtomail_Element);
+		
+	}
+
+
+
 	public void clickOn_GroupHealth_EmailIcon() {
 		scrollToId("com.prowess.apps.bandhan.world:id/iv_out_email");
 		clickIfPresent(groupHealth_EmailIcon_Element, 0);
