@@ -58,6 +58,7 @@ public class ExcelLogger implements ITestListener {
         String influencerAccount  = getAttribute(result, "InfluencerAcccount", "InfluencerAcccount");
         String expected     = getAttribute(result, "Expected", "Expected");
         String actual       = getAttribute(result, "Actual", "Actual");
+        String failureType = getAttribute(result, "FailureType", "FailureType");
 
         String assertionMessage = getAssertionMessage(result);
 
@@ -68,6 +69,7 @@ public class ExcelLogger implements ITestListener {
                 steps,
                 influencerAccount,
                 status,
+                failureType,          // NEW COLUMN
                 assertionMessage,
                 expected,
                 actual
@@ -120,6 +122,8 @@ public class ExcelLogger implements ITestListener {
             System.err.println("Error generating Excel report: " + e.getMessage());
             e.printStackTrace();
         }
+
+        printStatistics();
     }
 
     private void generateSingleReport(Path baseDir) throws IOException {
@@ -146,7 +150,7 @@ public class ExcelLogger implements ITestListener {
 
         String[] headers = {
                 "MODULE_NAME", "TESTCASE_ID", "TEST_DESC","STEPS",
-                "INFLUENCER_ACCOUNT", "STATUS", "ASSERTION_MESSAGE",
+                "INFLUENCER_ACCOUNT", "STATUS", "FAILURE_TYPE", "ASSERTION_MESSAGE",
                 "EXPECTED_RESULT", "ACTUAL_RESULT"
         };
 
@@ -169,14 +173,15 @@ public class ExcelLogger implements ITestListener {
                 cell.setCellValue(value);
                 
                 // Apply style based on column
-                if (col == 4) { // STATUS column
+                if (col == 5) { // STATUS column
                     switch (value) {
                         case "PASS": cell.setCellStyle(passStyle); break;
                         case "FAIL": cell.setCellStyle(failStyle); break;
                         case "SKIP": cell.setCellStyle(skipStyle); break;
                         default: cell.setCellStyle(normalStyle);
                     }
-                } else if (col == 6 || col == 7) { // EXPECTED and ACTUAL columns
+                    
+                } else if (col == 7 || col == 8 || col == 9) {// ASSERTION, EXPECTED, ACTUAL
                     // Wrap text for these columns
                     CellStyle wrapStyle = workbook.createCellStyle();
                     wrapStyle.cloneStyleFrom(normalStyle);
@@ -198,9 +203,10 @@ public class ExcelLogger implements ITestListener {
         }
 
         // Set specific widths for certain columns
-        sheet.setColumnWidth(5, 8000); // ASSERTION_MESSAGE
-        sheet.setColumnWidth(6, 12000); // EXPECTED_RESULT
-        sheet.setColumnWidth(7, 12000); // ACTUAL_RESULT
+        sheet.setColumnWidth(6, 5000);  // FAILURE_TYPE
+sheet.setColumnWidth(7, 8000);  // ASSERTION_MESSAGE
+sheet.setColumnWidth(8, 12000); // EXPECTED_RESULT
+sheet.setColumnWidth(9, 12000); // ACTUAL_RESULT
 
         // Create filename with timestamp
         String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
@@ -219,7 +225,7 @@ public class ExcelLogger implements ITestListener {
 
         System.out.println("Report generated: " + filePath.toAbsolutePath());
 
-        // Open the file automatically if Desktop is supported
+       // Open the file automatically if Desktop is supported
         // if (Desktop.isDesktopSupported()) {
         //     try {
         //         Desktop.getDesktop().open(filePath.toFile());
@@ -289,6 +295,12 @@ public class ExcelLogger implements ITestListener {
         long passCount = allResults.stream().filter(r -> "PASS".equals(r[4])).count();
         long failCount = allResults.stream().filter(r -> "FAIL".equals(r[4])).count();
         long skipCount = allResults.stream().filter(r -> "SKIP".equals(r[4])).count();
+
+        long appiumFail = allResults.stream()
+        .filter(r -> "APPIUM_FAILURE".equals(r[6])).count();
+
+        long actualFail = allResults.stream()
+        .filter(r -> "ACTUAL_FAILURE".equals(r[6])).count();
         
         System.out.println("\n=== TEST EXECUTION STATISTICS ===");
         System.out.println("Total Tests: " + allResults.size());
@@ -298,6 +310,8 @@ public class ExcelLogger implements ITestListener {
             (failCount * 100 / allResults.size()) : 0) + "%)");
         System.out.println("Skipped: " + skipCount + " (" + (allResults.size() > 0 ? 
             (skipCount * 100 / allResults.size()) : 0) + "%)");
+            System.out.println("Appium Failures: " + appiumFail);
+            System.out.println("Actual Failures: " + actualFail);
         System.out.println("===============================\n");
     }
 

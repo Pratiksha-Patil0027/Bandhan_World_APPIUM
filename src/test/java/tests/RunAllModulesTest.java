@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import org.testng.ITestResult;
+import org.testng.Reporter;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -50,6 +52,7 @@ public class RunAllModulesTest extends BaseClassTest {
         TestContext.put("InfluencerAcccount", influencerAccount);
         TestContext.put("Expected", data.getOrDefault("EXPECTED_RESULT", "NA"));
         TestContext.put("Actual", "NA"); // default
+        TestContext.put("FailureType", "NA");
 
         String actions = data.get("ACTIONS");
         if (actions == null || actions.trim().isEmpty()) {
@@ -257,78 +260,114 @@ public class RunAllModulesTest extends BaseClassTest {
                     
 
                     switch (assertType) {
-                        case "EXACT":
-                            softAssert.assertEquals(actualText, expectedText,
-                                    "EXACT validation failed | Step: " + currentStep);
-                            break;
+                         case "EXACT":
+        if (actualText == null || !actualText.equals(expectedText)) {
 
-                        case "CONTAINS":
-                            softAssert.assertTrue(actualText.contains(expectedText),
-                                    "CONTAINS validation failed | Expected: " + expectedText
-                                            + " | Actual: " + actualText);
-                            break;
+            String error = "ACTUAL_FAILURE | EXACT validation failed | Step: " + currentStep +
+                    " expected [" + expectedText + "] but found [" + actualText + "]";
 
-                        case "EXACT_LIST":
-                            if (!(actual instanceof VerifyResult)) {
-                                softAssert.fail("Expected VerifyResult but got: "
-                                        + actual.getClass().getName());
-                                break;
-                            }
+            TestContext.put("FailureType", "ACTUAL_FAILURE");
+            TestContext.put("Actual", actualText);
 
-                            VerifyResult result = (VerifyResult) actual;
-                            String expected = result.getExpected();
-                            System.out.println("expected list: " + expected);
-                            List<String> actualLists = result.getActualList();
-                            System.out.println("actual list: " + actualLists);
+            softAssert.fail(error);
+        }
+        break;
 
-                            TestContext.put("Actual", actualLists.toString());
+                       
 
-                            for (String route : actualLists) {
-                                softAssert.assertEquals(
-                                        route.trim(),
-                                        expected.trim()
+                            case "CONTAINS":
+        if (actualText == null || !actualText.contains(expectedText)) {
 
-                                );
-                            }
-                            break;
+            String error = "ACTUAL_FAILURE | CONTAINS validation failed | Expected: "
+                    + expectedText + " | Actual: " + actualText;
 
-                        case "CONTAINS_LIST":
-                            if (!(actual instanceof VerifyResult)) {
-                                softAssert.fail(
-                                        "Expected VerifyResult but got: " +
-                                                (actual == null ? "null" : actual.getClass().getName()));
-                                break;
-                            }
+            TestContext.put("FailureType", "ACTUAL_FAILURE");
+            TestContext.put("Actual", actualText);
 
-                            VerifyResult resultContain = (VerifyResult) actual;
+            softAssert.fail(error);
+        }
+        break;
 
-                            String expectedContain = resultContain.getExpected();
-                            List<String> actualListsContain = resultContain.getActualList();
+                       case "EXACT_LIST":
 
-                            // Safety checks
-                            if (expectedContain == null || actualListsContain == null || actualListsContain.isEmpty()) {
-                                softAssert.fail(
-                                        "Expected or Actual list is null/empty. Expected: "
-                                                + expectedContain + ", Actual: " + actualListsContain);
-                                break;
-                            }
+    if (!(actual instanceof VerifyResult)) {
+        String error = "ACTUAL_FAILURE | Expected VerifyResult but got: "
+                + (actual == null ? "null" : actual.getClass().getName());
 
-                            String expectedValue = expectedContain.trim().toLowerCase();
+        TestContext.put("FailureType", "ACTUAL_FAILURE");
+        softAssert.fail(error);
+        break;
+    }
 
-                            boolean found = actualListsContain.stream()
-                                    .filter(Objects::nonNull)
-                                    .map(String::trim)
-                                    .map(String::toLowerCase)
-                                    .anyMatch(val -> val.contains(expectedValue));
+    VerifyResult result = (VerifyResult) actual;
+    String expected = result.getExpected();
+    List<String> actualLists = result.getActualList();
 
-                            // Store actual for report
-                            TestContext.put("Actual", actualListsContain.toString());
+    TestContext.put("Actual", String.valueOf(actualLists));
 
-                            softAssert.assertTrue(
-                                    found,
-                                    "Expected value '" + expectedContain
-                                            + "' not found in actual list: " + actualListsContain);
-                            break;
+    if (actualLists == null || actualLists.isEmpty()) {
+        TestContext.put("FailureType", "ACTUAL_FAILURE");
+        softAssert.fail("ACTUAL_FAILURE | Actual list is empty/null");
+        break;
+    }
+
+    for (String route : actualLists) {
+        if (route == null || !route.trim().equals(expected.trim())) {
+
+            String error = "ACTUAL_FAILURE | EXACT_LIST failed | expected ["
+                    + expected + "] but found [" + route + "]";
+
+            TestContext.put("FailureType", "ACTUAL_FAILURE");
+            softAssert.fail(error);
+        }
+    }
+    break;
+
+                       case "CONTAINS_LIST":
+
+    if (!(actual instanceof VerifyResult)) {
+        String error = "ACTUAL_FAILURE | Expected VerifyResult but got: "
+                + (actual == null ? "null" : actual.getClass().getName());
+
+        TestContext.put("FailureType", "ACTUAL_FAILURE");
+        softAssert.fail(error);
+        break;
+    }
+
+    VerifyResult resultContain = (VerifyResult) actual;
+
+    String expectedContain = resultContain.getExpected();
+    List<String> actualListsContain = resultContain.getActualList();
+
+    TestContext.put("Actual", String.valueOf(actualListsContain));
+
+    if (expectedContain == null || actualListsContain == null || actualListsContain.isEmpty()) {
+
+        String error = "ACTUAL_FAILURE | Expected or Actual list is null/empty. Expected: "
+                + expectedContain + ", Actual: " + actualListsContain;
+
+        TestContext.put("FailureType", "ACTUAL_FAILURE");
+        softAssert.fail(error);
+        break;
+    }
+
+    String expectedValue = expectedContain.trim().toLowerCase();
+
+    boolean found = actualListsContain.stream()
+            .filter(Objects::nonNull)
+            .map(String::trim)
+            .map(String::toLowerCase)
+            .anyMatch(val -> val.contains(expectedValue));
+
+    if (!found) {
+
+        String error = "ACTUAL_FAILURE | Expected value '" + expectedContain
+                + "' not found in actual list: " + actualListsContain;
+
+        TestContext.put("FailureType", "ACTUAL_FAILURE");
+        softAssert.fail(error);
+    }
+    break;
 
                         default:
                             softAssert.fail("Invalid ASSERT_TYPE: " + assertType);
@@ -336,28 +375,46 @@ public class RunAllModulesTest extends BaseClassTest {
                 }
 
             } catch (Exception e) {
-                String error = "Step failed | " + currentStep + " | Reason: " + e.getMessage();
-                System.err.println(error);
-                e.printStackTrace();
 
-                // Update Actual with error message
-                TestContext.put("Actual", "ERROR : " + e.getMessage());
-                softAssert.fail(error);
-            }
+    String error = "APPIUM_FAILURE | Step failed | " + currentStep + " | Reason: " + e.getMessage();
+    System.err.println(error);
+    e.printStackTrace();
+
+    TestContext.put("FailureType", "APPIUM_FAILURE");
+    TestContext.put("Actual", "ERROR : " + e.getMessage());
+
+    softAssert.fail(error);
+}
         }
 
         // ===== FINAL ASSERT =====
         try {
-            softAssert.assertAll();
-            System.out.println("TEST PASSED : " + testcaseId);
-        } catch (AssertionError e) {
-            System.err.println("TEST FAILED : " + testcaseId);
-            // Update TestContext with final actual result if not already set
-            if (TestContext.get("Actual").equals("NA")) {
-                TestContext.put("Actual", "Assertion Failed: " + e.getMessage());
-            }
-            throw e;
-        }
+    softAssert.assertAll();
+    System.out.println("TEST PASSED : " + testcaseId);
+
+} catch (AssertionError e) {
+
+    System.err.println("TEST FAILED : " + testcaseId);
+
+    if (TestContext.get("FailureType").equals("NA")) {
+        TestContext.put("FailureType", "ACTUAL_FAILURE");
     }
 
+    if (TestContext.get("Actual").equals("NA")) {
+        TestContext.put("Actual", "Assertion Failed: " + e.getMessage());
     }
+
+    throw e;
+} finally {
+
+    //  THIS IS THE IMPORTANT BLOCK
+    ITestResult result = Reporter.getCurrentTestResult();
+
+    if (result != null) {
+        result.setAttribute("FailureType", TestContext.get("FailureType"));
+        result.setAttribute("Actual", TestContext.get("Actual"));
+    }
+}
+}}
+    
+

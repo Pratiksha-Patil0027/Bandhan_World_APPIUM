@@ -310,7 +310,7 @@ private boolean isElementPresent(WebElement element) {
 	 //String claimId = "C2618004-1";
 	
 
-    int maxScroll = 5;
+    int maxScroll = 20;
 
     for (int i = 0; i < maxScroll; i++) {
 
