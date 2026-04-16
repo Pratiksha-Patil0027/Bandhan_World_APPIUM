@@ -17,6 +17,8 @@ import pages.base.BasePage;
 
 public class RedemptionHistoryPage extends BasePage {
 
+	RewardCataloguePage rewardCataloguePage =new RewardCataloguePage(driver);
+
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/title")
 	public WebElement pageTitle_Element;
 
@@ -64,6 +66,8 @@ public class RedemptionHistoryPage extends BasePage {
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/add_fab")
 	public WebElement fab_Btn_Element;
+
+	 By fab_Btn_Locator = By.id("com.prowess.apps.bandhan.world:id/add_fab");
 
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvRedemptionNo")
 	public List<WebElement> history_RedemptionNo_Elements;
@@ -264,7 +268,8 @@ public class RedemptionHistoryPage extends BasePage {
 	}
 
 	public void clickOn_FabBtn() {
-		clickIfPresent(fab_Btn_Element,0);
+		clickUntilElementVisible(fab_Btn_Locator,rewardCataloguePage.TDS_Percentage_Element);
+		//clickIfPresent(fab_Btn_Element,0);
 	}
 
 	public String get_History_RedemptionNo(int i) {
@@ -274,9 +279,6 @@ public class RedemptionHistoryPage extends BasePage {
 	}
 
 	
-
-
-
 
    public boolean isRedemptionNoPresent() {
 

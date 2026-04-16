@@ -49,6 +49,36 @@ public class BasePage {
         PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 
+
+    public void clickUntilElementVisible(By clickLocator, WebElement nextScreenElement) {
+
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+    int maxAttempts = 5;
+
+    for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+        try {
+            // Wait for element to be clickable
+            WebElement element = wait.until(ExpectedConditions.elementToBeClickable(clickLocator));
+
+            element.click();
+            System.out.println("Click attempt: " + attempt);
+
+            //  Check if next screen element appears
+            if (isElementVisible(nextScreenElement, 5)) {
+                System.out.println("Click successful, next element found");
+                return;
+            }
+
+        } catch (Exception e) {
+            System.out.println("Click attempt failed: " + attempt);
+        }
+    }
+
+    //  Final failure
+    throw new RuntimeException("Failed to click element after " + maxAttempts +
+            " attempts. Next element not visible: " + nextScreenElement);
+}
     //  Click element with wait
   public void clickElement(WebElement element) {
     int attempts = 0;
@@ -524,6 +554,11 @@ public void scrollDownSmall() {
                 .until(ExpectedConditions.elementToBeClickable(element));
     }
 
+    public WebElement waitForElementVisibility(By locator) {
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+    return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+}
+
     //  SAME LOCATOR SCREEN CHANGE FIX
     public void waitUntilElementRefreshed(WebElement element, int timeout) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
@@ -929,11 +964,6 @@ public void waitForListToLoad(By locator) {
         });
 }
 
-
-public void waitForElement(By locator) {
-    new WebDriverWait(driver, Duration.ofSeconds(20))
-            .until(ExpectedConditions.visibilityOfElementLocated(locator));
-}
 
 
 public void relaunchAppIfClosed(String appActivity) {
