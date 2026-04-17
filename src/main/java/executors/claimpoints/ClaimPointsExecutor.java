@@ -389,7 +389,7 @@ GlobalStore.put("SELECTED_DEALERNAMESPLIT", dealerNametext);
                  return null;
 
                   case "category_selectfortunrtmtbrand":
-                 categoryPage.selectBrandByHorizontalScroll("Fortune TMT");
+                 categoryPage.selectBrandByHorizontalScroll("APPIUM TMT");
                  return null;
 
                   case "category_enterproductname_insearchfield":
@@ -492,6 +492,11 @@ GlobalStore.put("SELECTED_DEALERNAMESPLIT", dealerNametext);
                  case "category_enter_productremark":
                  categoryPage.enter_ProductRemark(0,data.get("PRODUCT_REMARK")+System.currentTimeMillis());
                  return null;
+
+                 case "category_enter_productremark2":
+                 categoryPage.enter_ProductRemark(0,"remark");
+                 return null;
+
 
                  case "verify_category_tonne_uom":
                  return categoryPage.get_TonneUom_Text();
