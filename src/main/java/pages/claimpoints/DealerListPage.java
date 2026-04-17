@@ -102,14 +102,14 @@ public List<String> get_DealerNameList()
 }
 
 
-public boolean isAddedDealerDisplayed(String expectedDealerName) {
+public boolean isAddedDealerDisplayed(String expectedDealerName) throws InterruptedException {
 
     int maxScrolls = 5;
 
     for (int i = 0; i < maxScrolls; i++) {
 
         List<String> dealerList = get_DealerNameList();
-
+Thread.sleep(1000);
         if (dealerList != null && !dealerList.isEmpty()) {
             for (String dealer : dealerList) {
                 if (dealer.equalsIgnoreCase(expectedDealerName)) {
