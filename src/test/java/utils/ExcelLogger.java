@@ -10,9 +10,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.poi.common.usermodel.Hyperlink;
+import org.apache.poi.common.usermodel.HyperlinkType;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
@@ -26,6 +29,9 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 
+import base.BaseClassTest;
+import io.appium.java_client.AppiumDriver;
+
 public class ExcelLogger implements ITestListener {
 
     private final List<Object[]> allResults = new ArrayList<>();
@@ -34,49 +40,59 @@ public class ExcelLogger implements ITestListener {
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        recordResult(result, "PASS");
+        recordResult(result, "PASS",null);
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        recordResult(result, "FAIL");
+       
+         Object currentClass = result.getInstance();
+    AppiumDriver driver = ((BaseClassTest) currentClass).getDriver();
+
+    String testCaseId = getAttribute(result, "TestID", "TestID");
+
+    // Capture screenshot
+    String screenshotPath = ScreenshotUtil.captureScreenshot(driver, testCaseId);
+
+    recordResult(result, "FAIL", screenshotPath);
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        recordResult(result, "SKIP");
+        recordResult(result, "SKIP",null);
     }
 
     /* ================= CORE RECORDING ================= */
 
-    private void recordResult(ITestResult result, String status) {
+   private void recordResult(ITestResult result, String status, String screenshotPath) {
 
-        String moduleName   = getAttribute(result, "ModuleName", "ModuleName");
-        String testcaseId   = getAttribute(result, "TestID", "TestID");
-        String testcaseDesc = getAttribute(result, "TestDesc", "TestDesc");
-         String steps = getAttribute(result, "Steps", "Steps");
-        String influencerAccount  = getAttribute(result, "InfluencerAcccount", "InfluencerAcccount");
-        String expected     = getAttribute(result, "Expected", "Expected");
-        String actual       = getAttribute(result, "Actual", "Actual");
-        String failureType = getAttribute(result, "FailureType", "FailureType");
+    String moduleName   = getAttribute(result, "ModuleName", "ModuleName");
+    String testcaseId   = getAttribute(result, "TestID", "TestID");
+    String testcaseDesc = getAttribute(result, "TestDesc", "TestDesc");
+    String steps        = getAttribute(result, "Steps", "Steps");
+    String influencerAccount = getAttribute(result, "InfluencerAcccount", "InfluencerAcccount");
+    String expected     = getAttribute(result, "Expected", "Expected");
+    String actual       = getAttribute(result, "Actual", "Actual");
+    String failureType  = getAttribute(result, "FailureType", "FailureType");
 
-        String assertionMessage = getAssertionMessage(result);
+    String assertionMessage = getAssertionMessage(result);
 
-        Object[] row = new Object[]{
-                moduleName,
-                testcaseId,
-                testcaseDesc,
-                steps,
-                influencerAccount,
-                status,
-                failureType,          // NEW COLUMN
-                assertionMessage,
-                expected,
-                actual
-        };
+    Object[] row = new Object[]{
+            moduleName,
+            testcaseId,
+            testcaseDesc,
+            steps,
+            influencerAccount,
+            status,
+            failureType,
+            assertionMessage,
+            expected,
+            actual,
+            screenshotPath == null ? "" : screenshotPath   //  NEW COLUMN
+    };
 
-        allResults.add(row);
-    }
+    allResults.add(row);
+}
 
     private String getAttribute(ITestResult result, String primaryKey, String fallbackKey) {
         // First try to get from test result attributes
@@ -124,6 +140,7 @@ public class ExcelLogger implements ITestListener {
         }
 
         printStatistics();
+       
     }
 
     private void generateSingleReport(Path baseDir) throws IOException {
@@ -151,7 +168,7 @@ public class ExcelLogger implements ITestListener {
         String[] headers = {
                 "MODULE_NAME", "TESTCASE_ID", "TEST_DESC","STEPS",
                 "INFLUENCER_ACCOUNT", "STATUS", "FAILURE_TYPE", "ASSERTION_MESSAGE",
-                "EXPECTED_RESULT", "ACTUAL_RESULT"
+                "EXPECTED_RESULT", "ACTUAL_RESULT","SCREENSHOT"
         };
 
         // Create header row
@@ -172,8 +189,21 @@ public class ExcelLogger implements ITestListener {
                 String value = data[col] == null ? "" : data[col].toString();
                 cell.setCellValue(value);
                 
+                //  Screenshot column (index 10)
+    if (col == 10 && !value.isEmpty()) {
+       CreationHelper helper = workbook.getCreationHelper();
+org.apache.poi.ss.usermodel.Hyperlink link =
+        helper.createHyperlink(HyperlinkType.FILE);
+
+// ✅ Convert to valid URI
+String formattedPath = "file:///" + value.replace("\\", "/");
+
+link.setAddress(formattedPath);
+cell.setHyperlink(link);
+cell.setCellValue("View Screenshot");
+    }
                 // Apply style based on column
-                if (col == 5) { // STATUS column
+               else if (col == 5) { // STATUS column
                     switch (value) {
                         case "PASS": cell.setCellStyle(passStyle); break;
                         case "FAIL": cell.setCellStyle(failStyle); break;
@@ -207,6 +237,7 @@ public class ExcelLogger implements ITestListener {
 sheet.setColumnWidth(7, 8000);  // ASSERTION_MESSAGE
 sheet.setColumnWidth(8, 12000); // EXPECTED_RESULT
 sheet.setColumnWidth(9, 12000); // ACTUAL_RESULT
+sheet.setColumnWidth(10, 6000); // Screenshot column
 
         // Create filename with timestamp
         String timestamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
@@ -302,14 +333,14 @@ sheet.setColumnWidth(9, 12000); // ACTUAL_RESULT
         long actualFail = allResults.stream()
         .filter(r -> "ACTUAL_FAILURE".equals(r[6])).count();
         
-        System.out.println("\n=== TEST EXECUTION STATISTICS ===");
-        System.out.println("Total Tests: " + allResults.size());
-        System.out.println("Passed: " + passCount + " (" + (allResults.size() > 0 ? 
-            (passCount * 100 / allResults.size()) : 0) + "%)");
-        System.out.println("Failed: " + failCount + " (" + (allResults.size() > 0 ? 
-            (failCount * 100 / allResults.size()) : 0) + "%)");
-        System.out.println("Skipped: " + skipCount + " (" + (allResults.size() > 0 ? 
-            (skipCount * 100 / allResults.size()) : 0) + "%)");
+        // System.out.println("\n=== TEST EXECUTION STATISTICS ===");
+        // System.out.println("Total Tests: " + allResults.size());
+        // System.out.println("Passed: " + passCount + " (" + (allResults.size() > 0 ? 
+        //     (passCount * 100 / allResults.size()) : 0) + "%)");
+        // System.out.println("Failed: " + failCount + " (" + (allResults.size() > 0 ? 
+        //     (failCount * 100 / allResults.size()) : 0) + "%)");
+        // System.out.println("Skipped: " + skipCount + " (" + (allResults.size() > 0 ? 
+        //     (skipCount * 100 / allResults.size()) : 0) + "%)");
             System.out.println("Appium Failures: " + appiumFail);
             System.out.println("Actual Failures: " + actualFail);
         System.out.println("===============================\n");
@@ -325,4 +356,54 @@ sheet.setColumnWidth(9, 12000); // ACTUAL_RESULT
     public void onTestStart(ITestResult result) {
         // Optional: Can be used for tracking start time
     }
+
+
+
+    public void writeResultsToExcel() {
+
+    String filePath = "TestResults.xlsx";
+
+    try (Workbook wb = new XSSFWorkbook()) {
+        Sheet sheet = wb.createSheet("Results");
+
+        // Header
+        Row header = sheet.createRow(0);
+        header.createCell(0).setCellValue("TestCaseID");
+        header.createCell(1).setCellValue("Status");
+        header.createCell(2).setCellValue("Screenshot");
+
+        int rowNum = 1;
+
+        for (Object[] data : allResults) {
+            Row row = sheet.createRow(rowNum++);
+
+            row.createCell(0).setCellValue(data[0].toString());
+            row.createCell(1).setCellValue(data[1].toString());
+
+            Cell cell = row.createCell(2);
+            String path = data[10].toString(); //  screenshot column
+
+           if (path != null && !path.trim().isEmpty()) {
+
+    String formattedPath = "file:///" + path.replace("\\", "/");
+
+    CreationHelper helper = wb.getCreationHelper();
+    org.apache.poi.ss.usermodel.Hyperlink link =
+            helper.createHyperlink(HyperlinkType.FILE);
+
+    link.setAddress(formattedPath);
+
+    cell.setHyperlink(link);
+    cell.setCellValue("View Screenshot");
+}
+        }
+
+        FileOutputStream fos = new FileOutputStream(filePath);
+        wb.write(fos);
+        fos.close();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 }

@@ -304,11 +304,11 @@ public void enter_DetailDesc(String text)
 	}
 
 	public void clickOn_CameraCaptureIcon() {
-		clickElement(cameraCapture_Element);
+		clickIfPresent(cameraCapture_Element,5);
 	}
 
 	public void clickOn_CameraCapture_donebtn() {
-		clickElement(cameraCapture_DoneBtn);
+		clickIfPresent(cameraCapture_DoneBtn,5);
 	}
 
 	
