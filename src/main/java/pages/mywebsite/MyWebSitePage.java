@@ -427,7 +427,8 @@ public class MyWebSitePage extends BasePage {
 		return getText(draftBtn_Element);
 	}
 
-	public boolean myWebSite_DraftBtn_isDisplay() {
+	public boolean myWebSite_DraftBtn_isDisplay() throws InterruptedException {
+		Thread.sleep(2000);
 		return isElementVisible(draftBtn_Element);
 	}
 
