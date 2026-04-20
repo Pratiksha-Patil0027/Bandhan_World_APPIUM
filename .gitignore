@@ -12,6 +12,8 @@ test-output/
 #Result files
 reports/
 
+screenshots/
+
 
 
 hs_err_pid6976.log
