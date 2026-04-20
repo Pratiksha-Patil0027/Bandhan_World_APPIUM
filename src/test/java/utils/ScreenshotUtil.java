@@ -18,7 +18,8 @@ public class ScreenshotUtil {
     String timestamp = new SimpleDateFormat("HHmmss").format(new Date());
     String fileName = testCaseId + "_" + timestamp + ".png";
 
-    String dateFolder = new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date());
+    //String dateFolder = new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date());
+    String dateFolder = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
     // String screenshotDir = System.getProperty("user.dir") 
     //         + "/reports/" + dateFolder + "/screenshots/";
