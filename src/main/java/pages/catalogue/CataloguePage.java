@@ -36,9 +36,10 @@ public class CataloguePage extends BasePage {
 		return getText(pageTitle_Element);
 	}
 
-	public void enter_ProductName(String input)
+	public void enter_ProductName(String input) throws InterruptedException
 	{ 
       sendText(searchField_Element,input);
+	  Thread.sleep(1000);
 	}
 
 	public String get_SnackBarText() throws InterruptedException {

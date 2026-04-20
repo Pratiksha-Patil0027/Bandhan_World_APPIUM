@@ -11,20 +11,32 @@ import java.util.Date;
 
 public class ScreenshotUtil {
 
+
+
     public static String captureScreenshot(AppiumDriver driver, String testCaseId) {
-        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String fileName = testCaseId + "_" + timestamp + ".png";
 
-        String screenshotDir = System.getProperty("user.dir") + "/screenshots/";
-        String filePath = screenshotDir + fileName;
+    String timestamp = new SimpleDateFormat("HHmmss").format(new Date());
+    String fileName = testCaseId + "_" + timestamp + ".png";
 
-        try {
-            File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-            FileUtils.copyFile(srcFile, new File(filePath));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    String dateFolder = new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date());
 
-        return filePath; // return path to store in Excel
+    // String screenshotDir = System.getProperty("user.dir") 
+    //         + "/reports/" + dateFolder + "/screenshots/";
+
+   String screenshotDir = System.getProperty("user.dir") 
+        + "/failed_Testcases_Screenshots/" + dateFolder + "/";
+
+    new File(screenshotDir).mkdirs();
+
+    String filePath = screenshotDir + fileName;
+
+    try {
+        File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(srcFile, new File(filePath));
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+
+    return filePath; // full path
+}
 }
