@@ -30,6 +30,7 @@ import io.appium.java_client.AppiumDriver;
 
 public class ExcelLogger implements ITestListener {
 
+    static String executionFolder;
     private final List<Object[]> allResults = new ArrayList<>();
 
     /* ================= TESTNG EVENTS ================= */
@@ -359,16 +360,27 @@ sheet.setColumnWidth(10, 15000); // Screenshot column
         System.out.println("===============================\n");
     }
 
-    @Override
-    public void onStart(ITestContext context) {
-        System.out.println("Starting test execution: " + context.getName());
-        allResults.clear();
+     @Override
+public void onStart(ITestContext context) {
+
+    System.out.println("Starting test execution: " + context.getName());
+
+    //  Create folder ONLY ONCE per execution
+    if (executionFolder == null) {
+        executionFolder = new SimpleDateFormat("yyyy-MM-dd_HH-mm")
+                .format(new Date());
     }
 
-    @Override
-    public void onTestStart(ITestResult result) {
-        // Optional: Can be used for tracking start time
-    }
+    //  Clear results ONLY ONCE
+    allResults.clear();
+}
+
+   @Override
+public void onTestStart(ITestResult result) {
+    System.out.println("Starting test case: " + result.getName());
+}
+
+   
 
 
 }

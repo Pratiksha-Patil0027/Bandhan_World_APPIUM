@@ -10,21 +10,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ScreenshotUtil {
-
-
-
     public static String captureScreenshot(AppiumDriver driver, String testCaseId) {
 
     String timestamp = new SimpleDateFormat("HHmmss").format(new Date());
     String fileName = testCaseId + "_" + timestamp + ".png";
 
-    String dateFolder = new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date());
-
-    // String screenshotDir = System.getProperty("user.dir") 
-    //         + "/reports/" + dateFolder + "/screenshots/";
-
-   String screenshotDir = System.getProperty("user.dir") 
-        + "/failed_Testcases_Screenshots/" + dateFolder + "/";
+    //String dateFolder = new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date());
+    //  Use SAME execution folder (created once)
+    String screenshotDir = System.getProperty("user.dir") 
+        + "/failed_Testcases_Screenshots/" + ExcelLogger.executionFolder + "/";
 
     new File(screenshotDir).mkdirs();
 
