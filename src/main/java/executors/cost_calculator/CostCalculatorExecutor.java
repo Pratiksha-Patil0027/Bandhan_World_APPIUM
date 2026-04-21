@@ -2,11 +2,7 @@ package executors.cost_calculator;
 
 import java.util.Map;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-
 import core.KeywordExecutor;
-import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
 import pages.cost_calculator.CostCalculatorPage;
 import pages.dashboard.DashboardPage;

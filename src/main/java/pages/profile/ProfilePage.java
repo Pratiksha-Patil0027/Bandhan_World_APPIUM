@@ -1,7 +1,6 @@
 package pages.profile;
 
 import java.util.Base64;
-import java.util.NoSuchElementException;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebElement;
@@ -43,8 +42,6 @@ public class ProfilePage extends BasePage {
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvEmail")
     public WebElement email_Element;
 
-
-
     @AndroidFindBy(id  = "com.prowess.apps.bandhan.world:id/rv_milestone_profile")
     public WebElement milestone_list_Element;
 
@@ -62,7 +59,6 @@ public class ProfilePage extends BasePage {
 
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvLinkLegalDocument")
     public WebElement linkLegalDocumentBtn_Element;
-
 
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvWebLink")
     public WebElement webLink_Element;

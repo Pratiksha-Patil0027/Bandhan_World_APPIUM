@@ -377,7 +377,7 @@ public void onStart(ITestContext context) {
 
    @Override
 public void onTestStart(ITestResult result) {
-    System.out.println("Starting test case: " + result.getName());
+    //System.out.println("Starting test case: " + result.getName());
 }
 
    

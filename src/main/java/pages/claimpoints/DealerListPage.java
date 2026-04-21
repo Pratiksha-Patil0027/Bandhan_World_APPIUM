@@ -112,6 +112,8 @@ public boolean isAddedDealerDisplayed(String expectedDealerName) throws Interrup
 Thread.sleep(1000);
         if (dealerList != null && !dealerList.isEmpty()) {
             for (String dealer : dealerList) {
+				System.out.println("expectedDealerName : "+ expectedDealerName);
+				System.out.println("actualDealerName : "+ dealer);
                 if (dealer.equalsIgnoreCase(expectedDealerName)) {
                     return true; //  dealer found
                 }
