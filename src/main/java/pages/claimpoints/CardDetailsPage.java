@@ -188,7 +188,7 @@ public String get_AdditionOfTotalPoints() {
 
 
 	public void clickOn_CancelBtn() {
-		clickElement(cancelBtn_Element);
+		clickIfPresent(cancelBtn_Element,5);
 	}
 
 	public void clickOn_SubmitBtn() {
