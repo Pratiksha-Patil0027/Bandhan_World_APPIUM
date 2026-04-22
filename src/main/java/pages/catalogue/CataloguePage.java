@@ -38,7 +38,7 @@ public class CataloguePage extends BasePage {
 	public void enter_ProductName(String input) throws InterruptedException
 	{ 
       sendText(searchField_Element,input);
-	  Thread.sleep(1000);
+	  Thread.sleep(2000);
 	}
 
 	public String get_SnackBarText() throws InterruptedException {
