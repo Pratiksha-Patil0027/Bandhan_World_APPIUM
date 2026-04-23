@@ -95,8 +95,9 @@ public class CardDetailsPage extends BasePage {
 		return getText(product_Count_Element);
 	}
 
-	public void clickOn_UpDownArrowIcon(int index) {
+	public void clickOn_UpDownArrowIcon(int index) throws InterruptedException {
 		waitForListToLoad(arrowIcon_Elements);
+		Thread.sleep(1000);
 		WebElement arrowIcon_Element = arrowIcon_Elements.get(index);
 		clickElement(arrowIcon_Element);
 	}
