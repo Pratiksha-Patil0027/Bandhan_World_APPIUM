@@ -987,6 +987,16 @@ public void relaunchAppIfClosed(String appActivity) {
     }
 }
 
+
+   public static  String getTodayDate()
+   {
+  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+        String todayDate = LocalDate.now().format(formatter);
+
+        System.out.println(todayDate);
+        return todayDate;
+   }
+
 }
 
 

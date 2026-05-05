@@ -1,8 +1,13 @@
 package pages.dashboard;
 
+import java.time.Duration;
+import java.util.Arrays;
 import java.util.List;
 
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.android.AndroidDriver;
@@ -10,12 +15,6 @@ import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import pages.base.BasePage;
-
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.interactions.PointerInput;
-import org.openqa.selenium.interactions.Sequence;
-import java.time.Duration;
-import java.util.Arrays;
 
 public class DashboardPage extends BasePage {
 
@@ -116,13 +115,13 @@ public class DashboardPage extends BasePage {
 	}
 
 	public void clickOn_RewardCatalogue_Menu() {
-
 		driver.findElement(AppiumBy.androidUIAutomator(
 			"new UiScrollable(new UiSelector().resourceId(\"com.prowess.apps.bandhan.world:id/recyclerviewMenu\").instance(1))" +
 			".setAsHorizontalList()" +
 			".scrollIntoView(new UiSelector().text(\"Reward Catalogue\"));"
 		)).click();
 	}
+
 
 	public void clickOn_CostCalculation_Menu() {
 		driver.findElement(AppiumBy.androidUIAutomator(

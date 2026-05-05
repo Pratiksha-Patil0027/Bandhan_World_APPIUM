@@ -7,6 +7,7 @@ import core.GlobalStore;
 import core.KeywordExecutor;
 import core.VerifyResult;
 import io.appium.java_client.android.AndroidDriver;
+import pages.base.BasePage;
 import pages.claimpoints.CardDetailsPage;
 import pages.claimpoints.CategoryPage;
 import pages.claimpoints.ClaimDetailsPage;
@@ -103,6 +104,17 @@ public class ClaimPointsExecutor implements KeywordExecutor {
             case "myclaims_entertodate":
                 myClaimsPage.open_Todate();
                 myClaimsPage.selectDateFromText(data.get("TO_DATE"));
+                return null;
+
+                 case "myclaims_enterfromdate_todaydate":
+                myClaimsPage.open_FromDate();
+                
+                myClaimsPage.selectDateFromText(BasePage.getTodayDate());
+                return null;
+
+            case "myclaims_entertodate_todaydate":
+                myClaimsPage.open_Todate();
+                myClaimsPage.selectDateFromText(BasePage.getTodayDate());
                 return null;
 
             case "verifydatanotavailabletext":
