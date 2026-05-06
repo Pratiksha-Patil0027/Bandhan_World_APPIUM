@@ -197,8 +197,10 @@ public class MyClaimsPage extends BasePage {
     String day = parts[0].startsWith("0") ? parts[0].substring(1) : parts[0];
     String month = parts[1];
     String year = parts[2];
-
-    select_Date(year, month, day);
+                System.out.println("day : "+ day);
+				System.out.println("month : "+ month);
+				System.out.println("year : "+ year);
+    select_Date(year, month, fullDateText);
 }
 
 
@@ -228,6 +230,7 @@ public class MyClaimsPage extends BasePage {
                
                 if (dateText.contains(day ))
                        {
+						System.out.println("dateText : " + dateText);
                     dateElement.click();
                     dateSelected = true;
 					clickElement(filterOkBtn_Element);
