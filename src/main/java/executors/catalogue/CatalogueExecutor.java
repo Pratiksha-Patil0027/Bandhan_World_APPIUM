@@ -102,7 +102,7 @@ public class CatalogueExecutor implements KeywordExecutor {
                 return cataloguePage.get_ProductCode();
 
                 
-      case "clickon_pcc_category":
+                case "clickon_pcc_category":
                 cataloguePage.clickOn_PCC_Category();
                 return null;
 
