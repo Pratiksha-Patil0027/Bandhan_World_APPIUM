@@ -17,7 +17,7 @@
   </properties>
  
   <dependencies>
-    <!-- ✅ Appium Java Client  -->
+    <!-- Appium Java Client  -->
     <dependency>
       <groupId>io.appium</groupId>
       <artifactId>java-client</artifactId>
@@ -25,7 +25,7 @@
     </dependency>
  
  
-    <!-- ✅ Selenium dependencies explicitly included -->
+    <!-- Selenium dependencies explicitly included -->
     <dependency>
       <groupId>org.seleniumhq.selenium</groupId>
       <artifactId>selenium-api</artifactId>
@@ -42,7 +42,7 @@
       <version>4.34.0</version>
     </dependency>
  
-    <!-- ✅ TestNG for testing -->
+    <!--  TestNG for testing -->
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
@@ -105,7 +105,7 @@
       </configuration>
     </plugin>
 
-    <!-- ✅ Surefire (STABLE for Appium + Java 11) -->
+    <!-- Surefire (STABLE for Appium + Java 11) -->
     <plugin>
   <groupId>org.apache.maven.plugins</groupId>
   <artifactId>maven-surefire-plugin</artifactId>
@@ -113,7 +113,7 @@
 
   <configuration>
 
-    <!-- 🚨 CRITICAL FOR APPIUM -->
+    <!--  CRITICAL FOR APPIUM -->
     <forkCount>0</forkCount>
     <reuseForks>false</reuseForks>
 
