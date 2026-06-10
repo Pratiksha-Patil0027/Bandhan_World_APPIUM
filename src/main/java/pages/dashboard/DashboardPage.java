@@ -87,6 +87,12 @@ public class DashboardPage extends BasePage {
 	@AndroidFindBy(accessibility = "Crop")
 	public WebElement camera_DoneBtn_Element;
 
+	@AndroidFindBy(accessibility = "Shutter")
+	public WebElement edit_camera_CaptureIcon_Element;
+
+	@AndroidFindBy(accessibility = "Done")
+	public WebElement edit_camera_capture_DoneButton_Element;
+
 	// @AndroidFindBy(id = "")
 	// public WebElement _Element;
 
@@ -264,6 +270,14 @@ public void clickOn_BrowseFileOption(int i) {
 
 	public void clickOn_GallaryDoneButton() {
 		clickElement(camera_DoneBtn_Element);
+	}
+
+	public void clickOn_Camera_CaptureIcon() {
+		clickElement(edit_camera_CaptureIcon_Element);
+	}
+
+	public void clickOn_Camera_Capture_DoneButton() {
+		clickElement(edit_camera_capture_DoneButton_Element);
 	}
 	
 }

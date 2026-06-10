@@ -21,26 +21,15 @@
     <dependency>
       <groupId>io.appium</groupId>
       <artifactId>java-client</artifactId>
-      <version>9.5.0</version>
+      <version>10.0.0</version>
     </dependency>
- 
- 
-    <!-- Selenium dependencies explicitly included -->
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-api</artifactId>
-      <version>4.34.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-remote-driver</artifactId>
-      <version>4.34.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.seleniumhq.selenium</groupId>
-      <artifactId>selenium-support</artifactId>
-      <version>4.34.0</version>
-    </dependency>
+
+
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-java</artifactId>
+    <version>4.44.0</version>
+</dependency>
  
     <!--  TestNG for testing -->
     <dependency>

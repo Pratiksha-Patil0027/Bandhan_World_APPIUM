@@ -2,6 +2,7 @@ package pages.mywebsite;
 
 import java.lang.reflect.Field;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -146,8 +147,6 @@ public class MyWebSitePage extends BasePage {
 
 	@AndroidFindBy(id = "android:id/title")
 	public List<WebElement> imageTitle_Elements;
-
-	
 
 	@AndroidFindBy(accessibility = "Crop")
 	public WebElement camera_DoneBtn_Element;
@@ -365,6 +364,132 @@ public class MyWebSitePage extends BasePage {
 	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/dialog_universal_info_ok")
 	public WebElement information_DialogBox_OkBtn_Element;
 
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/btn_rejected")
+	public WebElement myWebSite_ResubmitBtn_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tv_Note")
+	public WebElement rejectedField_NoteMsg_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tv_fieldName")
+	public List<WebElement> rejectedField_FieldsName_Elements;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tv_status")
+	public List<WebElement> rejectedField_status_Elements;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/iv_arrow")
+	public List<WebElement> rejectedField_arrowicon_Elements;
+	
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tv_field_Value")
+	public WebElement resubmitData_FieldName_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tv_Reason_value")
+	public WebElement resubmitData_Reason_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tv_expected_value")
+	public WebElement resubmitData_ExpectedValue_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tv_status_value")
+	public WebElement resubmitData_StatusValue_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/iv_new")
+	public WebElement resubmitData_NewImage_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tv_note")
+	public WebElement resubmitData_ClickHere_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvCancel")
+	public WebElement resubmitData_CancelBtn_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tv_submit")
+	public WebElement resubmitData_SubmitBtn_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tiet_name")
+	public WebElement resubmitData_UpdateValueField_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tv_enter_value")
+	public WebElement resubmitData_EnterValueField_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/dialog_alert_title")
+	public WebElement alertDialog_Title_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/button_no")
+	public WebElement alertDialog_NoBtn_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/button_yes")
+	public WebElement alertDialog_YesBtn_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/dialog_universal_success_title")
+	public WebElement successDialog_Title_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/dialog_universal_info_text")
+	public WebElement successDialog_Text_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/dialog_universal_info_ok")
+	public WebElement successDialog_OkBtn_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/fab_web_engagement")
+	public WebElement website_FabBtn_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvServices")
+	public WebElement editWebsite_ServicesLabel_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvbrand")
+	public WebElement editWebsite_BrandsLabel_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvProject")
+	public WebElement editWebsite_ProjectsLabel_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvCancel")
+	public WebElement editWebsite_CancelBtn_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/submit")
+	public WebElement editWebsite_SubmitBtn_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvServicesCount")
+	public WebElement editWebsite_ServicesCount_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvbrandCount")
+	public WebElement editWebsite_BrandCount_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvProjectCount")
+	public WebElement editWebsite_ProjectCount_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/iv_service")
+	public WebElement editWebsite_Service_EditIcon_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/iv_brand")
+	public WebElement  editWebsite_Brand_EditIcon_Element;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/iv_Project")
+	public WebElement  editWebsite_Project_EditIcon_Element;
+
+	@AndroidFindBy(xpath = "//android.view.ViewGroup[@resource-id=\"com.prowess.apps.bandhan.world:id/ServicesChipView\"]/android.widget.Button")
+	public List<WebElement> editWebsite_AddedServices_Elements;
+
+	@AndroidFindBy(xpath = "//android.view.ViewGroup[@resource-id=\"com.prowess.apps.bandhan.world:id/projectChipView\"]/android.widget.Button")
+	public List<WebElement> editWebsite_AddedProjects_Elements;
+
+	@AndroidFindBy(xpath = "//android.view.ViewGroup[@resource-id=\"com.prowess.apps.bandhan.world:id/brandChipView\"]/android.widget.Button")
+	public List<WebElement> editWebsite_AddedBrands_Elements;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/editProject")
+	public List<WebElement> editWebsite_AddedProjects_EditBtn_Elements;
+
+	@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/projectImage")
+	public List<WebElement> editWebsite_AddedProjects_ImagesIcon_Elements;
+	
+@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/valueStatus")
+	public WebElement  editWebsite_WebVersion_Status_Element;
+	
+
+
+
+
+	
+	
+	
+	
+
 	
 
 	
@@ -379,6 +504,11 @@ public class MyWebSitePage extends BasePage {
 
 	public void clickOn_MyWebSite_CreateNewBtn() {
 		clickIfPresent(myWebsite_createNewBtn_Element, 0);
+	}
+
+	public boolean myWebSite_AddBtn_isDisplay() throws InterruptedException {
+		Thread.sleep(2000);
+		return isElementVisible(myWebsite_createNewBtn_Element);
 	}
 
 	public void clickOn_WebSiteDemo_ProceedBtn() {
@@ -419,7 +549,8 @@ public class MyWebSitePage extends BasePage {
 		return getText(myWebSite_WebVersion_Element);
 	}
 
-	public String get_MyWebSite_WebVersion_Status() {
+	public String get_MyWebSite_WebVersion_Status() throws InterruptedException {
+		Thread.sleep(2000);
 		return getText(myWebSite_Status_Element);
 	}
 
@@ -1157,11 +1288,246 @@ public String get_Project_ShowWork_ProjectName() {
 		clickElement(information_DialogBox_OkBtn_Element);
 	}
 
-	public void addProjectPhotos() {
-		
-		
+	public void clickOn_MyWebsite_ResubmitBtn() {
+		clickElement(myWebSite_ResubmitBtn_Element);
 	}
 
+	public String get_rejectedFieldspage_NoteMsg_Text() {
+		return getText(rejectedField_NoteMsg_Element);
+	}
+	
+	public String get_RejectedFields_Names() {
+		List<String> values = getTextsFromElements(rejectedField_FieldsName_Elements);
+		System.out.println("values" + values);
+		return String.join(",", values);
+	}
+ public String get_RejectedFields_Status(int i) {
+		waitForListToLoad(rejectedField_status_Elements);
+		WebElement text = rejectedField_status_Elements.get(i);
+		return getText(text);
+	}
 
+public void clickOn_RejectedFields_ArrowIcon(int i) {
+		waitForListToLoad(rejectedField_arrowicon_Elements);
+		WebElement arrow = rejectedField_arrowicon_Elements.get(i);
+		 clickElement(arrow);
+	}
 
+	
+	public String get_ResubmitData_FieldName() {
+		return getText(resubmitData_FieldName_Element);
+	}
+
+	public String get_ResubmitData_Reason() {
+		return getText(resubmitData_Reason_Element);
+	}
+
+	public String get_ResubmitData_ExpectedValue() {
+		return getText(resubmitData_ExpectedValue_Element);
+	}
+
+	public String get_ResubmitData_StatusValue() {
+		return getText(resubmitData_StatusValue_Element);
+	}
+	 
+	public void clickOn_ResubmitData_NewImageIcon() {
+		clickElement(resubmitData_NewImage_Element);
+	}
+
+	public void clickOn_ResubmitData_ClickHereBtn() {
+		clickIfPresent(resubmitData_ClickHere_Element,2);
+	}
+
+	public void clickOn_ResubmitData_CancelBtn() {
+		clickElement(resubmitData_CancelBtn_Element);
+	}
+
+	public void clickOn_ResubmitData_SubmitBtn() {
+		clickElement(resubmitData_SubmitBtn_Element);
+	}
+
+	public boolean verify_ResubmitData_SubmitBtn_isDisplay()
+	{
+      return isElementVisible(resubmitData_SubmitBtn_Element);
+	}
+
+	public String get_ResubmitData_EnterValue() {
+		return getText(resubmitData_EnterValueField_Element);
+	}
+
+	public void enter_ResubmitData_UpdateValue(String input) {
+		sendText(resubmitData_UpdateValueField_Element, input);
+	}
+
+	public String get_ResubmitData_UpdateValue() {
+		return getText(resubmitData_UpdateValueField_Element);
+	}
+
+public String get_AlertDialog_Title() {
+		return getText(alertDialog_Title_Element);
+	}
+  
+	public void clickOn_AlertDialog_NoBtn() {
+		clickElement(alertDialog_NoBtn_Element);
+	}
+
+	public void clickOn_AlertDialog_YesBtn() {
+		clickElement(alertDialog_YesBtn_Element);
+	}
+
+	public String get_SuccessDialog_Title() {
+		return getText(successDialog_Title_Element);
+	}
+
+	public String get_SuccessDialog_Text() {
+		return getText(successDialog_Text_Element);
+	}
+	 
+	public void clickOn_SuccessDialog_OkBtn() {
+		clickElement(successDialog_OkBtn_Element);
+	}
+
+	public void clickOn_WebSite_FabBtn() {
+		clickIfPresent(website_FabBtn_Element,0);
+	}
+
+public String get_EditWebsite_ServicesLabel_Text() {
+		return getText(editWebsite_ServicesLabel_Element);
+	}
+
+	public String get_EditWebsite_BrandsLabel_Text() {
+		return getText(editWebsite_BrandsLabel_Element);
+	}
+
+	public String get_EditWebsite_ProjectsLabel_Text() {
+		return getText(editWebsite_ProjectsLabel_Element);
+	}
+	
+	public void clickOn_EditWebsite_CancelBtn() {
+		clickIfPresent(editWebsite_CancelBtn_Element,0);
+	}
+
+	public void clickOn_EditWebsite_SubmitBtn() {
+		clickIfPresent(editWebsite_SubmitBtn_Element,0);
+	}
+ 
+	public String get_EditWebsite_ServicesCount() {
+		return getText(editWebsite_ServicesCount_Element);
+	}
+
+	public String get_EditWebsite_BrandCount() {
+		return getText(editWebsite_BrandCount_Element);
+	}
+
+	public String get_EditWebsite_ProjectCount() {
+		return getText(editWebsite_ProjectCount_Element);
+	}
+	 
+	public void clickOn_EditWebsite_ServiceEditIcon() {
+		clickIfPresent(editWebsite_Service_EditIcon_Element,0);
+	}
+
+	public void clickOn_EditWebsite_Brand_EditIcon() {
+		clickIfPresent(editWebsite_Brand_EditIcon_Element,0);
+	}
+
+	public void clickOn_EditWebsite_Project_EditIcon() {
+		clickIfPresent(editWebsite_Project_EditIcon_Element,0);
+	}
+
+	public String get_EditWebsite_AddedServices() {
+
+    By serviceLocator = By.xpath(
+        "//android.view.ViewGroup[@resource-id='com.prowess.apps.bandhan.world:id/ServicesChipView']/android.widget.Button");
+
+    List<WebElement> elements = driver.findElements(serviceLocator);
+
+    List<String> values = getTextsFromElements(elements);
+
+    System.out.println("values = " + values);
+
+    return String.join(",", values);
+}
+
+	public String get_EditWebsite_AddedProjects() {
+
+    By projectLocator = By.xpath(
+        "//android.view.ViewGroup[@resource-id='com.prowess.apps.bandhan.world:id/projectChipView']/android.widget.Button");
+
+    List<String> values = new ArrayList<>();
+
+    try {
+
+        List<WebElement> elements = driver.findElements(projectLocator);
+
+        for (WebElement element : elements) {
+            values.add(element.getText().trim());
+        }
+
+    } catch (Exception e) {
+        System.out.println("Unable to fetch project names");
+        //e.printStackTrace();
+    }
+
+    System.out.println("values = " + values);
+    return String.join(",", values);
+}
+	
+
+	public String get_EditWebsite_AddedBrands() {
+
+    By brandLocator = By.xpath(
+        "//android.view.ViewGroup[@resource-id='com.prowess.apps.bandhan.world:id/brandChipView']/android.widget.Button");
+
+    List<String> values = new ArrayList<>();
+
+    try {
+
+        List<WebElement> elements = driver.findElements(brandLocator);
+
+        for (WebElement element : elements) {
+            values.add(element.getText().trim());
+        }
+
+    } catch (StaleElementReferenceException e) {
+
+        System.out.println("Brand elements became stale. Re-fetching...");
+
+        List<WebElement> elements = driver.findElements(brandLocator);
+
+        for (WebElement element : elements) {
+            values.add(element.getText().trim());
+        }
+    }
+
+    System.out.println("values = " + values);
+
+    return String.join(",", values);
+}
+
+	public boolean editSite_Projects_EditBtn_isDisplay() throws InterruptedException {
+		Thread.sleep(2000);
+		return isElementVisible(editWebsite_AddedProjects_EditBtn_Elements.get(0));
+	}
+
+	public void clickOn_EditWebsite_Projects_EditIcon() {
+		clickIfPresent(editWebsite_AddedProjects_EditBtn_Elements.get(0),0);
+	}
+
+	public String get_EditWebsite_ProjectsBudget() {
+		List<String> values = getTextsFromElements(project_Budget_Elements);
+		System.out.println("values" + values);
+		return getText(project_Budget_Elements.get(0));
+	}
+	
+
+	public void clickOn_EditWebsite_Projects_ImageIcon(int i) {
+		clickIfPresent(editWebsite_AddedProjects_ImagesIcon_Elements.get(i),0);
+	}
+	
+public String get_EditWebsite_WebVersion_Status() {
+		return getText(editWebsite_WebVersion_Status_Element);
+	}
+	
+	
 }

@@ -1,19 +1,31 @@
 package executors.mywebsite;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
+import org.openqa.selenium.WebDriver;
+
+import core.ConfigReader;
 import core.GlobalStore;
 import core.KeywordExecutor;
+import io.appium.java_client.InteractsWithApps;
 import io.appium.java_client.android.AndroidDriver;
 import pages.dashboard.DashboardPage;
 import pages.login.CompanyLoginPage;
 import pages.mywebsite.MyWebSitePage;
+import pages.reactpages.LoginPage;
+import pages.reactpages.WebBasePage;
+import pages.reactpages.WebSiteApprovalPage;
 
 public class MyWebSiteExecutor implements KeywordExecutor {
 
     private DashboardPage dashboardPage;
     private CompanyLoginPage companyLoginPage;
     private MyWebSitePage myWebSitePage;
+    protected ConfigReader configReader;
+    private LoginPage loginPage;
+    private WebSiteApprovalPage webSiteApprovalPage;
 
     @Override
     public Object execute(
@@ -31,10 +43,17 @@ public class MyWebSiteExecutor implements KeywordExecutor {
             companyLoginPage = new CompanyLoginPage(driver);
             dashboardPage = new DashboardPage(driver);
             myWebSitePage = new MyWebSitePage(driver);
+            configReader = new ConfigReader();
 
         }
 
+      
+
         switch (step.toLowerCase()) {
+
+            case "scrolldown":
+                dashboardPage.scrollDownSmall();
+                return null;
 
             case "hidekeyboard":
                 companyLoginPage.hideKeyboardIfVisible();
@@ -42,6 +61,29 @@ public class MyWebSiteExecutor implements KeywordExecutor {
 
             case "navigatebacktodashboardpage":
                 dashboardPage.navigateBackToHomeDashboard();
+                return null;
+
+            case "relaunchappwithoutdataclear":
+
+    System.out.println("Session ID = " + driver.getSessionId());
+
+    try {
+        String pkg = driver.getCurrentPackage();
+        System.out.println("Current Package = " + pkg);
+    } catch (Exception e) {
+        System.out.println("SESSION ALREADY DEAD");
+        e.printStackTrace();
+    }
+
+    ((InteractsWithApps) driver)
+            .activateApp("com.prowess.apps.bandhan.world");
+
+    return null;
+                
+
+            case "relaunchapp":
+                driver.activateApp("com.prowess.apps.bandhan.world");
+                Thread.sleep(3000);
                 return null;
 
             case "clickonskipbtnofinsurancewindow":
@@ -61,6 +103,9 @@ public class MyWebSiteExecutor implements KeywordExecutor {
             case "mywebsite_clickon_createbtn":
                 myWebSitePage.clickOn_MyWebSite_CreateNewBtn();
                 return null;
+
+            case "verify_mywebsite_addbtn_isdisplay":
+                return myWebSitePage.myWebSite_AddBtn_isDisplay();
 
             case "mywebdemo_clickon_proceedbtn":
                 myWebSitePage.clickOn_WebSiteDemo_ProceedBtn();
@@ -211,6 +256,14 @@ public class MyWebSiteExecutor implements KeywordExecutor {
 
             case "clickon_gallarydonebtn":
                 myWebSitePage.clickOn_GallaryDoneButton();
+                return null;
+
+            case "clickon_camera_captureicon":
+                dashboardPage.clickOn_Camera_CaptureIcon();
+                return null;
+
+            case "clickon_camera_capture_donebtn":
+                dashboardPage.clickOn_Camera_Capture_DoneButton();
                 return null;
 
             case "verify_warningtoastmsg":
@@ -471,7 +524,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
 
             case "project_select_showworwin_styledropvalue":
                 Thread.sleep(1000);
-                myWebSitePage.selectDropValues(206,944);
+                myWebSitePage.selectDropValues(206, 944);
                 return null;
 
             case "project_enter_showworwin_area":
@@ -492,27 +545,25 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 myWebSitePage.project_ShowWork_ClickOn_ProjectPhotosIcon();
                 return null;
 
-                 case "project_clickon_showworwin_projectphotoiconafterselectimage":
+            case "project_clickon_showworwin_projectphotoiconafterselectimage":
                 myWebSitePage.project_ShowWork_ClickOn_ProjectPhotosIconafterselectimage();
                 return null;
 
-                
-
             case "project_addprojectphotos":
-                try{
-                for (int i = 0; i < 5; i++) {
-                    myWebSitePage.project_ShowWork_ClickOn_ProjectPhotosIcon();
-                    myWebSitePage.clickOn_BrowseFileOption();
-                    myWebSitePage.select_GallaryImage(2);
-                    myWebSitePage.clickOn_GallaryDoneButton();
-                }}catch(Exception e)
-                {
-                      System.out.println(e.getMessage());
+                try {
+                    for (int i = 0; i < 5; i++) {
+                        myWebSitePage.project_ShowWork_ClickOn_ProjectPhotosIcon();
+                        myWebSitePage.clickOn_BrowseFileOption();
+                        myWebSitePage.select_GallaryImage(1);
+                        myWebSitePage.clickOn_GallaryDoneButton();
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
                 return null;
 
             case "project_add_projects":
-                for (int i = 0; i <3; i++) {
+                for (int i = 0; i < 3; i++) {
                     myWebSitePage.project_clickOn_fabbBtn();
                     myWebSitePage
                             .project_ShowWork_enter_ProjectName(data.get("PROJECT_NAME") + System.currentTimeMillis());
@@ -523,9 +574,9 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                     companyLoginPage.hideKeyboardIfVisible();
                     myWebSitePage.project_ShowWork_enter_Budget(data.get("PROJECT_BUDGET"));
                     companyLoginPage.hideKeyboardIfVisible();
-                    for (int count = 0; count <3; count++) {
-                         Thread.sleep(1000);
-                         myWebSitePage.project_ShoWorkWin_ProjectPhotos_ImageCapture_Element.click();
+                    for (int count = 0; count < 3; count++) {
+                        Thread.sleep(1000);
+                        myWebSitePage.project_ShoWorkWin_ProjectPhotos_ImageCapture_Element.click();
                         myWebSitePage.project_ShowWork_ClickOn_ProjectPhotosIcon();
                         myWebSitePage.clickOn_BrowseFileOption();
                         myWebSitePage.select_GallaryImage(0);
@@ -613,6 +664,273 @@ public class MyWebSiteExecutor implements KeywordExecutor {
             case "clickon_infodialogbox_okbtn":
                 myWebSitePage.clickOn_InfoDilaogBox_Okbtn();
                 return null;
+
+            case "launch_browser":
+                System.out.println("Mobile Session Before = " + driver.getSessionId());
+                WebBasePage.launchBrowser(); // ONLY ONE browser created
+
+                WebBasePage.openWebsite(configReader.getProperty("REACT_SITE"));
+                WebDriver webDriver = WebBasePage.getDriver();
+                loginPage = new LoginPage();
+
+                System.out.println("Current URL: " + webDriver.getCurrentUrl());
+                System.out.println("Page Title: " + webDriver.getTitle());
+
+                Thread.sleep(5000);
+
+                loginPage.login(
+                        configReader.getProperty("REACT_USERID"),
+                        configReader.getProperty("REACT_PASSWORD"));
+                Thread.sleep(2000);
+                loginPage.clickOn_ListIcon();
+                Thread.sleep(1000);
+                loginPage.clickOn_WebApproval_Module();
+                return null;
+
+            case "verify_iswebsite_created":
+                webSiteApprovalPage = new WebSiteApprovalPage();
+                return webSiteApprovalPage.waitForWebsiteCreation("2602000005");
+
+            case "approve_website":
+                webSiteApprovalPage = new WebSiteApprovalPage();
+                Thread.sleep(2000);
+                webSiteApprovalPage.open_WebSite("2602000005");
+                webSiteApprovalPage.clickOn_startButton();
+                List<String> rejectContents = Arrays.asList(
+                        "Firm Logo",
+                        "Owner Name",
+                        "Owner/Partner Name",
+                        "Owner/Partner Photo");
+
+                webSiteApprovalPage.processAllContents(rejectContents);
+                System.out.println("Test::5362772727");
+                // Thread.sleep(20000);
+                webSiteApprovalPage.clickOn_ProjectImages_ApproveBtn();
+                webSiteApprovalPage.clickNextButtonIfPresent();
+                webSiteApprovalPage.clickOn_Submit_FinalApproval_Btn();
+                webSiteApprovalPage.clickOn_ThankYou_OkBtn();
+                return null;
+
+            case "approve_allwebsite":
+                webSiteApprovalPage = new WebSiteApprovalPage();
+
+                webSiteApprovalPage.open_WebSite("2602000005");
+                webSiteApprovalPage.clickOn_startButton();
+                webSiteApprovalPage.appproveAllWebsites();
+                webSiteApprovalPage.clickNextButtonIfPresent();
+                webSiteApprovalPage.clickOn_Submit_FinalApproval_Btn();
+                webSiteApprovalPage.clickOn_ThankYou_OkBtn();
+                return null;
+
+            case "clickon_mywebsite_resubmitbtn":
+                myWebSitePage.clickOn_MyWebsite_ResubmitBtn();
+                return null;
+
+            case "verify_rejectedfieldspage_note_text":
+                return myWebSitePage.get_rejectedFieldspage_NoteMsg_Text();
+
+            case "verify_rejectedfields_names":
+                return myWebSitePage.get_RejectedFields_Names();
+
+            case "verify_rejectedfieldspage_status_1":
+                return myWebSitePage.get_RejectedFields_Status(0);
+
+            case "verify_rejectedfieldspage_status_2":
+                return myWebSitePage.get_RejectedFields_Status(1);
+
+            case "verify_rejectedfieldspage_status_3":
+                return myWebSitePage.get_RejectedFields_Status(2);
+
+            case "verify_rejectedfieldspage_status_4":
+                return myWebSitePage.get_RejectedFields_Status(3);
+
+            case "clickon_rejectedfieldspage_arrowicon_1":
+                myWebSitePage.clickOn_RejectedFields_ArrowIcon(0);
+                return null;
+
+            case "clickon_rejectedfieldspage_arrowicon_2":
+                myWebSitePage.clickOn_RejectedFields_ArrowIcon(1);
+                return null;
+
+            case "clickon_rejectedfieldspage_arrowicon_3":
+                myWebSitePage.clickOn_RejectedFields_ArrowIcon(2);
+                return null;
+
+            case "clickon_rejectedfieldspage_arrowicon_4":
+                myWebSitePage.clickOn_RejectedFields_ArrowIcon(3);
+                return null;
+
+            case "verify_resubmitdata_fieldname":
+                return myWebSitePage.get_ResubmitData_FieldName();
+
+            case "verify_resubmitdata_reason":
+                return myWebSitePage.get_ResubmitData_Reason();
+
+            case "verify_resubmitdata_expectedvalue":
+                return myWebSitePage.get_ResubmitData_ExpectedValue();
+
+            case "verify_resubmitdata_statusvalue":
+                return myWebSitePage.get_ResubmitData_StatusValue();
+
+            case "clickon_resubmitdata_newimageicon":
+                myWebSitePage.clickOn_ResubmitData_NewImageIcon();
+                return null;
+
+            case "clickon_resubmitdata_clickherebtn":
+                myWebSitePage.clickOn_ResubmitData_ClickHereBtn();
+                return null;
+
+            case "clickon_resubmitdata_cancelbtn":
+                myWebSitePage.clickOn_ResubmitData_CancelBtn();
+                return null;
+
+            case "clickon_resubmitdata_submitbtn":
+                myWebSitePage.clickOn_ResubmitData_SubmitBtn();
+                return null;
+
+            case "verify_resubmitdata_entervalue":
+                return myWebSitePage.get_ResubmitData_EnterValue();
+
+            case "resubmitdata_enter_updatevalue":
+                myWebSitePage.enter_ResubmitData_UpdateValue(data.get("INPUT_DATA"));
+                return null;
+
+            case "verify_resubmitdata_updateedvalue":
+                return myWebSitePage.get_ResubmitData_UpdateValue();
+
+            case "verify_alertdialog_title":
+                return myWebSitePage.get_AlertDialog_Title();
+
+            case "clickon_alertdialog_nobtn":
+                myWebSitePage.clickOn_AlertDialog_NoBtn();
+                return null;
+
+            case "clickon_alertdialog_yesbtn":
+                myWebSitePage.clickOn_AlertDialog_YesBtn();
+                return null;
+
+            case "verify_successdialog_title":
+                return myWebSitePage.get_SuccessDialog_Title();
+
+            case "verify_successdialog_text":
+                return myWebSitePage.get_SuccessDialog_Text();
+
+            case "clickon_successdialog_okbtn":
+                myWebSitePage.clickOn_SuccessDialog_OkBtn();
+                return null;
+
+            case "verify_resubmitdata_submitbtn_isdisplay":
+                return myWebSitePage.verify_ResubmitData_SubmitBtn_isDisplay();
+
+            case "clickon_website_fabbtn":
+                myWebSitePage.clickOn_WebSite_FabBtn();
+                return null;
+
+            case "verify_editsite_serviceslabel":
+                return myWebSitePage.get_EditWebsite_ServicesLabel_Text();
+
+            case "verify_editsite_branslabel":
+                return myWebSitePage.get_EditWebsite_BrandsLabel_Text();
+
+            case "verify_editsite_projectlabel":
+                return myWebSitePage.get_EditWebsite_ProjectsLabel_Text();
+
+            case "clickon_editsite_cancelbtn":
+                myWebSitePage.clickOn_EditWebsite_CancelBtn();
+                return null;
+
+            case "clickon_editsite_submitbtn":
+                myWebSitePage.clickOn_EditWebsite_SubmitBtn();
+                return null;
+
+            case "verify_editsite_servicescount":
+                return myWebSitePage.get_EditWebsite_ServicesCount();
+
+            case "verify_editsite_brandcount":
+                return myWebSitePage.get_EditWebsite_BrandCount();
+
+            case "verify_editsite_projectcount":
+                return myWebSitePage.get_EditWebsite_ProjectCount();
+
+            case "clickon_editsite_service_editicon":
+                myWebSitePage.clickOn_EditWebsite_ServiceEditIcon();
+                return null;
+
+            case "clickon_editsite_brand_editicon":
+                myWebSitePage.clickOn_EditWebsite_Brand_EditIcon();
+                return null;
+
+            case "clickon_editsite_project_editicon":
+                myWebSitePage.clickOn_EditWebsite_Project_EditIcon();
+                return null;
+
+            case "verify_editsite_addedservices":
+                return myWebSitePage.get_EditWebsite_AddedServices();
+
+            case "verify_editsite_addedprojects":
+                return myWebSitePage.get_EditWebsite_AddedProjects();
+
+            case "verify_editsite_addedbrands":
+                return myWebSitePage.get_EditWebsite_AddedBrands();
+
+            case "verify_editsite_projects_editbtn_isdisplay":
+                return myWebSitePage.editSite_Projects_EditBtn_isDisplay();
+
+            case "clickon_editsite_projects_editicon":
+                myWebSitePage.clickOn_EditWebsite_Projects_EditIcon();
+                return null;
+
+            case "verify_editsite_projects_budgettext":
+                return myWebSitePage.get_EditWebsite_ProjectsBudget();
+
+            case "editsite_project_addprojectphotos":
+                try {
+                    for (int i = 0; i < 5; i++) {
+                        myWebSitePage.clickOn_EditWebsite_Projects_ImageIcon(i);
+                        myWebSitePage.clickOn_BrowseFileOption();
+                        myWebSitePage.select_GallaryImage(0);
+                        myWebSitePage.clickOn_GallaryDoneButton();
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                return null;
+
+            case "verify_editsite_website_status":
+
+                boolean addButtonFound = false;
+
+                for (int i = 1; i <= 20; i++) {
+
+                    System.out.println("Checking website status. Attempt: " + i);
+
+                    try {
+
+                        if (myWebSitePage.myWebSite_AddBtn_isDisplay()) {
+
+                            addButtonFound = true;
+                            System.out.println("Add button displayed.");
+                            break;
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("Add button not displayed yet.");
+                    }
+
+                    driver.navigate().back();
+
+                    Thread.sleep(2000);
+
+                    dashboardPage.clickOn_MyWebSite_Menu();
+                    Thread.sleep(20000);
+                }
+
+                if (!addButtonFound) {
+                    throw new RuntimeException(
+                            "Add button not displayed after waiting for backend job.");
+                }
+
+                return myWebSitePage.get_EditWebsite_WebVersion_Status();
 
             default:
                 throw new RuntimeException("Invalid ACTION: " + step);

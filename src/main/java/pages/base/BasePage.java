@@ -18,8 +18,11 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.Rectangle;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
@@ -35,8 +38,12 @@ import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 
 public class BasePage {
 
-    protected AndroidDriver driver;   // Use raw AndroidDriver (no generics)
+   
+    protected static AndroidDriver driver;   // Use raw AndroidDriver (no generics)
     protected WebDriverWait wait;
+     private static WebDriver webDriver;
+    
+
    
     protected boolean isPageScrolledDown = false;
 
@@ -997,6 +1004,32 @@ public void relaunchAppIfClosed(String appActivity) {
         return todayDate;
    }
 
+
+    public static WebDriver launchBrowser() {
+
+        ChromeOptions options = new ChromeOptions();
+
+        // Optional
+        options.addArguments("--start-maximized");
+
+        webDriver = new ChromeDriver(options);
+
+        return webDriver;
+    }
+
+    public static void closeBrowser() {
+        if (webDriver != null) {
+            webDriver.quit();
+        }
+    }
+
+    public static void open_Website(String URL)
+    { 
+      webDriver.get(URL);
+    }
+
+
+   
 }
 
 
