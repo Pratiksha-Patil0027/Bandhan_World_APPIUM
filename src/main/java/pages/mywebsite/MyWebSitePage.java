@@ -854,7 +854,7 @@ public class MyWebSitePage extends BasePage {
 	}
 
 	public void firmDetails_clickOn_FirmToggleBtn_No() {
-		clickElement(firmDetails_FirmToggleBtn_No_Element);
+		clickIfPresent(firmDetails_FirmToggleBtn_No_Element,5);
 	}
 
 	public String get_FirmDetails_Header() {

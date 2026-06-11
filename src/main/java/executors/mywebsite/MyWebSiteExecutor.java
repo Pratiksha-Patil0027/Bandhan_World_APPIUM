@@ -939,7 +939,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
 
                 boolean resubmitButtonFound = false;
 
-                for (int i = 1; i <= 15; i++) {
+                for (int i = 1; i <= 20; i++) {
 
                     System.out.println("Checking Resubmit  Button status. Attempt: " + i);
 
