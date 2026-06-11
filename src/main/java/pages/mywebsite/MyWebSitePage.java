@@ -1292,6 +1292,12 @@ public String get_Project_ShowWork_ProjectName() {
 		clickElement(myWebSite_ResubmitBtn_Element);
 	}
 
+	public boolean verify_ResubmitBtn_isDisplay()
+	{
+      return isElementVisible(myWebSite_ResubmitBtn_Element);
+	}
+
+	
 	public String get_rejectedFieldspage_NoteMsg_Text() {
 		return getText(rejectedField_NoteMsg_Element);
 	}
@@ -1404,11 +1410,12 @@ public String get_EditWebsite_ServicesLabel_Text() {
 	}
 	
 	public void clickOn_EditWebsite_CancelBtn() {
-		clickIfPresent(editWebsite_CancelBtn_Element,0);
+		clickIfPresent(editWebsite_CancelBtn_Element,5);
 	}
 
-	public void clickOn_EditWebsite_SubmitBtn() {
-		clickIfPresent(editWebsite_SubmitBtn_Element,0);
+	public void clickOn_EditWebsite_SubmitBtn() throws InterruptedException {
+		Thread.sleep(1000);
+		clickIfPresent(editWebsite_SubmitBtn_Element,5);
 	}
  
 	public String get_EditWebsite_ServicesCount() {

@@ -46,6 +46,7 @@ options.setCapability("uiautomator2ServerReadTimeout", 120000);
 options.setCapability("skipServerInstallation", false);
 
 options.setCapability("adbExecTimeout", 120000);
+options.setCapability("appium:newCommandTimeout", 3600);
 // VERY IMPORTANT FOR STABILITY
 options.setCapability("ignoreHiddenApiPolicyError", true);
 options.setCapability("skipDeviceInitialization", false);

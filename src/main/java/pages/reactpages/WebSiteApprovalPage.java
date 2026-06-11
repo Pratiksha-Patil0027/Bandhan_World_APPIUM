@@ -287,7 +287,9 @@ try{
                 clickOn_ApproveButton();
                 clickOn_Accept_CheckBox();
                 clickOn_Accept_SubmitBtn();
+                Thread.sleep(1000);
                 clickOn_SuccessWindow_OkBtn();
+                
 
                 System.out.println("Record approved.");
                 Thread.sleep(2000);

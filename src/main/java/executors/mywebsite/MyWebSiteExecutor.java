@@ -47,8 +47,6 @@ public class MyWebSiteExecutor implements KeywordExecutor {
 
         }
 
-      
-
         switch (step.toLowerCase()) {
 
             case "scrolldown":
@@ -65,21 +63,20 @@ public class MyWebSiteExecutor implements KeywordExecutor {
 
             case "relaunchappwithoutdataclear":
 
-    System.out.println("Session ID = " + driver.getSessionId());
+                System.out.println("Session ID = " + driver.getSessionId());
 
-    try {
-        String pkg = driver.getCurrentPackage();
-        System.out.println("Current Package = " + pkg);
-    } catch (Exception e) {
-        System.out.println("SESSION ALREADY DEAD");
-        e.printStackTrace();
-    }
+                try {
+                    String pkg = driver.getCurrentPackage();
+                    System.out.println("Current Package = " + pkg);
+                } catch (Exception e) {
+                    System.out.println("SESSION ALREADY DEAD");
+                    e.printStackTrace();
+                }
 
-    ((InteractsWithApps) driver)
-            .activateApp("com.prowess.apps.bandhan.world");
+                ((InteractsWithApps) driver)
+                        .activateApp("com.prowess.apps.bandhan.world");
 
-    return null;
-                
+                return null;
 
             case "relaunchapp":
                 driver.activateApp("com.prowess.apps.bandhan.world");
@@ -558,7 +555,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                         myWebSitePage.clickOn_GallaryDoneButton();
                     }
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    //System.out.println(e.getMessage());
                 }
                 return null;
 
@@ -691,6 +688,10 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 webSiteApprovalPage = new WebSiteApprovalPage();
                 return webSiteApprovalPage.waitForWebsiteCreation("2602000005");
 
+                 case "iswebsite_created":
+                webSiteApprovalPage = new WebSiteApprovalPage();
+                return webSiteApprovalPage.waitForWebsiteCreation("2602000005");
+
             case "approve_website":
                 webSiteApprovalPage = new WebSiteApprovalPage();
                 Thread.sleep(2000);
@@ -713,7 +714,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
 
             case "approve_allwebsite":
                 webSiteApprovalPage = new WebSiteApprovalPage();
-
+                
                 webSiteApprovalPage.open_WebSite("2602000005");
                 webSiteApprovalPage.clickOn_startButton();
                 webSiteApprovalPage.appproveAllWebsites();
@@ -892,7 +893,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                         myWebSitePage.clickOn_GallaryDoneButton();
                     }
                 } catch (Exception e) {
-                    System.out.println(e.getMessage());
+                    //System.out.println(e.getMessage());
                 }
                 return null;
 
@@ -931,6 +932,44 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 }
 
                 return myWebSitePage.get_EditWebsite_WebVersion_Status();
+
+
+
+            case "verify_resubmit_webvesrion_status":
+
+                boolean resubmitButtonFound = false;
+
+                for (int i = 1; i <= 15; i++) {
+
+                    System.out.println("Checking Resubmit  Button status. Attempt: " + i);
+
+                    try {
+
+                        if (myWebSitePage.verify_ResubmitBtn_isDisplay()) {
+
+                            resubmitButtonFound = true;
+                            System.out.println("Resubmit  Button displayed.");
+                            break;
+                        }
+
+                    } catch (Exception e) {
+                        System.out.println("Resubmit  Button not displayed yet.");
+                    }
+
+                    driver.navigate().back();
+
+                    Thread.sleep(2000);
+
+                    dashboardPage.clickOn_MyWebSite_Menu();
+                    Thread.sleep(20000);
+                }
+
+                if (!resubmitButtonFound) {
+                    throw new RuntimeException(
+                            "Resubmit  Button not displayed after waiting for backend job.");
+                }
+
+                return myWebSitePage.get_MyWebSite_WebVersion_Status();
 
             default:
                 throw new RuntimeException("Invalid ACTION: " + step);
