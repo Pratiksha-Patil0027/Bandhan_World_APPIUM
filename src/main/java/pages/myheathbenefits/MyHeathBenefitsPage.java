@@ -264,7 +264,7 @@ public class MyHeathBenefitsPage extends BasePage {
 
 	 public void clickOn_VideoIcon() {
 		scrollToId("com.prowess.apps.bandhan.world:id/iv_video");
-		clickIfPresent(videoIcon_Element, 0);
+		clickIfPresent(videoIcon_Element, 5);
 	}
 
 	 public void clickOn_DocumentIcon() {

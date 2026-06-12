@@ -60,7 +60,7 @@ public class WebSiteApprovalPage extends WebBasePage {
 
 public boolean waitForWebsiteCreation(String websiteName) throws InterruptedException {
 
-    for (int i = 1; i <= 20; i++) {
+    for (int i = 1; i <= 30; i++) {
 
         driver.navigate().refresh();
 

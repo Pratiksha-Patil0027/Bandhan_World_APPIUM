@@ -901,7 +901,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
 
                 boolean addButtonFound = false;
 
-                for (int i = 1; i <= 20; i++) {
+                for (int i = 1; i <= 30; i++) {
 
                     System.out.println("Checking website status. Attempt: " + i);
 
@@ -939,7 +939,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
 
                 boolean resubmitButtonFound = false;
 
-                for (int i = 1; i <= 20; i++) {
+                for (int i = 1; i <= 30; i++) {
 
                     System.out.println("Checking Resubmit  Button status. Attempt: " + i);
 
