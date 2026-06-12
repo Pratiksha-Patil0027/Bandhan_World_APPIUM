@@ -1340,7 +1340,8 @@ public void clickOn_RejectedFields_ArrowIcon(int i) {
 		clickElement(resubmitData_NewImage_Element);
 	}
 
-	public void clickOn_ResubmitData_ClickHereBtn() {
+	public void clickOn_ResubmitData_ClickHereBtn() throws InterruptedException {
+		Thread.sleep(1000);
 		clickIfPresent(resubmitData_ClickHere_Element,2);
 	}
 
