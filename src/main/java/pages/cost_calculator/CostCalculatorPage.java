@@ -72,6 +72,9 @@ public class CostCalculatorPage extends BasePage {
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/addMaterial")
     public WebElement addMaterial_btn_Element;
 
+     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/headerAddMaterial")
+    public WebElement addMaterial_HeaderText_Element;
+
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/materialEditText")
     public WebElement materialEditText_Element;
 
@@ -108,6 +111,12 @@ public class CostCalculatorPage extends BasePage {
 
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/customerNameValue")
     public WebElement summary_customerName_Element;
+
+     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/customerMobileValue")
+    public WebElement summary_customerMobileNo_Element;
+
+     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/customerMobileValue")
+    public WebElement summary_customerCity_Element;
 
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvDreamGiftTitle")
     public List<WebElement> dream_gift_item_Element;
@@ -157,6 +166,9 @@ public class CostCalculatorPage extends BasePage {
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvPoints")
     public List<WebElement> points_section_dream_gift_Element;
 
+     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvCost")
+    public List<WebElement> cost_section_dream_gift_Element;
+
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvItemName")
     public List<WebElement> name_section_material_dream_gift_Element;
 
@@ -171,6 +183,46 @@ public class CostCalculatorPage extends BasePage {
 
      @AndroidFindBy(uiAutomator  = "new UiSelector().className(\"android.view.ViewGroup\").instance(7)")
     public WebElement dreamGift_Element;
+
+     @AndroidFindBy(id  = "com.prowess.apps.bandhan.world:id/giftPointsValue")
+    public WebElement dreamGift_TotalPointsRequired_Element;
+
+    @AndroidFindBy(id  = "com.prowess.apps.bandhan.world:id/availablePointsValue")
+    public WebElement dreamGift_AvailablePoints_Element;
+
+    @AndroidFindBy(id  = "com.prowess.apps.bandhan.world:id/neededPointsValue")
+    public WebElement dreamGift_RemainingPointsNeeded_Element;
+
+    @AndroidFindBy(id  = "com.prowess.apps.bandhan.world:id/iterationRequiredValue")
+    public WebElement dreamGift_ApproxSiteAchieve_Element;
+
+    @AndroidFindBy(id  = "com.prowess.apps.bandhan.world:id/msgPointSummary")
+    public WebElement dreamGift_MsgPointsSummary_Element;
+
+    @AndroidFindBy(id  = "com.prowess.apps.bandhan.world:id/tvPoints")
+    public List<WebElement> dreamGift_SummaryPoints_Elements;
+
+    @AndroidFindBy(id  = "com.prowess.apps.bandhan.world:id/totalPointsValue")
+    public WebElement dreamGift_GrandTotal_Element;
+
+@AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/snackbar_text")
+	public WebElement warning_ToastMsg_Element;
+
+    @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/previous")
+	public WebElement backBtn_Element;
+
+     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvDreamGiftTitle")
+	public List<WebElement> dreamGift_TitleName_Elements;
+
+     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/giftItemTitle")
+	public WebElement dreamGift_SelectedDreamGift_Name_Element;
+
+    
+
+    
+
+
+
 
     public CostCalculatorPage(AndroidDriver driver) {
         super(driver);
@@ -309,7 +361,6 @@ public class CostCalculatorPage extends BasePage {
             }
             return true; 
     }
-
 
     public boolean verifyQuantities(String door, String lock, String windows, String sanitaryware, String bathroom_fittings,String electrical_fittings) {
         if (!getText(count_cost_calculator_Element.get(0)).equals(door)) {
@@ -565,4 +616,161 @@ public class CostCalculatorPage extends BasePage {
 
         return true;
     }
+
+public String get_AddMaterial_HeaderText()
+{
+   return getText(addMaterial_HeaderText_Element);
+}
+    
+
+public String get_WarningToastMsg() {
+
+    By snackbar = By.id("com.prowess.apps.bandhan.world:id/snackbar_text");
+
+    long endTime = System.currentTimeMillis() + 5000;
+
+    while (System.currentTimeMillis() < endTime) {
+        try {
+            List<WebElement> elements = driver.findElements(snackbar);
+
+            if (!elements.isEmpty()) {
+                String text = elements.get(0).getText();
+                if (!text.isEmpty()) {
+                    return text.trim();
+                }
+            }
+
+        } catch (Exception ignored) {}
+
+    }
+
+    throw new RuntimeException("Snackbar message not captured");
+}
+
+	public void waitForToastToDisappear() {
+    wait.until(ExpectedConditions.invisibilityOf(warning_ToastMsg_Element));
+}
+
+public List<String> get_Quantities() {
+		return getTextsFromElements(count_cost_calculator_Element);
+	}
+
+public void clickOn_BackButton()
+{
+    clickElement(backBtn_Element);
+}
+    
+public String get_AddBtn_Text() {
+		return getText(add_btn_material_estimated_Element.get(0));
+	}
+
+public void clickOn_AddButton()
+{
+    clickElement(add_btn_material_estimated_Element.get(0));
+}
+
+public void clickOn_Addmaterial_closebtn()
+{
+    clickElement(close_btn_Element);
+}
+
+public String get_Summary_CustomerName() {
+		return getText(summary_customerName_Element);
+	}
+
+    public String get_Summary_CustomerMobileNo() {
+		return getText(summary_customerMobileNo_Element);
+	}
+
+    public String get_Summary_CustomerCity() {
+		return getText(summary_customerCity_Element);
+	}
+ 
+    public List<String> get_Summary_ProjectDetails() {
+		return getTextsFromElements(count_project_details_estimation_summary_Element);
+	}
+
+     public List<String> get_Summary_CostEstimation_Cost() {
+		return getTextsFromElements(cost_section_dream_gift_Element);
+	}
+
+    public List<String> get_Summary_CostEstimation_Points() {
+		return getTextsFromElements(points_section_dream_gift_Element);
+	}
+
+    public String get_Summary_GrandTotal_Points() {
+		return getText(points_grand_total_estimation_summary_Element);
+	}
+
+    public String get_Summary_GrandTotal_Cost() {
+		return getText(cost_grand_total_estimation_summary_Element);
+	}
+    
+    public String get_DreamGift_Name_Text() {
+		return getText(dreamGift_TitleName_Elements.get(0));
+	}
+
+    public String get_SelectedDreamGift_Name() {
+		return getText(dreamGift_SelectedDreamGift_Name_Element);
+	}
+
+     public String get_DreamGift_TotalPointsRequired() {
+		return getText(dreamGift_TotalPointsRequired_Element);
+	}
+
+     public String get_DreamGift_AvailablePoints() {
+		return getText(dreamGift_AvailablePoints_Element);
+	}
+
+     public String get_DreamGift_RemainingPoints() {
+		return getText(dreamGift_RemainingPointsNeeded_Element);
+	}
+
+     public String get_DreamGift_ApproxSite() {
+		return getText(dreamGift_ApproxSiteAchieve_Element);
+	}
+
+     public String get_DreamGift_MsgPointsSummary() {
+		return getText(dreamGift_MsgPointsSummary_Element);
+	}
+
+     public List<String> get_DreamGift_SummaryPoints() {
+		return getTextsFromElements(dreamGift_SummaryPoints_Elements);
+	}
+
+     public String get_DreamGift_GrandTotal() {
+		return getText(dreamGift_GrandTotal_Element);
+	}
+
+    public String get_DreamGift_SubmitDialog_Title() {
+		return getText(submit_dream_gift_dialog_Element);
+	}
+
+public void clickOn_DreamGift_SubmitDialog_YesBtn()
+{
+    clickElement(btn_yes_dialog_Element);
+}
+
+public void clickOn_DreamGift_SubmitDialog_NoBtn()
+{
+    clickElement(btn_no_dialog_Element);
+}
+
+
+  public String get_DreamGift_SuccessDialog_Text() {
+		return getText(success_msg_cost_calculation_Element);
+	}
+
+     public String get_DreamGift_SuccessDialog_Title() {
+		return getText(success_title_cost_calculation_Element);
+	}
+
+    public void clickOn_DreamGift_SuccessDialog_okBtn()
+{
+    clickElement(success_ok_cost_calculation_Element);
+}
+
+     ;
+
+    
 }
