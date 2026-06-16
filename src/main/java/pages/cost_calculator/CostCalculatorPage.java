@@ -115,7 +115,7 @@ public class CostCalculatorPage extends BasePage {
      @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/customerMobileValue")
     public WebElement summary_customerMobileNo_Element;
 
-     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/customerMobileValue")
+     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/customerCityValue")
     public WebElement summary_customerCity_Element;
 
     @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/tvDreamGiftTitle")
@@ -216,6 +216,9 @@ public class CostCalculatorPage extends BasePage {
 
      @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/giftItemTitle")
 	public WebElement dreamGift_SelectedDreamGift_Name_Element;
+
+    @AndroidFindBy(id = "com.prowess.apps.bandhan.world:id/totalCostValue")
+	public List<WebElement> estimationMaterial_TotalValue_Element;
 
     
 
@@ -770,7 +773,62 @@ public void clickOn_DreamGift_SubmitDialog_NoBtn()
     clickElement(success_ok_cost_calculation_Element);
 }
 
-     ;
+public String verify_update_Quantities(String material, String qty) {
 
+    // Move to top before searching
+    scrollToTop();
+
+    int maxScrolls = 10;
+
+    for (int scrollCount = 0; scrollCount < maxScrolls; scrollCount++) {
+
+        for (int i = 0; i < material_name_material_estimated_Element.size(); i++) {
+
+            String materialValue =
+                    getText(material_name_material_estimated_Element.get(i)).trim();
+
+            if (materialValue.equalsIgnoreCase(material)) {
+
+                sendText(qtyEditText_material_estimated_Element.get(i), qty);
+
+                return qtyEditText_material_estimated_Element
+                        .get(i)
+                        .getAttribute("text");
+            }
+        }
+
+        scrollDownSafe();
+    }
+
+    throw new RuntimeException("Material not found: " + material);
+}
+
+  public void enter_cost(String cost) {
+		 sendText(costEditText_material_estimates_Element.get(0),cost);
+	}
+
+    public void enter_qty(String qty) {
+		 sendText(qtyEditText_material_estimated_Element.get(0),qty);
+	}
+
+      public String get_CostText() {
+		return getText(costEditText_material_estimates_Element.get(0));
+	}
+
+    public String get_QtyText() {
+		return getText(qtyEditText_material_estimated_Element.get(0));
+	}
+
+     public String get_TotalCostText() {
+		return getText(estimationMaterial_TotalValue_Element.get(0));
+	}
+    
+public void update_quantities()
+{
+     for(int i=0;i<plus_btn_cost_calculator_Element.size();i++)
+     {
+           clickElement(plus_btn_cost_calculator_Element.get(i));
+     }
+}
     
 }

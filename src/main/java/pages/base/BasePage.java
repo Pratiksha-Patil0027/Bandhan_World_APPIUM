@@ -320,7 +320,7 @@ public static boolean isElementVisible(WebElement element) {
 
 
 
-protected void scrollToTop() {
+public void scrollToTop() {
     driver.findElement(
         AppiumBy.androidUIAutomator(
             "new UiScrollable(new UiSelector().scrollable(true))"

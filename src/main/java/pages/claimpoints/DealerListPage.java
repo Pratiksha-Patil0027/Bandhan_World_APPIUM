@@ -171,8 +171,9 @@ public String get_NewDealerWindow_InstructionText()
 }
 
 
-public String get_NewDealerWindow_NoDatFoundText()
-{
+public String get_NewDealerWindow_NoDatFoundText() throws InterruptedException
+{ 
+	Thread.sleep(2000);
 	return getText(newDealer_NoDataFound_Element);
 }
 

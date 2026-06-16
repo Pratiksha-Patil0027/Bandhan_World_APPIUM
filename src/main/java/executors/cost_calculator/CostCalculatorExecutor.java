@@ -172,6 +172,11 @@ public class CostCalculatorExecutor implements KeywordExecutor {
                         .getText(costCalculatorPage.material_name_material_estimated_Element.get(0));
                 return costCalculatorPage.clickOn_next(costCalculatorPage.delete_btn_material_estimated_Element.get(0));
 
+                case "click_on_deleteicon_indexbased":
+                materialName = costCalculatorPage
+                        .getText(costCalculatorPage.material_name_material_estimated_Element.get(1));
+                return costCalculatorPage.clickOn_next(costCalculatorPage.delete_btn_material_estimated_Element.get(1));
+
             case "click_on_add":
                 costCalculatorPage.clickOn_next(costCalculatorPage.add_btn_material_estimated_Element.get(0));
                 if (materialName.equals(costCalculatorPage
@@ -389,6 +394,12 @@ public class CostCalculatorExecutor implements KeywordExecutor {
                 dashboardPage.scrollDownSmall();
                 return null;
 
+                 case "scrolltop":
+                dashboardPage.scrollToTop();
+                return null;
+
+                 
+
                  case "verify_summary_costestimation_cost":
                 return costCalculatorPage.get_Summary_CostEstimation_Cost();
 
@@ -463,6 +474,38 @@ public class CostCalculatorExecutor implements KeywordExecutor {
                case "clickon_deleteicon":
                 dreamGiftPage.clickOn_DeleteIcon();
                 return null;
+
+                case "clickon_deleteicon_indexbased":
+                dreamGiftPage.clickOn_DeleteIcon();
+                return null;
+
+                 case "quantitiespage_update_quantity":
+                costCalculatorPage.update_quantities();
+                return null;
+
+                  case "verify_updated_quantities":
+                return costCalculatorPage.verify_update_Quantities(data.get("Material name"),data.get("Qty"));
+
+                 case "enter_cost":
+                costCalculatorPage.enter_cost(data.get("Cost"));
+                return null;
+
+                case "enter_qty":
+                costCalculatorPage.enter_qty(data.get("Qty"));
+                return null;
+
+                 case "verify_costtext":
+                return costCalculatorPage.get_CostText();
+
+                 case "verify_qtytext":
+                return costCalculatorPage.get_QtyText();
+
+                 case "verify_totalcosttext":
+                return costCalculatorPage.get_TotalCostText();
+
+                
+                
+                
 
 
             default:
