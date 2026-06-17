@@ -529,7 +529,11 @@ public class MyWebSitePage extends BasePage {
 	}
 
 	public String get_Alert_DialogBox_Title() {
-		return getText(alert_DialogBox_Title_Element);
+		  try {
+        return getText(alert_DialogBox_Title_Element);
+    } catch (Exception e) {
+        return "";
+    }
 	}
 
 	public String get_Alert_DialogBox_Text() {

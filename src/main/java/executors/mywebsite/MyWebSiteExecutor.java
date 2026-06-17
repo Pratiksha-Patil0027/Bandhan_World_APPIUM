@@ -123,6 +123,73 @@ public class MyWebSiteExecutor implements KeywordExecutor {
             case "verify_alert_dialog_title":
                 return myWebSitePage.get_Alert_DialogBox_Title();
 
+            case "verify_alert_dialog_title_retry":
+
+                String title = myWebSitePage.get_Alert_DialogBox_Title();
+
+                if (!"My Site".equalsIgnoreCase(title)) {
+
+                    System.out.println("Project creation failed. Retrying...");
+
+                    for (int retry = 1; retry <= 3; retry++) {
+
+                        System.out.println("Retry Attempt : " + retry);
+
+                        myWebSitePage.project_clickOn_fabbBtn();
+
+                        myWebSitePage.project_ShowWork_enter_ProjectName(
+                                data.get("PROJECT_NAME") + System.currentTimeMillis());
+
+                        companyLoginPage.hideKeyboardIfVisible();
+
+                        myWebSitePage.project_ShowWork_ClickOn_StyleField();
+                        myWebSitePage.selectDropValueByAndroidKey(1);
+
+                        myWebSitePage.project_ShowWork_enter_Area(
+                                data.get("PROJECT_AREA"));
+
+                        companyLoginPage.hideKeyboardIfVisible();
+
+                        myWebSitePage.project_ShowWork_enter_Budget(
+                                data.get("PROJECT_BUDGET"));
+
+                        companyLoginPage.hideKeyboardIfVisible();
+
+                        for (int count = 0; count < 3; count++) {
+
+                            Thread.sleep(1000);
+
+                            myWebSitePage.project_ShoWorkWin_ProjectPhotos_ImageCapture_Element.click();
+
+                            myWebSitePage.project_ShowWork_ClickOn_ProjectPhotosIcon();
+                            myWebSitePage.clickOn_BrowseFileOption();
+                            myWebSitePage.select_GallaryImage(0);
+                            myWebSitePage.clickOn_GallaryDoneButton();
+
+                            Thread.sleep(1000);
+                        }
+
+                        myWebSitePage.project_ShowWork_ClickOn_SaveBtn();
+
+                        Thread.sleep(1000);
+                          myWebSitePage.project_ClickOn_SubmitBtn();
+                          Thread.sleep(1000);
+                        title = myWebSitePage.get_Alert_DialogBox_Title();
+
+                        if ("My Site".equalsIgnoreCase(title)) {
+
+                            System.out.println(
+                                    "Project created successfully on retry "
+                                            + retry);
+
+                            break;
+                        }
+                          
+                    }
+                  
+                }
+                return title;
+
             case "verify_alert_dialog_text":
                 return myWebSitePage.get_Alert_DialogBox_Text();
 
@@ -555,7 +622,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                         myWebSitePage.clickOn_GallaryDoneButton();
                     }
                 } catch (Exception e) {
-                    //System.out.println(e.getMessage());
+                    // System.out.println(e.getMessage());
                 }
                 return null;
 
@@ -688,7 +755,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 webSiteApprovalPage = new WebSiteApprovalPage();
                 return webSiteApprovalPage.waitForWebsiteCreation("2602000005");
 
-                 case "iswebsite_created":
+            case "iswebsite_created":
                 webSiteApprovalPage = new WebSiteApprovalPage();
                 return webSiteApprovalPage.waitForWebsiteCreation("2602000005");
 
@@ -714,7 +781,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
 
             case "approve_allwebsite":
                 webSiteApprovalPage = new WebSiteApprovalPage();
-                
+
                 webSiteApprovalPage.open_WebSite("2602000005");
                 webSiteApprovalPage.clickOn_startButton();
                 webSiteApprovalPage.appproveAllWebsites();
@@ -893,7 +960,7 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                         myWebSitePage.clickOn_GallaryDoneButton();
                     }
                 } catch (Exception e) {
-                    //System.out.println(e.getMessage());
+                    // System.out.println(e.getMessage());
                 }
                 return null;
 
@@ -932,8 +999,6 @@ public class MyWebSiteExecutor implements KeywordExecutor {
                 }
 
                 return myWebSitePage.get_EditWebsite_WebVersion_Status();
-
-
 
             case "verify_resubmit_webvesrion_status":
 
