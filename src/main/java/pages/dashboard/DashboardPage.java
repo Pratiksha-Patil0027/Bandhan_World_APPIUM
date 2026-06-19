@@ -273,7 +273,7 @@ public void clickOn_BrowseFileOption(int i) {
 	}
 
 	public void clickOn_Camera_CaptureIcon() {
-		clickElement(edit_camera_CaptureIcon_Element);
+		clickIfPresent(edit_camera_CaptureIcon_Element,5);
 	}
 
 	public void clickOn_Camera_Capture_DoneButton() {

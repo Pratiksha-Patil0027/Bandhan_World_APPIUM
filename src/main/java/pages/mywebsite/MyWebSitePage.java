@@ -1133,7 +1133,8 @@ public class MyWebSitePage extends BasePage {
 		sendText(project_ShoWorkWin_ProjectName_Element, input);
 	}
 
-public String get_Project_ShowWork_ProjectName() {
+public String get_Project_ShowWork_ProjectName() throws InterruptedException {
+	Thread.sleep(1000);
 		return getText(project_ShoWorkWin_ProjectName_Element);
 	}
 
