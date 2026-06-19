@@ -234,9 +234,13 @@ public class ProfilePage extends BasePage {
         return profile_image_Element.isDisplayed() && profile_image_Element.getSize().getWidth() > 0;
     }
 
-   public boolean get_permanent_address_TextAfterScroll(WebElement element, String resourceId) {
+   public boolean get_OTPDEtails_TextAfterScroll(WebElement element, String resourceId) {
     String text = get_text_after_scroll(resourceId);
-    return text == null || text.trim().isEmpty();
+    return text != null && !text.trim().isEmpty();
+}
+
+ public String get_permanent_address_TextAfterScroll(WebElement element, String resourceId) {
+   return get_text_after_scroll(resourceId);
 }
 
     public String get_Infl_State()

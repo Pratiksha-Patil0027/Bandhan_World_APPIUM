@@ -104,7 +104,7 @@ public class ProfileExecutor implements KeywordExecutor {
 				"com.prowess.apps.bandhan.world:id/tvLanguage");
 
             case "verifyoptindateondisplay" :
-                return profilePage.get_permanent_address_TextAfterScroll(profilePage.optindate_Element,
+                return profilePage.get_OTPDEtails_TextAfterScroll(profilePage.optindate_Element,
 				"com.prowess.apps.bandhan.world:id/tvOPTInDate");
 
             case "verifyappversionondisplay" :
