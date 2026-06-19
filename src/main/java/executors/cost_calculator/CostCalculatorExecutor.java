@@ -415,6 +415,10 @@ public class CostCalculatorExecutor implements KeywordExecutor {
                 case "dreamgift_get_dreamgiftname":
                 return costCalculatorPage.get_DreamGift_Name_Text();
 
+                case "dreamgift_open_dreamgift":
+                 costCalculatorPage.open_DreamGift();
+                 return null;
+
                  case "verify_selecteddreamgift_name":
                 return costCalculatorPage.get_SelectedDreamGift_Name();
 

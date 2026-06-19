@@ -713,6 +713,10 @@ public String get_Summary_CustomerName() {
 		return getText(dreamGift_TitleName_Elements.get(0));
 	}
 
+     public void open_DreamGift() {
+		clickIfPresent(dreamGift_TitleName_Elements.get(0),5);
+	}
+
     public String get_SelectedDreamGift_Name() {
 		return getText(dreamGift_SelectedDreamGift_Name_Element);
 	}
