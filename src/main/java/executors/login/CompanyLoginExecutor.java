@@ -16,12 +16,12 @@ public class CompanyLoginExecutor implements KeywordExecutor {
     private ChooseLanguagePage chooseLanguagePage;
    private  InfluencerLoginPage influencerLoginPage;
    private DashboardPage dashboardPage;
+   private AndroidDriver driver;
  
     @Override
 public Object execute(
         String step,
-        Map<String, String> data,
-        AndroidDriver driver) throws InterruptedException {
+        Map<String, String> data) throws InterruptedException {
 
     if (driver == null) {
         throw new IllegalStateException(

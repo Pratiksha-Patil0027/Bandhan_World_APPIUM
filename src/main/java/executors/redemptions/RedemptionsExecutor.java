@@ -30,6 +30,7 @@ public class RedemptionsExecutor implements KeywordExecutor {
      private RedemptionSummaryPage redemptionSummaryPage;
       private ProfilePage profilePage;
       private RedemptionDetailsPage redemptionDetailsPage;
+      private AndroidDriver driver;
       
      
 
@@ -41,8 +42,7 @@ public class RedemptionsExecutor implements KeywordExecutor {
     @Override
     public Object execute(
             String step,
-            Map<String, String> data,
-            AndroidDriver driver) throws InterruptedException {
+            Map<String, String> data) throws InterruptedException {
 
         if (driver == null) {
             throw new IllegalStateException(

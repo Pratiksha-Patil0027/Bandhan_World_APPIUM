@@ -11,14 +11,14 @@ import java.util.stream.Collectors;
 public class ConfigReader {
 
 	Properties properties;
-	private static final String CONFIG_FILE_PATH=".//src//test//resources//config.properties";
+	private static final String CONFIG_FILE_PATH="//src//test//resources//config.properties";
 	
 
 	
 	
 	public ConfigReader() {
 	    properties = new Properties();
-	    try (FileInputStream fileInputStream = new FileInputStream(CONFIG_FILE_PATH)) {
+	    try (FileInputStream fileInputStream = new FileInputStream("")) {
 	            properties.load(fileInputStream);
 	    } catch (IOException e) {
 	            e.printStackTrace();

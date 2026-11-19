@@ -12,7 +12,6 @@ import org.testng.asserts.SoftAssert;
 
 import base.BaseClassTest;
 import core.FlowExecutor;
-import core.GlobalStore;
 import core.ModuleDispatcher;
 import core.VerifyResult;
 import utils.TestContext;
@@ -37,14 +36,11 @@ public class RunAllModulesTest extends BaseClassTest {
     allSteps = allSteps.replace("\r\n", "\n"); // normalize newlines
 }
 
-        System.out.println("======================================");
+       
         System.out.println("MODULE       : " + module);
         System.out.println("TESTCASE_ID  : " + testcaseId);
         System.out.println("TEST_DESC    : " + testDesc);
-        System.out.println("======================================");
-
-         
-        // ===== Store static values for Excel Listener =====
+       
         TestContext.put("ModuleName", module);
         TestContext.put("TestID", testcaseId);
         TestContext.put("TestDesc", testDesc);
@@ -67,15 +63,14 @@ public class RunAllModulesTest extends BaseClassTest {
         for (String step : steps) {
 
             // String currentStep = step.trim();
-            String currentStep = step.trim().replaceFirst("^\\d+\\.\\s*", "");
+            String currentStep = step.replaceFirst("", "");
             System.out.println("STEP -> " + currentStep);
 
             try {
                 Object actual = FlowExecutor.executeStep(
                         currentStep,
                         data,
-                        ModuleDispatcher.getExecutor(module),
-                        driver);
+                        ModuleDispatcher.getExecutor(module));
 
                 // ===== VERIFY STEPS =====
                 if (currentStep.toLowerCase().startsWith("verify")) {
@@ -87,8 +82,8 @@ public class RunAllModulesTest extends BaseClassTest {
 
         String expectedKey = data.get("EXPECTED_KEY");
 
-        if(expectedKey != null && !expectedKey.trim().isEmpty()) {
-            expectedText = GlobalStore.get(expectedKey);
+        if(expectedKey != null && !expectedKey.isEmpty()) {
+           
 
             if(expectedText != null) {
                 expectedText = expectedText.trim();
@@ -111,7 +106,7 @@ public class RunAllModulesTest extends BaseClassTest {
                     " expected [" + expectedText + "] but found [" + actualText + "]";
 
             TestContext.put("FailureType", "ACTUAL_FAILURE");
-            TestContext.put("Actual", actualText);
+          
 
             softAssert.fail(error);
         }
@@ -125,7 +120,7 @@ public class RunAllModulesTest extends BaseClassTest {
             String error = "ACTUAL_FAILURE | CONTAINS validation failed | Expected: "
                     + expectedText + " | Actual: " + actualText;
 
-            TestContext.put("FailureType", "ACTUAL_FAILURE");
+           
             TestContext.put("Actual", actualText);
 
             softAssert.fail(error);
@@ -138,7 +133,7 @@ public class RunAllModulesTest extends BaseClassTest {
         String error = "ACTUAL_FAILURE | Expected VerifyResult but got: "
                 + (actual == null ? "null" : actual.getClass().getName());
 
-        TestContext.put("FailureType", "ACTUAL_FAILURE");
+      
         softAssert.fail(error);
         break;
     }

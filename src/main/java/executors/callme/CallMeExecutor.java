@@ -13,14 +13,14 @@ public class CallMeExecutor implements KeywordExecutor {
     private DashboardPage dashboardPage;
     private CallMePage callMePage;
     private CompanyLoginPage companyLoginPage;   
+    private AndroidDriver driver;
     
     
     
     @Override
     public Object execute(
             String step,
-            Map<String, String> data,
-            AndroidDriver driver) throws InterruptedException {
+            Map<String, String> data) throws InterruptedException {
 
         if (driver == null) {
             throw new IllegalStateException(

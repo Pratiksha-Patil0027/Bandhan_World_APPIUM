@@ -9,7 +9,7 @@ public class Utils {
 
     if (input == null) return null;
 
-    Pattern pattern = Pattern.compile("\\{(\\w+)}");
+    Pattern pattern = Pattern.compile("{(\\w+)}");
     Matcher matcher = pattern.matcher(input);
 
     StringBuffer result = new StringBuffer();

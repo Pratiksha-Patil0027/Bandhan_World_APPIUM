@@ -25,6 +25,7 @@ public class ProfileExecutor implements KeywordExecutor {
   private CategoryPage categoryPage;
     private ProfilePage profilePage;
     private ChooseLanguagePage chooseLanguagePage;
+    private AndroidDriver driver;
     
     
     
@@ -32,8 +33,7 @@ public class ProfileExecutor implements KeywordExecutor {
     @Override
     public Object execute(
             String step,
-            Map<String, String> data,
-            AndroidDriver driver) throws InterruptedException {
+            Map<String, String> data) throws InterruptedException {
 
         if (driver == null) {
             throw new IllegalStateException(

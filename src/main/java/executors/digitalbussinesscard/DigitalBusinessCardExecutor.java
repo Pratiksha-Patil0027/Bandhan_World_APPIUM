@@ -13,13 +13,13 @@ public class DigitalBusinessCardExecutor implements KeywordExecutor {
     private DashboardPage dashboardPage;
     private CompanyLoginPage companyLoginPage;   
     private BusinessCardPage businessCardPage;
+    private AndroidDriver driver;
     
     
     @Override
     public Object execute(
             String step,
-            Map<String, String> data,
-            AndroidDriver driver) throws InterruptedException {
+            Map<String, String> data) throws InterruptedException {
 
         if (driver == null) {
             throw new IllegalStateException(

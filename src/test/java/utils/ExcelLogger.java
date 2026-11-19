@@ -232,7 +232,7 @@ public class ExcelLogger implements ITestListener {
                         default: cell.setCellStyle(normalStyle);
                     }
                     
-                } else if (col == 7 || col == 8 || col == 9) {// ASSERTION, EXPECTED, ACTUAL
+                } else if (col == 5 || col == 7 || col == 8) {// ASSERTION, EXPECTED, ACTUAL
                     // Wrap text for these columns
                     CellStyle wrapStyle = workbook.createCellStyle();
                     wrapStyle.cloneStyleFrom(normalStyle);
