@@ -19,12 +19,12 @@ public class InsuranceKYCExecutor implements KeywordExecutor {
       private  InfluencerLoginPage influencerLoginPage;  
        private ProfilePage profilePage;
         private MyWebSitePage myWebSitePage;
-        private AndroidDriver driver;
 
     @Override
     public Object execute(
             String step,
-            Map<String, String> data) throws InterruptedException {
+            Map<String, String> data,
+            AndroidDriver driver) throws InterruptedException {
 
         if (driver == null) {
             throw new IllegalStateException(

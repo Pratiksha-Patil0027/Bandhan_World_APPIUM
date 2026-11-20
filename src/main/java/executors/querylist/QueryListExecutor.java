@@ -13,12 +13,12 @@ public class QueryListExecutor implements KeywordExecutor {
     private DashboardPage dashboardPage;
     private CompanyLoginPage companyLoginPage;
     private QueryListPage queryListPage;
-    private AndroidDriver driver;
 
     @Override
     public Object execute(
             String step,
-            Map<String, String> data) throws InterruptedException {
+            Map<String, String> data,
+            AndroidDriver driver) throws InterruptedException {
 
         if (driver == null) {
             throw new IllegalStateException(

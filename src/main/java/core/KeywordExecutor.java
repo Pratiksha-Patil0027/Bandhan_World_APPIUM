@@ -7,6 +7,7 @@ public interface KeywordExecutor {
 
     Object execute(
             String step,
-            Map<String, String> data
+            Map<String, String> data,
+            AndroidDriver driver
     ) throws InterruptedException;
 }

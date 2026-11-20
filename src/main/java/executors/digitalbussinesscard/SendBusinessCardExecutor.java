@@ -17,14 +17,14 @@ public class SendBusinessCardExecutor implements KeywordExecutor {
      private SendDigitalCardPage sendDigitalCardPage;
       private  InfluencerLoginPage influencerLoginPage;  
        private ProfilePage profilePage;
-       private AndroidDriver driver;
      
     
     
     @Override
     public Object execute(
             String step,
-            Map<String, String> data) throws InterruptedException {
+            Map<String, String> data,
+            AndroidDriver driver) throws InterruptedException {
 
         if (driver == null) {
             throw new IllegalStateException(

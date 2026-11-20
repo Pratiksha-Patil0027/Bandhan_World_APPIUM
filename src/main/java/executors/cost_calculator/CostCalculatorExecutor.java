@@ -16,12 +16,12 @@ public class CostCalculatorExecutor implements KeywordExecutor {
     private CostCalculatorPage costCalculatorPage;
      private DreamGiftPage dreamGiftPage;
     String materialName = "";
-    private AndroidDriver driver;
 
     @Override
     public Object execute(
             String step,
-            Map<String, String> data) throws InterruptedException {
+            Map<String, String> data,
+            AndroidDriver driver) throws InterruptedException {
 
         if (driver == null) {
             throw new IllegalStateException(

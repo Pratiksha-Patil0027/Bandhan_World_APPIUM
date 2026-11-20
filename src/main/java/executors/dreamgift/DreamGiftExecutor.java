@@ -13,12 +13,12 @@ public class DreamGiftExecutor implements KeywordExecutor {
     private DashboardPage dashboardPage;
     private CompanyLoginPage companyLoginPage;
     private DreamGiftPage dreamGiftPage;
-    private AndroidDriver driver;
 
     @Override
     public Object execute(
             String step,
-            Map<String, String> data) throws InterruptedException {
+            Map<String, String> data,
+            AndroidDriver driver) throws InterruptedException {
 
         if (driver == null) {
             throw new IllegalStateException(

@@ -29,7 +29,6 @@ public class ClaimPointsExecutor implements KeywordExecutor {
     private CardDetailsPage cardDetailsPage;
     private ClaimInformationPage claimInformationPage;
     private ClaimDetailsPage claimDetailsPage;
-    private AndroidDriver driver;
     
     
     
@@ -37,7 +36,8 @@ public class ClaimPointsExecutor implements KeywordExecutor {
     @Override
     public Object execute(
             String step,
-            Map<String, String> data) throws InterruptedException {
+            Map<String, String> data,
+            AndroidDriver driver) throws InterruptedException {
 
         if (driver == null) {
             throw new IllegalStateException(
